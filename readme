@@ -1,1 +1,14 @@
-bbbbbbbccccccadskfja;sdf as;l
+need to do:
+
+1. Javafx Scene Builder download:
+http://www.oracle.com/technetwork/java/javase/downloads/sb2download-2177776.html
+note: eclipse must be 4.3 or greater(Luna) with Java JDK 8(includes JavaFX 8).
+
+2. Add e(fx)clipse plugin:
+Install:
+http://www.eclipse.org/efxclipse/install.html
+Specify the path to your Scene Builder executable: 
+Open eclipse - Window - Preferences - JavaFX - enter you Scene Builder exe file path.
+
+3.JavaFX with Scene Builder tutorial:
+http://code.makery.ch/java/javafx-8-tutorial-part1/
