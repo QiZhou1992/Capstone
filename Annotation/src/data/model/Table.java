@@ -3,6 +3,9 @@ package data.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 
 public class Table {
 	private long identifier;
@@ -11,7 +14,7 @@ public class Table {
 	private DataSet parentDataSet;
 	private Map<Long,Column> columns;
 	public Table(String name,DataSet D1){
-		this.identifier=System.currentTimeMillis();
+		this.identifier=System.currentTimeMillis(); //this seems wrong using system time (same ID)
 		this.parentDataSet=D1;
 		this.title=name;
 		columns=new HashMap<Long,Column>();
@@ -53,6 +56,14 @@ public class Table {
 	}
 	public Table parentTable(){
 		return this.parentTable();
+	}
+	
+	/*
+	 * test function below
+	 */
+	public StringProperty findIdentifier(){
+		StringProperty s = new SimpleStringProperty(String.valueOf(title));
+		return s;
 	}
 }
 

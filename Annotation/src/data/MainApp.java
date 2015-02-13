@@ -3,6 +3,7 @@ package data;
 import java.io.IOException;
 
 import data.model.DataSet;
+import data.model.Table;
 import data.view.DatasetController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,14 +19,25 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	
-	private ObservableList<DataSet> datasets = FXCollections.observableArrayList();
+	private ObservableList<Table> tables = FXCollections.observableArrayList();
 	
 	public MainApp(){
-		datasets.add(new DataSet("sample dataset","mm/dd/yyyy"));
+		CreateTables(tables);
+	}
+	
+	public static void CreateTables(ObservableList<Table> tables){
+		DataSet dataset = new DataSet("My dataset", "mm/dd/yyyy");
+		Table t1 = new Table("table 1",dataset);
+		Table t2 = new Table("table 2",dataset);
+		Table t3 = new Table("table 3",dataset);
+		Table t4 = new Table("table 4",dataset);
+		Table t5 = new Table("table 5",dataset);
+		Table t6 = new Table("table 6",dataset);
+		tables.addAll(t1,t2,t3,t4,t5,t6);
 	}
 
-    public ObservableList<DataSet> getDatasetList() {
-        return datasets;
+    public ObservableList<Table> getTableList() {
+        return tables;
     }
 	
 	@Override

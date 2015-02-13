@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 
 public class DataSet {
 	/* for the dateFormat, we will decided if each DateSet is individual or all the same */
@@ -25,8 +28,8 @@ public class DataSet {
 	public DataSet(String name, String DateFormatString){
 		this.title=name;
 		this.Identifier=System.currentTimeMillis();
-		this.issued.setTime(System.currentTimeMillis());
-		this.modified.setTime(System.currentTimeMillis());
+		//this.issued.setTime(System.currentTimeMillis());
+		//this.modified.setTime(System.currentTimeMillis());
 		this.df=new SimpleDateFormat(DateFormatString);
 		this.tables=new HashMap<Long,Table>();
 		this.keywords=new HashSet<String>();
@@ -92,5 +95,7 @@ public class DataSet {
 		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.modified);
 		return DateString;
 	}
+	
+
 }
 
