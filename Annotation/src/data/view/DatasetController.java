@@ -25,6 +25,7 @@ public class DatasetController {
 	private Label descriptionLabel;
 	
 	private MainApp mainApp;
+	
 	public DatasetController() {
     }
 	
@@ -35,9 +36,24 @@ public class DatasetController {
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
-        //firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-        //lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
     	tableNameColumn.setCellValueFactory(cellData -> cellData.getValue().findIdentifier());
+    	
+    	showTableDetails(null);
+    	
+    	this.tableTable.getSelectionModel().selectedItemProperty().addListener(
+    			(observable, oldValue, newValue) -> showTableDetails(newValue));
+    }
+    
+    private void showTableDetails(Table table){
+    	if(table!=null){
+    		this.identifierLabel.setText(String.valueOf(table.Identifier()));
+    		this.titleLabel.setText(table.name());
+    		this.descriptionLabel.setText(table.description());
+    	}else{
+    		this.identifierLabel.setText("");
+    		this.titleLabel.setText("");
+    		this.descriptionLabel.setText("");
+    	}
     }
     
     @SuppressWarnings("unchecked")

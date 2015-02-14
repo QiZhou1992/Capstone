@@ -28,6 +28,9 @@ public class Table {
 	public String name(){
 		return this.title;
 	}
+	public String description(){
+		return this.description;
+	}
 	public boolean isEmptyColumns(){
 		return this.columns.isEmpty();
 	}
