@@ -1,5 +1,3 @@
-package data.model;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,9 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 
 public class DataSet {
@@ -28,12 +23,18 @@ public class DataSet {
 	public DataSet(String name, String DateFormatString){
 		this.title=name;
 		this.Identifier=System.currentTimeMillis();
-		//this.issued.setTime(System.currentTimeMillis());
-		//this.modified.setTime(System.currentTimeMillis());
-		this.df=new SimpleDateFormat(DateFormatString);
+		this.created=new Date();
+		this.issued=new Date();
+		this.modified=new Date();
 		this.tables=new HashMap<Long,Table>();
 		this.keywords=new HashSet<String>();
+		this.issued.setTime(System.currentTimeMillis());
+		this.modified.setTime(System.currentTimeMillis());
+		this.df=new SimpleDateFormat(DateFormatString);
 		this.landingPage="";
+	}
+	public long getIdentifier(){
+		return this.getIdentifier();
 	}
 	public void ChangeModified(){
 		this.modified.setTime(System.currentTimeMillis());
@@ -58,16 +59,24 @@ public class DataSet {
 	public void addKeyword(String word){
 		keywords.add(word);
 	}
+	public Set<String> KeyWords(){
+		return this.keywords;
+	}
 	public void ModifiedLandingPage(String url){
 		this.landingPage=url;
 	}
 	public void addTable(Table t1){
-		tables.put(t1.Identifier(), t1);
+		tables.put(new Long(t1.Identifier()), t1);
+		t1.addBelongsTo(this);
 		this.ChangeModified();
 	}
 	public void RemoveTable(Table t1){
-		tables.remove(t1.Identifier());	
+		tables.remove(new Long(t1.Identifier()));
+		t1.removeBelongsTo();
 		this.ChangeModified();
+	}
+	public Map<Long, Table> AllTable(){
+		return this.tables;
 	}
 	public void modifiedTitle(String name){
 		this.title=name;
@@ -95,7 +104,4 @@ public class DataSet {
 		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.modified);
 		return DateString;
 	}
-	
-
 }
-
