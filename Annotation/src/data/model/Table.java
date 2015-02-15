@@ -14,7 +14,7 @@ public class Table {
 	private DataSet parentDataSet;
 	private Map<Long,Column> columns;
 	public Table(String name,DataSet D1){
-		this.identifier=System.currentTimeMillis(); //this seems wrong using system time (same ID)
+		this.identifier=System.currentTimeMillis(); //this seems wrong using system time (same time same ID)
 		this.parentDataSet=D1;
 		this.title=name;
 		columns=new HashMap<Long,Column>();

@@ -4,19 +4,13 @@ import data.MainApp;
 import data.model.Table;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.util.Callback;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 
 public class DatasetController {
 	
 	@FXML
-	private TableView<Table> tableTable;
-	@FXML
-	private TableColumn<Table,String> tableNameColumn;
+	private ListView<Table> tableList;
 	@FXML
 	private Label identifierLabel;
 	@FXML
@@ -36,11 +30,10 @@ public class DatasetController {
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
-    	tableNameColumn.setCellValueFactory(cellData -> cellData.getValue().findIdentifier());
     	
     	showTableDetails(null);
     	
-    	this.tableTable.getSelectionModel().selectedItemProperty().addListener(
+    	this.tableList.getSelectionModel().selectedItemProperty().addListener(
     			(observable, oldValue, newValue) -> showTableDetails(newValue));
     }
     
@@ -56,10 +49,20 @@ public class DatasetController {
     	}
     }
     
-    @SuppressWarnings("unchecked")
 	public void setMainApp(MainApp mainApp) {
     	this.mainApp = mainApp;
         // Add observable list data to the tree
-    	tableTable.setItems(mainApp.getTableList());
+    	tableList.setItems(mainApp.getTableList());
+    	tableList.setCellFactory(column -> {
+			return new ListCell<Table>(){
+				@Override
+				protected void updateItem(Table item, boolean empty){
+					super.updateItem(item, empty);
+					if(item!=null){
+						setText(item.name());
+					}
+				}
+			};
+    	});
     }
 }
