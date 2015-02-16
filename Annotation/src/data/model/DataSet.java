@@ -1,3 +1,5 @@
+package data.model;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class DataSet {
+public class DataSet implements MyData{
 	/* for the dateFormat, we will decided if each DateSet is individual or all the same */
 	static DateFormat df;
 	private long Identifier;
@@ -17,7 +19,7 @@ public class DataSet {
 	private Date created;
 	private Date issued;
 	private Date modified;
-	private Map<Long,Table> tables;
+	private Map<Long,MyData> tables;
 	private Set<String> keywords;
 	private String landingPage;
 	public DataSet(String name, String DateFormatString){
@@ -26,7 +28,7 @@ public class DataSet {
 		this.created=new Date();
 		this.issued=new Date();
 		this.modified=new Date();
-		this.tables=new HashMap<Long,Table>();
+		this.tables=new HashMap<Long,MyData>();
 		this.keywords=new HashSet<String>();
 		this.issued.setTime(System.currentTimeMillis());
 		this.modified.setTime(System.currentTimeMillis());
@@ -75,7 +77,7 @@ public class DataSet {
 		t1.removeBelongsTo();
 		this.ChangeModified();
 	}
-	public Map<Long, Table> AllTable(){
+	public Map<Long, MyData> AllTable(){
 		return this.tables;
 	}
 	public void modifiedTitle(String name){
@@ -104,4 +106,12 @@ public class DataSet {
 		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.modified);
 		return DateString;
 	}
+	
+	
+	@Override
+	public String name() {
+		// TODO Auto-generated method stub
+		return this.title;
+	}
+	
 }

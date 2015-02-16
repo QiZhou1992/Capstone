@@ -1,5 +1,6 @@
+package data.model;
 
-public class Column {
+public class Column implements MyData{
 	private long identifier;
 	private Table parentTable;
 	private String title;
@@ -42,5 +43,10 @@ public class Column {
 	}
 	public Table parentTable(){
 		return this.parentTable;
+	}
+	@Override
+	public String name() {
+		// TODO Auto-generated method stub
+		return this.title;
 	}
 }

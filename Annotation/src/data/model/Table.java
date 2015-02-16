@@ -1,18 +1,20 @@
+package data.model;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class Table {
+public class Table implements MyData{
 	private long identifier;
 	private String title;
 	private String description;
 	private DataSet parentDataSet;
-	private Map<Long,Column> columns;
+	private Map<Long,MyData> columns;
 	public Table(String name,DataSet D1){
 		this.identifier=System.currentTimeMillis();
 		this.parentDataSet=D1;
 		this.title=name;
-		columns=new HashMap<Long,Column>();
+		columns=new HashMap<Long,MyData>();
 	}
 	public long Identifier(){
 		return this.identifier;
@@ -20,6 +22,7 @@ public class Table {
 	public void modifiedName(String name){
 		this.title=name;
 	}
+	@Override
 	public String name(){
 		return this.title;
 	}
