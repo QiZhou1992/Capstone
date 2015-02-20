@@ -1,13 +1,19 @@
-<<<<<<< HEAD
-=======
 package data;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import data.model.DataListWrapper;
 import data.model.DataSet;
 import data.model.MyData;
 import data.model.Table;
-import data.view.DatasetController;
+import data.view.RootLayoutController;
+import data.view.TreeViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,24 +28,11 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	
-	private static ObservableList<MyData> tables = FXCollections.observableArrayList();
 	private static ObservableList<MyData> datasets = FXCollections.observableArrayList();
 	
 	public MainApp(){
 		CreateDatasets(datasets);
 		
-	}
-	
-	//for test
-	public static void CreateTables(ObservableList<MyData> tables){
-		DataSet dataset = new DataSet("My dataset", "mm/dd/yyyy");
-		Table t1 = new Table("table 1",dataset);
-		Table t2 = new Table("table 2",dataset);
-		Table t3 = new Table("table 3",dataset);
-		Table t4 = new Table("table 4",dataset);
-		Table t5 = new Table("table 5",dataset);
-		Table t6 = new Table("table 6",dataset);
-		tables.addAll(t1,t2,t3,t4,t5,t6);
 	}
 	
 	//for test
@@ -64,10 +57,6 @@ public class MainApp extends Application {
 		d6.addTable(t6);
 		datasets2.addAll(d1,d2,d3,d4,d5,d6);
 	}
-
-    public ObservableList<MyData> getTableList() {
-        return tables;
-    }
     
     public ObservableList<MyData> getDataSetList(){
     	return datasets;
@@ -82,6 +71,8 @@ public class MainApp extends Application {
 		
 		showDataOverview();
 		
+		showDataDetail();
+		
 	}
 	
 	public void initRootLayout(){
@@ -94,10 +85,21 @@ public class MainApp extends Application {
 			//show the scene containing the root layout
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
+			
+	        // Give the controller access to the main app.
+	        RootLayoutController controller = loader.getController();
+	        controller.setMainApp(this);
+			
 			primaryStage.show();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+		
+	    // Try to load last opened person file.
+	    File file = getDatasetFilePath();
+	    if (file != null) {
+	        loadDataFromFile(file);
+	    }
 	}
 	
 	public void showDataOverview(){
@@ -108,11 +110,25 @@ public class MainApp extends Application {
             AnchorPane personOverview = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(personOverview);
+            rootLayout.setLeft(personOverview);
             
          // Give the controller access to the main app.
-            DatasetController controller = loader.getController();
+            TreeViewController controller = loader.getController();
          	controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public void showDataDetail(){
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DatasetDetail.fxml"));
+            AnchorPane personOverview = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(personOverview);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,9 +137,115 @@ public class MainApp extends Application {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+    
+    public BorderPane getRootLayout(){
+    	return rootLayout;
+    }
 
+    /**
+     * Returns the datasets file preference, i.e. the file that was last opened.
+     * The preference is read from the OS specific registry. If no such
+     * preference can be found, null is returned.
+     * 
+     * @return
+     */
+    public File getDatasetFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        String filePath = prefs.get("filePath", null);
+        if (filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Sets the file path of the currently loaded file. The path is persisted in
+     * the OS specific registry.
+     * 
+     * @param file the file or null to remove the path
+     */
+    public void setDataFilePath(File file) {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        if (file != null) {
+            prefs.put("filePath", file.getPath());
+            
+        } else {
+            prefs.remove("filePath");
+
+        }
+    }
+    
+    /**
+     * Loads data sets data from the specified file. The current data sets data will
+     * be replaced.
+     * 
+     * @param file
+     */
+    public void loadDataFromFile(File file) {
+        try {
+            JAXBContext context = JAXBContext
+                    .newInstance(DataListWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+
+            // Reading XML from the file and unmarshalling.
+            DataListWrapper wrapper = (DataListWrapper) um.unmarshal(file);
+
+            datasets.clear();
+            datasets.addAll(wrapper.getDatasets());
+
+            // Save the file path to the registry.
+            setDataFilePath(file);
+
+        } catch (Exception e) { // catches ANY exception
+        	/*
+            Dialogs.create()
+                    .title("Error")
+                    .masthead("Could not load data from file:\n" + file.getPath())
+                    .showException(e);
+                    */
+        }
+    }
+    
+    /**
+     * Saves the current data sets data to the specified file.
+     * 
+     * @param file
+     */
+    public void saveDataToFile(File file) {
+    	// TODO this function does not work correctly
+        try {
+        	
+            JAXBContext context = JAXBContext.newInstance(DataListWrapper.class);
+            System.out.println("test");
+            
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            
+
+            // Wrapping our person data.
+            DataListWrapper wrapper = new DataListWrapper();
+            
+            
+            wrapper.setDatasets((ObservableList<DataSet>)(ObservableList<?>)datasets);
+
+            // Marshalling and saving XML to the file.
+            m.marshal(wrapper, file);
+
+            // Save the file path to the registry.
+            //setDataFilePath(file);
+           
+        } catch (Exception e) { // catches ANY exception
+        	System.out.println("error in saving workspace...");
+        	/*
+            Dialogs.create().title("Error")
+                    .masthead("Could not save data to file:\n" + file.getPath())
+                    .showException(e);
+                    */
+        }
+    }
+    
 	public static void main(String[] args) {
 		launch(args);
 	}
 }
->>>>>>> FETCH_HEAD

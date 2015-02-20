@@ -1,33 +1,31 @@
-<<<<<<< HEAD
-=======
 package data.view;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import data.MainApp;
 import data.model.DataSet;
-import data.model.MyData;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.util.Callback;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
+/*
+ * controller of data set
+ */
 public class DatasetController {
+
+	@FXML
+	private TextField title;
+	@FXML
+	private TextField description;
+	@FXML
+	private TextField created;
+	@FXML
+	private TextField keyword;
+	@FXML
+	private TextField landingPage;
+	@FXML
+	private Button apply;
+	@FXML
+	private Button add;
 	
-	@FXML
-	private TreeView<MyData> dataTree;
-	@FXML
-	private Label identifierLabel;
-	@FXML
-	private Label titleLabel;
-	@FXML
-	private Label descriptionLabel;
-	
-	private MainApp mainApp;
+	private DataSet dataset;
 	
 	public DatasetController() {
     }
@@ -38,85 +36,74 @@ public class DatasetController {
      */
     @FXML
     private void initialize() {
-        // Initialize the person table with the two columns.
     	
-    	showTableDetails(null);
-    	
-    	this.dataTree.getSelectionModel().selectedItemProperty().addListener(
-    			(observable, oldValue, newValue) -> showTableDetails(newValue));
     }
     
-    private void showTableDetails(TreeItem<MyData> newValue){
-    	/*
-    	if(newValue!=null){
-    		this.identifierLabel.setText(String.valueOf(newValue.Identifier()));
-    		this.titleLabel.setText(newValue.name());
-    		this.descriptionLabel.setText(newValue.description());
-    	}else{
-    		this.identifierLabel.setText("");
-    		this.titleLabel.setText("");
-    		this.descriptionLabel.setText("");
-    	}
-    	*/
+    public void setDataset(DataSet dataset){
+    	this.dataset=dataset;
+    	this.title.setText(dataset.getTitle());
+    	this.description.setText(dataset.getDescription());
+    	this.created.setText(dataset.Created());
+    	this.keyword.setText(dataset.KeyWords().toString());
+    	this.landingPage.setText(dataset.getLandingPage());
     }
     
-	public void setMainApp(MainApp mainApp) {
-    	this.mainApp = mainApp;
-        // Add observable list data to the tree
-    	TreeItem<MyData> rootItem = new TreeItem<MyData>();
-    	rootItem.setExpanded(true);
-    	ObservableList<MyData> datasets = mainApp.getDataSetList();
-    	for(int i=0;i<datasets.size();i++){
-    		MyData dataset = datasets.get(i);
-    		TreeItem<MyData> dataNode = new TreeItem<MyData>(dataset);
-    		rootItem.getChildren().add(dataNode);
-    		
-    		
-    		Map<Long,MyData> tables = ((DataSet)dataset).AllTable();
-    		Iterator<Map.Entry<Long, MyData>> entries = tables.entrySet().iterator();
-    		while(entries.hasNext()){
-    			Map.Entry<Long, MyData> entry = entries.next();
-    			TreeItem<MyData> tableNode = new TreeItem<MyData>(entry.getValue());
-    			dataNode.getChildren().add(tableNode);
-    		}
+    /**
+     * Called when the user clicks on the add button.
+     * Add table to this data set.
+     */
+    @FXML
+    private void handleAdd() {
+    	// TODO add action handler here
+    	
+    }
+    
+    /**
+     * Called when the user clicks on the apply button.
+     * Apply any changes to selected data set.
+     */
+    @FXML
+    private void handleApply() {
+    	// TODO add action handler here
+        System.out.println("click apply...");
+        if(this.validation()){
+        	this.dataset.setTitle(this.title.getText());
+        	if(this.description.getText()!=null){
+        		this.dataset.setDesription(this.description.getText());
+        	}
+        	if(this.landingPage.getText()!=null){
+        		this.dataset.setLandingPage(this.landingPage.getText());
+        	}
+        }
+    }
+    /**
+     * check form validation
+     * @return
+     */
+    private boolean validation(){
+    	// TODO complete form validation
+    	if(this.title.getText()==null){
+    		System.out.println("title...");
+    		return false;
+    	}
+    	String createdString = this.created.getText();
+    	if(!timeValidation(createdString)){
+    		System.out.println("time...");
+    		return false;
     	}
     	
-    	this.dataTree.setRoot(rootItem);
-    	
-    	dataTree.setCellFactory(new Callback<TreeView<MyData>, TreeCell<MyData>>() {
-			@Override
-			public TreeCell<MyData> call(TreeView<MyData> paramP) {
-				return new TreeCell<MyData>(){
-					@Override
-					protected void updateItem(MyData paramT, boolean empty) {
-						super.updateItem(paramT, empty);
-						if (empty) {
-			                setText(null);
-			                setGraphic(null);
-			            } else if(paramT!=null){
-							setText(paramT.name());
-						}else{
-							//System.out.println("test"+rootItem.getChildren().size());
-						}
-					}
-				};
-			}
-		});
-    	
-    	/*
-    	tableList.setItems(mainApp.getTableList());
-    	tableList.setCellFactory(column -> {
-			return new ListCell<Table>(){
-				@Override
-				protected void updateItem(Table item, boolean empty){
-					super.updateItem(item, empty);
-					if(item!=null){
-						setText(item.name());
-					}
-				}
-			};
-    	});
-    	*/
+		return true;
     }
+    
+    /**
+     * check time format
+     * @param t
+     * @return
+     */
+    public static boolean timeValidation(String t){
+    	// TODO need time check function
+    	
+    	return true;
+    }
+	
 }
->>>>>>> FETCH_HEAD

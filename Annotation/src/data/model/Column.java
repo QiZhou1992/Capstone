@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-=======
 package data.model;
+
+import javax.xml.bind.annotation.XmlElement;
 
 public class Column implements MyData{
 	private long identifier;
@@ -14,20 +14,8 @@ public class Column implements MyData{
 		this.title=name;
 		this.description="";
 	}
-	public void modifiedTitle(String name){
-		this.title=name;
-	}
-	public String Title(){
-		return this.title;
-	}
 	public void modifiedDescription(String description){
 		this.description=description;
-	}
-	public String Description(){
-		return this.description;
-	}
-	public long Identifier(){
-		return this.identifier;
 	}
 	public boolean hasBelongsTo(){
 		if(this.parentTable==null){
@@ -46,10 +34,37 @@ public class Column implements MyData{
 	public Table parentTable(){
 		return this.parentTable;
 	}
+	@XmlElement(name = "title")
 	@Override
-	public String name() {
+	public String getTitle() {
 		// TODO Auto-generated method stub
 		return this.title;
 	}
+	@Override
+	public int dataType() {
+		// TODO Auto-generated method stub
+		return 2;
+	}
+	@Override
+	public void setTitle(String name) {
+		// TODO Auto-generated method stub
+		this.title = name;
+	}
+	@XmlElement(name = "description")
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return this.description;
+	}
+	@Override
+	public void setDesription(String description) {
+		// TODO Auto-generated method stub
+		this.description = description;
+	}
+	@XmlElement(name = "identifier")
+	@Override
+	public long getIdentifier() {
+		// TODO Auto-generated method stub
+		return this.identifier;
+	}
 }
->>>>>>> FETCH_HEAD

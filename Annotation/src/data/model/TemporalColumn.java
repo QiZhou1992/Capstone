@@ -1,3 +1,5 @@
+package data.model;
+
 
 public class TemporalColumn extends ClassColumn{
 	private int temporalType;
@@ -26,3 +28,4 @@ public class TemporalColumn extends ClassColumn{
 		return this.temporalGranularity;
 	}
 }
+

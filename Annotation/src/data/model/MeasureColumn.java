@@ -1,3 +1,5 @@
+package data.model;
+
 
 public class MeasureColumn extends ClassColumn{
 	private String unit;
@@ -18,3 +20,4 @@ public class MeasureColumn extends ClassColumn{
 		return this.dimension;
 	}
 }
+

@@ -1,3 +1,5 @@
+package data.model;
+
 
 public class ClassColumn extends Column {
 	private String represent;
@@ -11,3 +13,4 @@ public class ClassColumn extends Column {
 		return this.represent;
 	}
 }
+
