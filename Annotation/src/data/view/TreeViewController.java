@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import data.MainApp;
+import data.model.Column;
 import data.model.DataSet;
 import data.model.MyData;
 import data.model.Table;
@@ -28,6 +29,11 @@ public class TreeViewController {
 	public TreeViewController() {
     }
 	
+	public void addNewDataset(DataSet dataset){
+		TreeItem<MyData> dataNode = new TreeItem<MyData>(dataset);
+		this.dataTree.getRoot().getChildren().add(dataNode);
+	}
+	
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
@@ -46,6 +52,9 @@ public class TreeViewController {
                 loader.setLocation(MainApp.class.getResource("view/Welcome.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
         		this.mainApp.getRootLayout().setCenter(personOverview);
+        		
+        		WelcomeController controller = loader.getController();
+        		controller.setWelcome(this,this.mainApp);
         	}else if(myData.getValue().dataType()==0){
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/DatasetDetail.fxml"));
@@ -68,6 +77,9 @@ public class TreeViewController {
                 loader.setLocation(MainApp.class.getResource("view/ColumnDetail.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
         		this.mainApp.getRootLayout().setCenter(personOverview);
+        		
+        		ColumnController controller = loader.getController();
+        		controller.setColumn((Column)myData.getValue());
         	}else{
         		System.err.println("DatasetController: invalid type"+myData.getValue().dataType());
         	}
@@ -90,11 +102,19 @@ public class TreeViewController {
     		
     		
     		Map<Long,MyData> tables = ((DataSet)dataset).AllTable();
-    		Iterator<Map.Entry<Long, MyData>> entries = tables.entrySet().iterator();
-    		while(entries.hasNext()){
-    			Map.Entry<Long, MyData> entry = entries.next();
-    			TreeItem<MyData> tableNode = new TreeItem<MyData>(entry.getValue());
+    		Iterator<Map.Entry<Long, MyData>> tableEntries = tables.entrySet().iterator();
+    		while(tableEntries.hasNext()){
+    			Map.Entry<Long, MyData> tableEntry = tableEntries.next();
+    			TreeItem<MyData> tableNode = new TreeItem<MyData>(tableEntry.getValue());
     			dataNode.getChildren().add(tableNode);
+    			
+    			Map<Long,MyData> columns = ((Table)tableEntry.getValue()).AllColumn();
+    			Iterator<Map.Entry<Long, MyData>> columnEntries = columns.entrySet().iterator();
+    			while(columnEntries.hasNext()){
+    				Map.Entry<Long, MyData> columnEntry = columnEntries.next();
+    				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+    				tableNode.getChildren().add(columnNode);
+    			}
     		}
     	}
     	

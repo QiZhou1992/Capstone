@@ -8,19 +8,23 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import data.model.Column;
 import data.model.DataListWrapper;
 import data.model.DataSet;
 import data.model.MyData;
 import data.model.Table;
+import data.view.DatasetEditDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -30,16 +34,19 @@ public class MainApp extends Application {
 	
 	private static ObservableList<MyData> datasets = FXCollections.observableArrayList();
 	
-	public MainApp(){
+	public MainApp() throws IOException{
 		CreateDatasets(datasets);
 		
 	}
 	
 	//for test
-	public static void CreateDatasets(ObservableList<MyData> datasets2){
+	public static void CreateDatasets(ObservableList<MyData> datasets2) throws IOException{
 		DataSet d1 = new DataSet("dataset 1","mm/dd/yyyy");
 		Table t1 = new Table("table 1",d1);
+		t1.addColumn(new Column("column 1"));
 		d1.addTable(t1);
+		d1.addKeyword("keyword 1");
+		d1.addKeyword("keyword 2");
 		DataSet d2 = new DataSet("dataset 2","mm/dd/yyyy");
 		Table t2 = new Table("table 2",d2);
 		d2.addTable(t2);
@@ -134,6 +141,40 @@ public class MainApp extends Application {
         }
 	}
 	
+    /**
+     * Called when the user clicks on the add button.
+     * Add table to this data set.
+     */
+    public boolean showPersonEditDialog(DataSet dataset) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DatasetEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("New Dataset");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            DatasetEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPerson(dataset);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+	
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -141,6 +182,7 @@ public class MainApp extends Application {
     public BorderPane getRootLayout(){
     	return rootLayout;
     }
+    
 
     /**
      * Returns the datasets file preference, i.e. the file that was last opened.

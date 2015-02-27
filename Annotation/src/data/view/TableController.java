@@ -36,7 +36,7 @@ public class TableController {
     
     /**
      * Called when the user clicks on the delete button.
-     * Apply any changes to selected data set.
+     * Apply any changes to selected table.
      */
     @FXML
     private void handleApply() {

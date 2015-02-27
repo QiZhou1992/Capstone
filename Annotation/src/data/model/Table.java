@@ -50,6 +50,10 @@ public class Table implements MyData{
 	public DataSet parentDataSet(){
 		return this.parentDataSet;
 	}
+	public Map<Long,MyData> AllColumn(){
+		return this.columns;
+		
+	}
 	@Override
 	public int dataType() {
 		// TODO Auto-generated method stub

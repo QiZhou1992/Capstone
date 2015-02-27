@@ -1,12 +1,10 @@
 package data.model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 
 public class represents {
@@ -80,4 +78,3 @@ public class represents {
 		}
 	} */
 }
-

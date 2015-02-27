@@ -2,14 +2,11 @@ package data.view;
 
 import data.model.DataSet;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-/*
- * controller of data set
- */
-public class DatasetController {
-
+public class DatasetEditDialogController {
+	
 	@FXML
 	private TextField title;
 	@FXML
@@ -20,53 +17,53 @@ public class DatasetController {
 	private TextField keyword;
 	@FXML
 	private TextField landingPage;
-	@FXML
-	private Button apply;
-	@FXML
-	private Button add;
 	
-	private DataSet dataset;
-	
-	public DatasetController() {
-    }
-	
+    private Stage dialogStage;
+    private DataSet dataset;
+    private boolean okClicked = false;
+    
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @FXML
     private void initialize() {
-    	
-    }
-    
-    public void setDataset(DataSet dataset){
-    	this.dataset=dataset;
-    	this.title.setText(dataset.getTitle());
-    	this.description.setText(dataset.getDescription());
-    	this.created.setText(dataset.getCreated());
-    	this.keyword.setText(dataset.KeyWords().toString());
-    	this.landingPage.setText(dataset.getLandingPage());
     }
     
     /**
-     * Called when the user clicks on the add button.
-     * Add table to this data set.
+     * Sets the stage of this dialog.
+     * 
+     * @param dialogStage
      */
-    @FXML
-    private void handleAdd() {
-    	// TODO add action handler here
-    	
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
     }
     
     /**
-     * Called when the user clicks on the apply button.
-     * Apply any changes to selected data set.
+     * Sets the person to be edited in the dialog.
+     * 
+     * @param person
+     */
+    public void setPerson(DataSet dataset) {
+        this.dataset = dataset;
+    }
+    
+
+    /**
+     * Returns true if the user clicked OK, false otherwise.
+     * 
+     * @return
+     */
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+    
+    /**
+     * Called when the user clicks ok.
      */
     @FXML
-    private void handleApply() {
-    	// TODO add action handler here
-        System.out.println("click apply...");
-        if(this.validation()){
+    private void handleOk() {
+        if (isInputValid()) {
         	this.dataset.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
         		this.dataset.setDesription(this.description.getText());
@@ -74,13 +71,27 @@ public class DatasetController {
         	if(this.landingPage.getText()!=null){
         		this.dataset.setLandingPage(this.landingPage.getText());
         	}
+
+            okClicked = true;
+            dialogStage.close();
         }
     }
+    
+
     /**
-     * check form validation
-     * @return
+     * Called when the user clicks cancel.
      */
-    private boolean validation(){
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
+    }
+    
+    /**
+     * Validates the user input in the text fields.
+     * 
+     * @return true if the input is valid
+     */
+    private boolean isInputValid() {
     	// TODO complete form validation
     	if(this.title.getText()==null){
     		System.out.println("title...");
@@ -95,6 +106,7 @@ public class DatasetController {
 		return true;
     }
     
+    
     /**
      * check time format
      * @param t
@@ -105,5 +117,5 @@ public class DatasetController {
     	
     	return true;
     }
-	
+
 }
