@@ -1,13 +1,11 @@
 package data.model;
 
-import java.io.IOException;
-
 
 public class TemporalColumn extends ClassColumn{
 	private int temporalType;
 	private String temporalFormat;
 	private String temporalGranularity;
-	public TemporalColumn(String name) throws IOException{
+	public TemporalColumn(String name){
 		super(name);
 		this.temporalType=1;
 	}

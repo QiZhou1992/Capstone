@@ -1,18 +1,16 @@
 package data.model;
 
-import java.io.IOException;
-
 
 public class ClassColumn extends Column {
-	private represents theRepresent;
-	public ClassColumn(String name) throws IOException{
+	private String represent;
+	public ClassColumn(String name){
 		super(name);
 	}
-	public void setRepresent(int value) throws IOException{
-		this.theRepresent=represents.oneRepresent(value);
+	public void setRepresent(String represent){
+		this.represent=represent;
 	}
-	public represents Represent(){
-		return this.theRepresent;
+	public String Represent(){
+		return this.represent;
 	}
 }
 
