@@ -1,23 +1,27 @@
 package data.model;
 
+import java.io.IOException;
+
 
 public class MeasureColumn extends ClassColumn{
-	private String unit;
-	private String dimension;
-	public MeasureColumn(String name){
+	private units theUnit;
+	private dimensions theDimension;
+	public MeasureColumn(String name) throws IOException{
 		super(name);
+		this.theUnit=units.oneRepresent(0);
+		this.theDimension=dimensions.oneRepresent(0);
 	}
-	public void setUnit(String unit){
-		this.unit=unit;
+	public void setUnit(int value) throws IOException{
+		this.theUnit.setValue(value);
 	}
-	public String Unit(){
-		return this.unit;
+	public units Unit(){
+		return this.theUnit;
 	}
-	public void setDimension(String dimension){
-		this.dimension=dimension;
+	public void setDimension(int value) throws IOException{
+		this.theDimension.setValue(value);
 	}
-	public String dimension(){
-		return this.dimension;
+	public dimensions dimension(){
+		return this.theDimension;
 	}
 }
 

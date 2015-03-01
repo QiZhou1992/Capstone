@@ -1,5 +1,7 @@
 package data.model;
 
+import java.io.IOException;
+
 import javax.xml.bind.annotation.XmlElement;
 
 public class Column implements MyData{
@@ -8,14 +10,21 @@ public class Column implements MyData{
 	private String title;
 	private String description;
 	/* for semanticRelation we will come back later */
-	private String semanticRelation;
-	public Column(String name){
+	private semanticRelations theSemanticRelation;
+	public Column(String name) throws IOException{
 		this.identifier=System.currentTimeMillis();
 		this.title=name;
 		this.description="";
+		this.theSemanticRelation=semanticRelations.oneRepresent(0);
 	}
 	public void modifiedDescription(String description){
 		this.description=description;
+	}
+	public void modifiedSemanticRelations(int value) throws IOException{
+		this.theSemanticRelation.setValue(value);
+	}
+	public semanticRelations thisSemanticRelation(){
+		return this.theSemanticRelation;
 	}
 	public boolean hasBelongsTo(){
 		if(this.parentTable==null){

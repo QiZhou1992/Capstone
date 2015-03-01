@@ -1,0 +1,4 @@
+semanticRelation1
+semanticRelation2
+semanticRelation3
+semanticRelation4
