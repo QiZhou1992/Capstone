@@ -71,6 +71,9 @@ public class dimensions {
 			}
 		}
 	}
+	public int getValue(){
+		return this.value;
+	}
 	/*public static int findValue(String name) throws IOException{
 		if(!load){
 			load();

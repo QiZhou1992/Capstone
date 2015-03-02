@@ -1,5 +1,6 @@
 package data.model;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +13,20 @@ public class Table implements MyData{
 	private String description;
 	private DataSet parentDataSet;
 	private Map<Long,MyData> columns;
-	public Table(String name,DataSet D1){
+	private represents theRepresent;
+	public Table(String name,DataSet D1) throws IOException{
 		this.identifier=System.currentTimeMillis();
 		this.parentDataSet=D1;
 		this.title=name;
 		this.description="";
 		columns=new HashMap<Long,MyData>();
+		theRepresent=represents.oneRepresent(0);
+	}
+	public void setRepresents(int value) throws IOException{
+		this.theRepresent.setValue(value);
+	}
+	public represents theRepresent(){
+		return this.theRepresent;
 	}
 	public boolean isEmptyColumns(){
 		return this.columns.isEmpty();
