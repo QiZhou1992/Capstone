@@ -1,6 +1,7 @@
 package data.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 public class ClassColumn extends Column {
@@ -14,8 +15,15 @@ public class ClassColumn extends Column {
 	public represents Represent(){
 		return this.theRepresent;
 	}
-	public void output(String path){
-		
+	@Override 
+	public void output(PrintWriter output){
+		output.println(this.getIdentifier()+" rdf:Type "+"dfo:Column");
+		output.println(this.getIdentifier()+" dfo:belongsTo "+this.parentTable().getIdentifier());
+		output.println(this.getIdentifier()+" dfo:isColumnType "+"dfo:ClassType");
+		output.println(this.getIdentifier()+" dfo:semanticRelation "+this.thisSemanticRelation().getString());
+		output.println(this.getIdentifier()+" dct:title "+"\""+this.getTitle()+"\"");
+		output.println(this.getIdentifier()+" dct:description "+"\""+this.getDescription()+"\"");
+		output.println(this.getIdentifier()+" dfo:represents "+this.theRepresent.getString());
 	}
 }
 

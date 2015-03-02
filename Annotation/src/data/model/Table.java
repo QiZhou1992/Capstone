@@ -98,6 +98,7 @@ public class Table implements MyData{
 		return this.identifier;
 	}
 	public void output(PrintWriter output){
+		output.println(this.identifier+" rdf:Type "+"dfo:Table");
 		output.println(this.identifier+" dfo:belongsTo "+this.parentDataSet.getIdentifier());
 		output.println(this.identifier+" dct:title "+"\""+this.title+"\"");
 		output.println(this.identifier+" dct:description "+"\""+this.description+"\"");

@@ -10,7 +10,6 @@ public class Column implements MyData{
 	private Table parentTable;
 	private String title;
 	private String description;
-	/* for semanticRelation we will come back later */
 	private semanticRelations theSemanticRelation;
 	public Column(String name) throws IOException{
 		this.identifier=System.currentTimeMillis();
@@ -78,6 +77,12 @@ public class Column implements MyData{
 		return this.identifier;
 	}
 	public void output(PrintWriter output){
+		output.println(this.identifier+" rdf:Type "+"dfo:Column");
+		output.println(this.identifier+" dfo:belongsTo "+this.parentTable.getIdentifier());
+		output.println(this.identifier+" dfo:isColumnType "+"dfo:PropertyType");
+		output.println(this.identifier+" dfo:semanticRelation "+this.theSemanticRelation.getString());
+		output.println(this.identifier+" dct:title "+"\""+this.title+"\"");
+		output.println(this.identifier+" dct:description "+"\""+this.description+"\"");
 		
 	}
 }
