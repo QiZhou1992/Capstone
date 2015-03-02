@@ -1,6 +1,7 @@
 package data.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,5 +96,14 @@ public class Table implements MyData{
 	public long getIdentifier() {
 		// TODO Auto-generated method stub
 		return this.identifier;
+	}
+	public void output(PrintWriter output){
+		output.println(this.identifier+" dfo:belongsTo "+this.parentDataSet.getIdentifier());
+		output.println(this.identifier+" dct:title "+"\""+this.title+"\"");
+		output.println(this.identifier+" dct:description "+"\""+this.description+"\"");
+		output.println(this.identifier+" dfo:represents "+"\""+this.theRepresent.getString());
+		for(Map.Entry<Long, MyData> element: this.columns.entrySet()){
+			element.getValue().output(output);
+		}
 	}
 }

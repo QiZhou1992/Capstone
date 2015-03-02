@@ -1,5 +1,8 @@
 package data.model;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public interface MyData {
 	
 	public String getTitle();
@@ -11,7 +14,7 @@ public interface MyData {
 	public void setDesription(String description);
 	
 	public long getIdentifier();
-	
+	public void output(PrintWriter output);
 	/*
 	 * return the type of this 
 	 * 0 for dataset

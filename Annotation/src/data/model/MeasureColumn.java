@@ -23,5 +23,8 @@ public class MeasureColumn extends ClassColumn{
 	public dimensions dimension(){
 		return this.theDimension;
 	}
+	public void output(String path){
+		
+	}
 }
 

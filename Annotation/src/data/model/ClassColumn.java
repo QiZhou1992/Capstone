@@ -14,5 +14,8 @@ public class ClassColumn extends Column {
 	public represents Represent(){
 		return this.theRepresent;
 	}
+	public void output(String path){
+		
+	}
 }
 

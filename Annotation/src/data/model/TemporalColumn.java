@@ -29,5 +29,8 @@ public class TemporalColumn extends ClassColumn{
 	public String TemporalGranularity(){
 		return this.temporalGranularity;
 	}
+	public void output(String path){
+		
+	}
 }
 

@@ -44,13 +44,13 @@ public class represents {
 			}
 		} 
 	}
-	public Map<Integer,String> allOptions() throws IOException{
+	public static Map<Integer,String> allOptions() throws IOException{
 		if(!load){
 			load();
-			return this.options;
+			return options;
 		}
 		else{
-			return this.options;
+			return options;
 		}
 	}
 	public void setValue(int value) throws IOException{
@@ -74,6 +74,14 @@ public class represents {
 	}
 	public int getValue(){
 		return this.value;
+	}
+	public String getString(){
+		if(options.containsKey(this.value)){
+			return "";
+		}
+		else{
+			return options.get(this.value);
+		}
 	}
 	/*public static int findValue(String name) throws IOException{
 		if(!load){

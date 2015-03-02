@@ -1,6 +1,7 @@
 package data.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -75,5 +76,8 @@ public class Column implements MyData{
 	public long getIdentifier() {
 		// TODO Auto-generated method stub
 		return this.identifier;
+	}
+	public void output(PrintWriter output){
+		
 	}
 }

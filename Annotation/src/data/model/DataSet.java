@@ -1,5 +1,6 @@
 package data.model;
 
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javafx.util.Pair;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -161,6 +164,20 @@ public class DataSet implements MyData{
 		// TODO Auto-generated method stub
 		return this.Identifier;
 	}
-	
+	public void output(PrintWriter output){
+		output.println(this.Identifier+" rdf:Type "+"dfo:DataSet");
+		output.println(this.Identifier+" dct:title "+"\""+this.title+"\"");
+		output.println(this.Identifier+" dct:description "+"\""+this.description+"\"");
+		output.println(this.Identifier+" dct:created "+"\""+this.created.toGMTString()+"\"");
+		output.println(this.Identifier+" dct:issued "+"\""+this.issued.toGMTString()+"\"");
+		output.println(this.Identifier+" dct:modified "+"\""+this.modified.toGMTString()+"\"");
+		for(String element:this.keywords){
+			output.println(this.Identifier+" dcat:keyword "+"\""+element+"\"");
+		}
+		output.println(this.Identifier+" dcat:landingPage "+"\""+this.landingPage+"\"");
+		for(Map.Entry<Long, MyData> element:this.tables.entrySet()){
+			element.getValue().output(output);
+		}
+	}
 	
 }
