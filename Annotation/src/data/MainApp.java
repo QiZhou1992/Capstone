@@ -32,7 +32,7 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	
-	private static ObservableList<MyData> datasets = FXCollections.observableArrayList();
+	private static ObservableList<DataSet> datasets = FXCollections.observableArrayList();
 	
 	public MainApp() throws IOException{
 		CreateDatasets(datasets);
@@ -40,7 +40,7 @@ public class MainApp extends Application {
 	}
 	
 	//for test
-	public static void CreateDatasets(ObservableList<MyData> datasets2) throws IOException{
+	public static void CreateDatasets(ObservableList<DataSet> datasets2) throws IOException{
 		DataSet d1 = new DataSet("dataset 1","mm/dd/yyyy");
 		Table t1 = new Table("table 1",d1);
 		t1.addColumn(new Column("column 1"));
@@ -65,7 +65,7 @@ public class MainApp extends Application {
 		datasets2.addAll(d1,d2,d3,d4,d5,d6);
 	}
     
-    public ObservableList<MyData> getDataSetList(){
+    public ObservableList<DataSet> getDataSetList(){
     	return datasets;
     }
 	

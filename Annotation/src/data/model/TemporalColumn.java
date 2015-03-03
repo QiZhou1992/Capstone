@@ -45,8 +45,7 @@ public class TemporalColumn extends ClassColumn{
 		output.println(this.getIdentifier()+" dct:title "+"\""+this.getTitle()+"\"");
 		output.println(this.getIdentifier()+" dct:description "+"\""+this.getDescription()+"\"");
 		output.println(this.getIdentifier()+" dfo:represents "+this.Represent().getString());
-		output.println(this.getIdentifier()+" dfo:temporalFormat"+"\""+this.temporalFormat+"\"");
-		output.println(this.getIdentifier()+" dfo:temporalGranularity"+"\""+this.temporalGranularity+"\"");
+		output.println(this.getIdentifier()+" dfo:temporalFormat"+"\""+this.temporalFormat+"\"");		
 	}
 }
 

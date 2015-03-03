@@ -1,10 +1,12 @@
 package data.view;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import data.MainApp;
+import data.model.InputFile;
 
 public class RootLayoutController {
 	
@@ -59,6 +61,21 @@ public class RootLayoutController {
             }
             mainApp.saveDataToFile(file);
         }
+    }
+    
+    @FXML
+    private void UploadAs() throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+
+        // Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "csv files (*.csv)", "*.csv");
+        fileChooser.getExtensionFilters().add(extFilter);
+   
+        fileChooser.setTitle("Open Resource File");
+        File file =fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+        InputFile.read(file);
+
     }
     
     /**

@@ -15,7 +15,7 @@ public class ClassColumn extends Column {
 	public represents Represent(){
 		return this.theRepresent;
 	}
-	@Override 
+		@Override 
 	public void output(PrintWriter output){
 		output.println(this.getIdentifier()+" rdf:Type "+"dfo:Column");
 		output.println(this.getIdentifier()+" dfo:belongsTo "+this.parentTable().getIdentifier());

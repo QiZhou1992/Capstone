@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javafx.util.Pair;
-
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -26,7 +24,7 @@ public class DataSet implements MyData{
 	private Date created;
 	private Date issued;
 	private Date modified;
-	private Map<Long,MyData> tables;
+	private Map<Long,Table> tables;
 	private Set<String> keywords;
 	private String landingPage;
 	/*
@@ -41,7 +39,7 @@ public class DataSet implements MyData{
 		this.created=new Date();
 		this.issued=new Date();
 		this.modified=new Date();
-		this.tables=new HashMap<Long,MyData>();
+		this.tables=new HashMap<Long,Table>();
 		this.keywords=new HashSet<String>();
 		this.issued.setTime(System.currentTimeMillis());
 		this.modified.setTime(System.currentTimeMillis());
@@ -106,7 +104,7 @@ public class DataSet implements MyData{
 		t1.removeBelongsTo();
 		this.ChangeModified();
 	}
-	public Map<Long, MyData> AllTable(){
+	public Map<Long, Table> AllTable(){
 		return this.tables;
 	}
 	public void modifiedDescription(String description){
@@ -175,9 +173,10 @@ public class DataSet implements MyData{
 			output.println(this.Identifier+" dcat:keyword "+"\""+element+"\"");
 		}
 		output.println(this.Identifier+" dcat:landingPage "+"\""+this.landingPage+"\"");
-		for(Map.Entry<Long, MyData> element:this.tables.entrySet()){
+		for(Map.Entry<Long, Table> element:this.tables.entrySet()){
 			element.getValue().output(output);
 		}
 	}
+	
 	
 }

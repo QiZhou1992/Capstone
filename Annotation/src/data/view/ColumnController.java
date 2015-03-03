@@ -1,10 +1,14 @@
 package data.view;
 
 import data.model.Column;
-import data.model.Table;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class ColumnController {
 	
@@ -12,6 +16,19 @@ public class ColumnController {
 	private TextField title;
 	@FXML
 	private TextField description;
+	//test variable
+	@FXML
+	private ComboBox<String> columnType;
+	@FXML
+	private VBox vbox;
+	@FXML
+	private GridPane classPane;
+	@FXML
+	private GridPane measurePane;
+	@FXML
+	private GridPane temporalPane;
+	private int columnTypeIndex;
+	
 	@FXML
 	private Button apply;
 	
@@ -33,6 +50,26 @@ public class ColumnController {
     	this.column=column2;
     	this.title.setText(column2.getTitle());
     	this.description.setText(column2.getDescription());
+    	//test code below
+    	this.columnTypeIndex = -1;
+    	this.vbox.getChildren().clear();
+    	this.columnType.getItems().addAll("Class","Measure","Temporal","Property");
+        this.columnType.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+            	vbox.getChildren().clear();
+            	if(columnType.getSelectionModel().getSelectedIndex()==0){
+            		columnTypeIndex=1;
+            		vbox.getChildren().add(classPane);
+            	}else if(columnType.getSelectionModel().getSelectedIndex()==1){
+            		columnTypeIndex=2;
+            		vbox.getChildren().add(measurePane);
+            	}else if(columnType.getSelectionModel().getSelectedIndex()==2){
+            		columnTypeIndex=3;
+            		vbox.getChildren().add(temporalPane);
+            	}
+            }
+        });
     }
     
     /**

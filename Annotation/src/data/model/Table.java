@@ -13,14 +13,14 @@ public class Table implements MyData{
 	private String title;
 	private String description;
 	private DataSet parentDataSet;
-	private Map<Long,MyData> columns;
+	private Map<Long,Column> columns;
 	private represents theRepresent;
 	public Table(String name,DataSet D1) throws IOException{
 		this.identifier=System.currentTimeMillis();
 		this.parentDataSet=D1;
 		this.title=name;
 		this.description="";
-		columns=new HashMap<Long,MyData>();
+		columns=new HashMap<Long,Column>();
 		theRepresent=represents.oneRepresent(0);
 	}
 	public void setRepresents(int value) throws IOException{
@@ -60,7 +60,7 @@ public class Table implements MyData{
 	public DataSet parentDataSet(){
 		return this.parentDataSet;
 	}
-	public Map<Long,MyData> AllColumn(){
+	public Map<Long,Column> AllColumn(){
 		return this.columns;
 		
 	}
@@ -103,7 +103,7 @@ public class Table implements MyData{
 		output.println(this.identifier+" dct:title "+"\""+this.title+"\"");
 		output.println(this.identifier+" dct:description "+"\""+this.description+"\"");
 		output.println(this.identifier+" dfo:represents "+"\""+this.theRepresent.getString());
-		for(Map.Entry<Long, MyData> element: this.columns.entrySet()){
+		for(Map.Entry<Long, Column> element: this.columns.entrySet()){
 			element.getValue().output(output);
 		}
 	}

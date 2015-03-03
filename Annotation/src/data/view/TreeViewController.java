@@ -94,24 +94,24 @@ public class TreeViewController {
         // Add observable list data to the tree
     	TreeItem<MyData> rootItem = new TreeItem<MyData>();
     	rootItem.setExpanded(true);
-    	ObservableList<MyData> datasets = mainApp.getDataSetList();
+    	ObservableList<DataSet> datasets = mainApp.getDataSetList();
     	for(int i=0;i<datasets.size();i++){
-    		MyData dataset = datasets.get(i);
+    		DataSet dataset = datasets.get(i);
     		TreeItem<MyData> dataNode = new TreeItem<MyData>(dataset);
     		rootItem.getChildren().add(dataNode);
     		
     		
-    		Map<Long,MyData> tables = ((DataSet)dataset).AllTable();
-    		Iterator<Map.Entry<Long, MyData>> tableEntries = tables.entrySet().iterator();
+    		Map<Long,Table> tables = dataset.AllTable();
+    		Iterator<Map.Entry<Long, Table>> tableEntries = tables.entrySet().iterator();
     		while(tableEntries.hasNext()){
-    			Map.Entry<Long, MyData> tableEntry = tableEntries.next();
+    			Map.Entry<Long, Table> tableEntry = tableEntries.next();
     			TreeItem<MyData> tableNode = new TreeItem<MyData>(tableEntry.getValue());
     			dataNode.getChildren().add(tableNode);
     			
-    			Map<Long,MyData> columns = ((Table)tableEntry.getValue()).AllColumn();
-    			Iterator<Map.Entry<Long, MyData>> columnEntries = columns.entrySet().iterator();
+    			Map<Long,Column> columns = tableEntry.getValue().AllColumn();
+    			Iterator<Map.Entry<Long, Column>> columnEntries = columns.entrySet().iterator();
     			while(columnEntries.hasNext()){
-    				Map.Entry<Long, MyData> columnEntry = columnEntries.next();
+    				Map.Entry<Long, Column> columnEntry = columnEntries.next();
     				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
     				tableNode.getChildren().add(columnNode);
     			}

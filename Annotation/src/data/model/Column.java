@@ -83,6 +83,5 @@ public class Column implements MyData{
 		output.println(this.identifier+" dfo:semanticRelation "+this.theSemanticRelation.getString());
 		output.println(this.identifier+" dct:title "+"\""+this.title+"\"");
 		output.println(this.identifier+" dct:description "+"\""+this.description+"\"");
-		
 	}
 }
