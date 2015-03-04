@@ -24,7 +24,7 @@ public class TableController {
 	@FXML
 	private TextField description;
 	@FXML
-	private ComboBox<Entry<Integer,String>> comboBox;
+	private ComboBox<String> represent;
 	@FXML
 	private Button apply;
 	
@@ -46,46 +46,18 @@ public class TableController {
     	this.table=table;
     	this.title.setText(table.getTitle());
     	this.description.setText(table.getDescription());
-    	ObservableList<Entry<Integer, String>> representList = FXCollections.observableArrayList();
-    	table.theRepresent();
+    	ObservableList<String> representList = FXCollections.observableArrayList();
 		Map<Integer,String> representOptions = represents.allOptions();
-    	for(Entry<Integer,String> e:representOptions.entrySet()){
-    		representList.add(e);
+		//represent id start from 1
+    	for(int i=1;i<=representOptions.size();i++){
+    		representList.add(representOptions.get(i));
     	}
-    	this.comboBox.setItems(representList);
-    	
-    	this.comboBox.setCellFactory(new Callback<ListView<Entry<Integer,String>>,ListCell<Entry<Integer,String>>>(){
-            @Override
-            public ListCell<Entry<Integer,String>> call(ListView<Entry<Integer,String>> l){
-                return new ListCell<Entry<Integer,String>>(){
-                    @Override
-                    protected void updateItem(Entry<Integer,String> item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                        	setText(null);
-			                setGraphic(null);
-                        } else {
-                            setText(item.getValue());
-                        }
-                    }
-                };
-            }
-        });
-    	this.comboBox.setConverter(new StringConverter<Entry<Integer,String>>() {
-            @Override
-            public String toString(Entry<Integer,String> item) {
-            	if (item == null){
-            		return null;
-            	} else {
-            		return item.getValue();
-            	}
-            }
-
-            @Override
-            public Entry<Integer,String> fromString(String userId) {
-            	return null;
-            }
-    	});
+    	this.represent.getItems().addAll(representList);
+    	//0 is id of empty represent
+    	if(this.table.theRepresent().getValue()!=0){
+    		this.represent.setValue(this.table.theRepresent().getString());
+    		System.out.println("represent string: "+this.table.theRepresent().getString());
+    	}
     }
     
     /**
@@ -102,10 +74,12 @@ public class TableController {
         	if(this.description.getText()!=null){
         		this.table.setDesription(this.description.getText());
         	}
-        	if(this.comboBox.getSelectionModel().getSelectedIndex()!=-1){
-        	//System.out.println(represent);
-        		this.table.setRepresents(this.comboBox.getSelectionModel().getSelectedItem().getKey());
+        	int representIndex = this.represent.getSelectionModel().getSelectedIndex();
+        	if(representIndex>=0){
+        		this.table.setRepresents(representIndex+1);
         	}
+        }else{
+        	
         }
     }
     

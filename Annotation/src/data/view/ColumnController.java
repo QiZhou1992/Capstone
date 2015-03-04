@@ -1,6 +1,14 @@
 package data.view;
 
+import java.io.IOException;
+import java.util.Map;
+
 import data.model.Column;
+import data.model.dimensions;
+import data.model.represents;
+import data.model.units;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -56,7 +64,7 @@ public class ColumnController {
     	
     }
     
-    public void setColumn(Column column2){
+    public void setColumn(Column column2) throws IOException{
     	this.column=column2;
     	this.title.setText(column2.getTitle());
     	this.description.setText(column2.getDescription());
@@ -64,9 +72,28 @@ public class ColumnController {
     	this.columnTypeIndex = -1;
     	this.vbox.getChildren().clear();
     	this.columnType.getItems().addAll("Class","Measure","Temporal","Property");
-    	this.represent.getItems().addAll("test1","test2","test3","test4");
-    	this.unit.getItems().addAll("units1","units2","units3","units4","units5");
-    	this.dimension.getItems().addAll("dimensions1","dimensions2","dimensions3","dimensions4");
+    	ObservableList<String> unitList = FXCollections.observableArrayList();
+    	Map<Integer, String> unitOptions = units.allOptions();
+    	//unit id start from 1
+    	for(int i=1;i<=unitOptions.size();i++){
+    		unitList.add(unitOptions.get(i));
+    	}
+    	this.unit.getItems().addAll(unitList);
+    	ObservableList<String> dimensionList = FXCollections.observableArrayList();
+    	Map<Integer, String> dimensionOptions = dimensions.allOptions();
+    	//dimension id start from 1
+    	for(int i=1;i<=dimensionOptions.size();i++){
+    		dimensionList.add(dimensionOptions.get(i));
+    	}
+    	this.dimension.getItems().addAll(dimensionList);
+    	ObservableList<String> representList = FXCollections.observableArrayList();
+    	Map<Integer,String> representOptions = represents.allOptions();
+    	//represent id start from 1
+    	for(int i=1;i<=representOptions.size();i++){
+    		representList.add(representOptions.get(i));
+    	}
+    	this.represent.getItems().addAll(representList);
+
         this.columnType.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
