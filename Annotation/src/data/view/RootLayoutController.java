@@ -2,6 +2,7 @@ package data.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
@@ -64,7 +65,7 @@ public class RootLayoutController {
     }
     
     @FXML
-    private void UploadAs() throws FileNotFoundException {
+    private void UploadAs() throws IOException {
         FileChooser fileChooser = new FileChooser();
 
         // Set extension filter
@@ -74,7 +75,9 @@ public class RootLayoutController {
    
         fileChooser.setTitle("Open Resource File");
         File file =fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-        InputFile.read(file);
+        
+        InputFile input=new InputFile();
+        input.read(file);
 
     }
     

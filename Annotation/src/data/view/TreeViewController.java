@@ -63,7 +63,7 @@ public class TreeViewController {
         		
         		//set the data set controller. doing cast here.
         		DatasetController controller = loader.getController();
-        		controller.setDataset((DataSet)(myData.getValue()));
+        		controller.setDataset((DataSet)(myData.getValue()),this.mainApp, myData);
         	}else if(myData.getValue().dataType()==1){
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/TableDetail.fxml"));

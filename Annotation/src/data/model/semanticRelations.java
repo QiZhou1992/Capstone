@@ -71,12 +71,15 @@ public class semanticRelations {
 			}
 		}
 	}
+	public int getValue(){
+		return this.value;
+	}
 	public String getString(){
 		if(options.containsKey(this.value)){
-			return "";
+			return options.get(this.value);
 		}
 		else{
-			return options.get(this.value);
+			return "";
 		}
 	}
 	/*public static int findValue(String name) throws IOException{

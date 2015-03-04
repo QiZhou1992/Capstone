@@ -101,10 +101,12 @@ public class MainApp extends Application {
 		}
 		
 	    // Try to load last opened person file.
+		/*
 	    File file = getDatasetFilePath();
 	    if (file != null) {
 	        loadDataFromFile(file);
 	    }
+	    */
 	}
 	
 	public void showDataOverview(){
@@ -267,7 +269,7 @@ public class MainApp extends Application {
             DataListWrapper wrapper = new DataListWrapper();
             
             
-            wrapper.setDatasets((ObservableList<DataSet>)(ObservableList<?>)datasets);
+            wrapper.setDatasets(datasets);
 
             // Marshalling and saving XML to the file.
             m.marshal(wrapper, file);

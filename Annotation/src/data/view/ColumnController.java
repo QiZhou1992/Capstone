@@ -6,6 +6,7 @@ import java.util.Map;
 import data.model.Column;
 import data.model.dimensions;
 import data.model.represents;
+import data.model.semanticRelations;
 import data.model.units;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,8 @@ public class ColumnController {
 	private TextField title;
 	@FXML
 	private TextField description;
+	@FXML
+	private ComboBox<String> semanticRelation;
 	//test variable
 	@FXML
 	private ComboBox<String> columnType;
@@ -41,6 +44,8 @@ public class ColumnController {
 	private ComboBox<String> unit;
 	@FXML
 	private ComboBox<String> dimension;
+	@FXML
+	private ComboBox<String> tempType;
 	@FXML
 	private TextField tempFormat;
 	@FXML
@@ -68,6 +73,16 @@ public class ColumnController {
     	this.column=column2;
     	this.title.setText(column2.getTitle());
     	this.description.setText(column2.getDescription());
+    	ObservableList<String> semanticRelationList = FXCollections.observableArrayList();
+    	Map<Integer,String> semanticRelationOptions = semanticRelations.allOptions();
+    	//remantic relation id start from 1
+    	for(int i=1;i<semanticRelationOptions.size();i++){
+    		semanticRelationList.add(semanticRelationOptions.get(i));
+    	}
+    	this.semanticRelation.getItems().addAll(semanticRelationList);
+    	if(this.column.thisSemanticRelation().getValue()!=0){
+    		this.semanticRelation.setValue(this.column.thisSemanticRelation().getString());
+    	}
     	//test code below
     	this.columnTypeIndex = -1;
     	this.vbox.getChildren().clear();
@@ -93,6 +108,7 @@ public class ColumnController {
     		representList.add(representOptions.get(i));
     	}
     	this.represent.getItems().addAll(representList);
+    	this.tempType.getItems().addAll("Interval","Time Stamp");
 
         this.columnType.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -115,15 +131,20 @@ public class ColumnController {
     /**
      * Called when the user clicks on the delete button.
      * Apply any changes to selected column.
+     * @throws IOException 
      */
     @FXML
-    private void handleApply() {
+    private void handleApply() throws IOException {
     	// TODO add action handler here
         System.out.println("click apply...");
         if(this.validation()){
         	this.column.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
         		this.column.setDesription(this.description.getText());
+        	}
+        	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
+        	if(semanticRelationIndex>=0){
+        		this.column.modifiedSemanticRelations(semanticRelationIndex+1);
         	}
         }
     }

@@ -56,7 +56,6 @@ public class TableController {
     	//0 is id of empty represent
     	if(this.table.theRepresent().getValue()!=0){
     		this.represent.setValue(this.table.theRepresent().getString());
-    		System.out.println("represent string: "+this.table.theRepresent().getString());
     	}
     }
     
