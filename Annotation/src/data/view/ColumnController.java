@@ -27,6 +27,16 @@ public class ColumnController {
 	private GridPane measurePane;
 	@FXML
 	private GridPane temporalPane;
+	@FXML
+	private ComboBox<String> represent;
+	@FXML
+	private ComboBox<String> unit;
+	@FXML
+	private ComboBox<String> dimension;
+	@FXML
+	private TextField tempFormat;
+	@FXML
+	private TextField tempGranularity;
 	private int columnTypeIndex;
 	
 	@FXML
@@ -54,6 +64,9 @@ public class ColumnController {
     	this.columnTypeIndex = -1;
     	this.vbox.getChildren().clear();
     	this.columnType.getItems().addAll("Class","Measure","Temporal","Property");
+    	this.represent.getItems().addAll("test1","test2","test3","test4");
+    	this.unit.getItems().addAll("units1","units2","units3","units4","units5");
+    	this.dimension.getItems().addAll("dimensions1","dimensions2","dimensions3","dimensions4");
         this.columnType.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {

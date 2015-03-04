@@ -8,7 +8,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="data.view.ColumnController">
    <children>
       <Label layoutX="72.0" layoutY="43.0" text="Column" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0" />
-      <GridPane fx:id="gridPane" prefHeight="99.0" prefWidth="550.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+      <GridPane fx:id="gridPane" prefHeight="99.0" prefWidth="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
          <children>
             <Label text="Title" />
             <Label text="Description" GridPane.rowIndex="1" />
@@ -31,7 +31,7 @@
          <children>
             <VBox>
                <children>
-                  <GridPane fx:id="classPane" prefHeight="38.0" prefWidth="550.0">
+                  <GridPane fx:id="classPane" prefHeight="38.0" prefWidth="500.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -41,10 +41,10 @@
                     </rowConstraints>
                      <children>
                         <Label text="Represent" />
-                        <ComboBox prefHeight="29.0" prefWidth="191.0" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="represent" prefHeight="29.0" prefWidth="191.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
-                  <GridPane fx:id="measurePane" prefHeight="67.0" prefWidth="550.0">
+                  <GridPane fx:id="measurePane" prefHeight="67.0" prefWidth="500.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -56,11 +56,11 @@
                      <children>
                         <Label text="Unit" />
                         <Label text="Dimension" GridPane.rowIndex="1" />
-                        <ComboBox prefHeight="29.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                        <ComboBox prefHeight="29.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="unit" prefHeight="29.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="dimension" prefHeight="29.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <GridPane fx:id="temporalPane" prefWidth="550.0">
+                  <GridPane fx:id="temporalPane" prefWidth="500.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -72,8 +72,8 @@
                      <children>
                         <Label text="Temporal Format" />
                         <Label text="Temporal Granularity" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="tempFormat" GridPane.columnIndex="1" />
+                        <TextField fx:id="tempGranularity" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>

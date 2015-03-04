@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import data.model.Table;
+import data.model.represents;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -46,8 +47,8 @@ public class TableController {
     	this.title.setText(table.getTitle());
     	this.description.setText(table.getDescription());
     	ObservableList<Entry<Integer, String>> representList = FXCollections.observableArrayList();
-    	Map<Integer,String> representOptions = table.theRepresent().allOptions();
-    	String name = "";
+    	table.theRepresent();
+		Map<Integer,String> representOptions = represents.allOptions();
     	for(Entry<Integer,String> e:representOptions.entrySet()){
     		representList.add(e);
     	}
