@@ -2,8 +2,6 @@ package data.view;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import data.model.Table;
 import data.model.represents;
 import javafx.collections.FXCollections;
@@ -11,11 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 public class TableController {
 	

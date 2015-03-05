@@ -3,7 +3,12 @@ package data.view;
 import java.io.IOException;
 import java.util.Map;
 
+import data.model.ClassColumn;
 import data.model.Column;
+import data.model.MeasureColumn;
+import data.model.MyData;
+import data.model.Table;
+import data.model.TemporalColumn;
 import data.model.dimensions;
 import data.model.represents;
 import data.model.semanticRelations;
@@ -16,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -57,6 +63,12 @@ public class ColumnController {
 	
 	private Column column;
 	
+	private Table table;
+	
+	private TreeItem<MyData> myData;
+	
+	private TreeItem<MyData> columnNode;
+	
 	public ColumnController(){	
 	}
 	
@@ -69,8 +81,11 @@ public class ColumnController {
     	
     }
     
-    public void setColumn(Column column2) throws IOException{
+    public void setColumn(Column column2, Table table, TreeItem<MyData> myData,TreeItem<MyData> columnNode) throws IOException{
     	this.column=column2;
+    	this.table=table;
+    	this.myData=myData;
+    	this.columnNode=columnNode;
     	this.title.setText(column2.getTitle());
     	this.description.setText(column2.getDescription());
     	ObservableList<String> semanticRelationList = FXCollections.observableArrayList();
@@ -138,13 +153,68 @@ public class ColumnController {
     	// TODO add action handler here
         System.out.println("click apply...");
         if(this.validation()){
-        	this.column.setTitle(this.title.getText());
-        	if(this.description.getText()!=null){
-        		this.column.setDesription(this.description.getText());
-        	}
-        	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
-        	if(semanticRelationIndex>=0){
-        		this.column.modifiedSemanticRelations(semanticRelationIndex+1);
+        	if(this.columnTypeIndex == 1){
+        		ClassColumn newColumn = new ClassColumn(this.title.getText());
+        		if(this.description.getText()!=null){
+        			newColumn.setDesription(this.description.getText());
+        		}
+            	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
+            	if(semanticRelationIndex>=0){
+            		newColumn.modifiedSemanticRelations(semanticRelationIndex+1);
+            	}
+        		newColumn.setBelongsTo(this.table);
+        		
+        		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
+        		this.table.removeColumn(this.column);
+        		this.table.addColumn(newColumn);
+        		TreeItem<MyData> newTreeNode = new TreeItem<MyData>(newColumn);
+        		this.myData.getChildren().remove(this.columnNode);
+        		this.myData.getChildren().add(newTreeNode);
+        	}else if(this.columnTypeIndex == 2){
+        		MeasureColumn newColumn = new MeasureColumn(this.title.getText());
+        		if(this.description.getText()!=null){
+        			newColumn.setDesription(this.description.getText());
+        		}
+            	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
+            	if(semanticRelationIndex>=0){
+            		newColumn.modifiedSemanticRelations(semanticRelationIndex+1);
+            	}
+        		newColumn.setBelongsTo(this.table);
+        		
+        		newColumn.setUnit(this.unit.getSelectionModel().getSelectedIndex()+1);
+        		newColumn.setDimension(this.dimension.getSelectionModel().getSelectedIndex()+1);
+        		this.table.removeColumn(this.column);
+        		this.table.addColumn(newColumn);
+        		TreeItem<MyData> newTreeItem = new TreeItem<MyData>(newColumn);
+        		this.myData.getChildren().remove(this.columnNode);
+        		this.myData.getChildren().add(newTreeItem);
+        	}else if(this.columnTypeIndex == 3){
+        		TemporalColumn newColumn = new TemporalColumn(this.title.getText());
+        		if(this.description.getText()!=null){
+        			newColumn.setDesription(this.description.getText());
+        		}
+            	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
+            	if(semanticRelationIndex>=0){
+            		newColumn.modifiedSemanticRelations(semanticRelationIndex+1);
+            	}
+        		newColumn.setBelongsTo(this.table);
+        		
+        		newColumn.setTemporalFormat(this.tempFormat.getText());
+        		newColumn.setTemporalGranularity(this.tempGranularity.getText());
+        		this.table.removeColumn(this.column);
+        		this.table.addColumn(newColumn);
+        		TreeItem<MyData> newTreeItem = new TreeItem<MyData>(newColumn);
+        		this.myData.getChildren().remove(this.columnNode);
+        		this.myData.getChildren().add(newTreeItem);
+        	}else{
+        		this.column.setTitle(this.title.getText());
+        		if(this.description.getText()!=null){
+        			this.column.setDesription(this.description.getText());
+        		}
+            	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
+            	if(semanticRelationIndex>=0){
+            		this.column.modifiedSemanticRelations(semanticRelationIndex+1);
+            	}
         	}
         }
     }

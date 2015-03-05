@@ -13,11 +13,11 @@
             <Label text="Title" />
             <Label text="Description" GridPane.rowIndex="1" />
             <TextField fx:id="title" GridPane.columnIndex="1" />
-            <TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="description" promptText="Enter some description..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Column Type" GridPane.rowIndex="3" />
             <ComboBox fx:id="columnType" prefHeight="29.0" prefWidth="191.0" promptText="select type" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Semantic Relation" GridPane.rowIndex="2" />
-            <ComboBox fx:id="semanticRelation" prefHeight="29.0" prefWidth="191.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="semanticRelation" prefHeight="29.0" prefWidth="191.0" promptText="Select Relation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -42,7 +42,7 @@
               </rowConstraints>
                <children>
                   <Label text="Represent" />
-                  <ComboBox fx:id="represent" prefHeight="29.0" prefWidth="191.0" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="represent" prefHeight="29.0" prefWidth="191.0" promptText="Select Represent" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane fx:id="measurePane" prefHeight="67.0" prefWidth="500.0">
@@ -57,8 +57,8 @@
                <children>
                   <Label text="Unit" />
                   <Label text="Dimension" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="unit" prefHeight="29.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                  <ComboBox fx:id="dimension" prefHeight="29.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="unit" prefHeight="29.0" prefWidth="190.0" promptText="Select Unit" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="dimension" prefHeight="29.0" prefWidth="190.0" promptText="Select Dimension" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane fx:id="temporalPane" prefHeight="97.0" prefWidth="500.0">
@@ -77,7 +77,7 @@
                   <TextField fx:id="tempFormat" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="tempGranularity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Temporal Type" />
-                  <ComboBox fx:id="tempType" prefHeight="29.0" prefWidth="189.0" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="tempType" prefHeight="29.0" prefWidth="189.0" promptText="Select Temporal Type" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>

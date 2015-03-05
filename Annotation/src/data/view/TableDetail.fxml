@@ -22,7 +22,7 @@
             <Label text="Title" />
             <Label text="Description" GridPane.rowIndex="1" />
             <TextField fx:id="title" GridPane.columnIndex="1" />
-            <TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="description" promptText="enter some description..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Represent" GridPane.rowIndex="2" />
             <ComboBox fx:id="represent" prefHeight="29.0" prefWidth="179.0" promptText="select represent" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>

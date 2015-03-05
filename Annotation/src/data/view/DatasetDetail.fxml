@@ -8,17 +8,17 @@
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="data.view.DatasetController">
    <children>
       <Label layoutX="49.0" layoutY="25.0" prefHeight="19.0" prefWidth="71.0" text="dataset" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0" />
-      <GridPane prefHeight="215.0" prefWidth="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+      <GridPane prefHeight="344.0" prefWidth="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="44.0" minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="56.0" minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="67.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="300.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="38.0" minHeight="3.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Title" />
@@ -27,10 +27,20 @@
             <Label text="Keyword" GridPane.rowIndex="3" />
             <Label text="Landing Page" GridPane.rowIndex="4" />
             <TextField fx:id="title" GridPane.columnIndex="1" />
-            <TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="description" promptText="enter some description..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="created" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="keyword" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="landingPage" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="landingPage" promptText="enter the landing page..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ListView fx:id="keywordList" prefHeight="239.0" prefWidth="250.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="keyword" promptText="add keyword..." />
+                        <Button fx:id="enterKeyword" mnemonicParsing="false" onAction="#handleEnter" text="Enter" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </GridPane>
       <Button fx:id="apply" layoutX="382.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleApply" text="Apply" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="100.0" />

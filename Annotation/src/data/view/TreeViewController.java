@@ -79,7 +79,7 @@ public class TreeViewController {
         		this.mainApp.getRootLayout().setCenter(personOverview);
         		
         		ColumnController controller = loader.getController();
-        		controller.setColumn((Column)myData.getValue());
+        		controller.setColumn((Column)myData.getValue(),((Column)myData.getValue()).parentTable(),myData.getParent(),myData);
         	}else{
         		System.err.println("DatasetController: invalid type"+myData.getValue().dataType());
         	}

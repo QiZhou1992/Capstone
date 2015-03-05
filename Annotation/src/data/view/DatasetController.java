@@ -14,6 +14,7 @@ import data.model.MyData;
 import data.model.Table;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.stage.FileChooser;
@@ -30,7 +31,11 @@ public class DatasetController {
 	@FXML
 	private TextField created;
 	@FXML
+	private ListView<String> keywordList;
+	@FXML
 	private TextField keyword;
+	@FXML
+	private Button enterKeyword;
 	@FXML
 	private TextField landingPage;
 	@FXML
@@ -63,8 +68,23 @@ public class DatasetController {
     	this.title.setText(dataset.getTitle());
     	this.description.setText(dataset.getDescription());
     	this.created.setText(dataset.getCreated());
-    	this.keyword.setText(dataset.KeyWords().toString());
+    	this.keywordList.getItems().clear();
+    	for(String nextKeyword: this.dataset.KeyWords()){
+    		this.keywordList.getItems().add(nextKeyword);
+    	}
     	this.landingPage.setText(dataset.getLandingPage());
+    }
+    
+    /**
+     * Called when user clicks on the enter button.
+     * Add new keyword to the keyword list.
+     */
+    @FXML
+    private void handleEnter(){
+    	if(this.keyword.getText()!=null&&!this.keyword.getText().trim().equals("")){
+    		this.keywordList.getItems().add(this.keyword.getText());
+    		this.keyword.clear();
+    	}
     }
     
     /**
@@ -93,6 +113,8 @@ public class DatasetController {
         	if(this.landingPage.getText()!=null){
         		this.dataset.setLandingPage(this.landingPage.getText());
         	}
+        	this.dataset.KeyWords().clear();
+        	this.dataset.KeyWords().addAll(this.keywordList.getItems());
         }
     }
     /**
