@@ -11,11 +11,19 @@ public class Column implements MyData{
 	private String title;
 	private String description;
 	private semanticRelations theSemanticRelation;
+	private int ColumnType;
 	public Column(String name) throws IOException{
 		this.identifier=System.currentTimeMillis();
 		this.title=name;
 		this.description="";
 		this.theSemanticRelation=semanticRelations.oneRepresent(0);
+		this.ColumnType=0;
+	}
+	public int ColumnType(){
+		return this.ColumnType;
+	}
+	public void setColumnType(int ColumnType){
+		this.ColumnType=ColumnType;
 	}
 	public void modifiedDescription(String description){
 		this.description=description;

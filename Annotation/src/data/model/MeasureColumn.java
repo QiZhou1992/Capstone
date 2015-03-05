@@ -9,6 +9,7 @@ public class MeasureColumn extends ClassColumn{
 	private dimensions theDimension;
 	public MeasureColumn(String name) throws IOException{
 		super(name);
+		this.setColumnType(2);
 		this.theUnit=units.oneRepresent(0);
 		this.theDimension=dimensions.oneRepresent(0);
 	}

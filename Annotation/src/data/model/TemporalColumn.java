@@ -10,6 +10,7 @@ public class TemporalColumn extends ClassColumn{
 	private String temporalGranularity;
 	public TemporalColumn(String name) throws IOException{
 		super(name);
+		this.setColumnType(3);
 		this.temporalType=1;
 	}
 	public void setTemporalType(int Type){
