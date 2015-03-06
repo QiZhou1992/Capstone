@@ -99,7 +99,7 @@ public class ColumnController {
     		this.semanticRelation.setValue(this.column.thisSemanticRelation().getString());
     	}
     	//test code below
-    	this.columnTypeIndex = -1;
+    	this.columnTypeIndex = this.column.ColumnType();
     	this.vbox.getChildren().clear();
     	this.columnType.getItems().addAll("Class","Measure","Temporal","Property");
     	ObservableList<String> unitList = FXCollections.observableArrayList();
@@ -124,6 +124,32 @@ public class ColumnController {
     	}
     	this.represent.getItems().addAll(representList);
     	this.tempType.getItems().addAll("Interval","Time Stamp");
+    	
+    	if(this.column.ColumnType()==1){
+    		//class property
+    		this.columnType.setValue("Class");
+    		this.vbox.getChildren().add(this.classPane);
+    		this.represent.setValue(((ClassColumn)this.column).Represent().getString());
+    	}else if(this.column.ColumnType()==2){
+    		//measure column
+    		this.represent.setValue(((MeasureColumn)this.column).Represent().getString());
+    		this.vbox.getChildren().add(this.classPane);
+    		this.columnType.setValue("Measure");
+    		this.vbox.getChildren().add(this.measurePane);
+    		this.unit.setValue(((MeasureColumn)this.column).Unit().getString());
+    		this.dimension.setValue(((MeasureColumn)this.column).dimension().getString());
+    	}else if(this.column.ColumnType()==3){
+    		//temporal column
+    		this.represent.setValue(((TemporalColumn)this.column).Represent().getString());
+    		this.vbox.getChildren().add(this.classPane);
+    		this.columnType.setValue("Temporal");
+    		this.vbox.getChildren().add(this.temporalPane);
+    		this.tempType.setValue(((TemporalColumn)this.column).getTemporalType());
+    		this.tempFormat.setText(((TemporalColumn)this.column).TemporalFormat());
+    		this.tempGranularity.setText(((TemporalColumn)this.column).TemporalGranularity());
+    	}else{
+    		//property column
+    	}
 
         this.columnType.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -134,9 +160,11 @@ public class ColumnController {
             		vbox.getChildren().add(classPane);
             	}else if(columnType.getSelectionModel().getSelectedIndex()==1){
             		columnTypeIndex=2;
+            		vbox.getChildren().add(classPane);
             		vbox.getChildren().add(measurePane);
             	}else if(columnType.getSelectionModel().getSelectedIndex()==2){
             		columnTypeIndex=3;
+            		vbox.getChildren().add(classPane);
             		vbox.getChildren().add(temporalPane);
             	}
             }
@@ -164,6 +192,7 @@ public class ColumnController {
             	}
         		newColumn.setBelongsTo(this.table);
         		
+        		newColumn.setColumnType(this.columnTypeIndex);
         		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
         		this.table.removeColumn(this.column);
         		this.table.addColumn(newColumn);
@@ -181,6 +210,8 @@ public class ColumnController {
             	}
         		newColumn.setBelongsTo(this.table);
         		
+        		newColumn.setColumnType(this.columnTypeIndex);
+        		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
         		newColumn.setUnit(this.unit.getSelectionModel().getSelectedIndex()+1);
         		newColumn.setDimension(this.dimension.getSelectionModel().getSelectedIndex()+1);
         		this.table.removeColumn(this.column);
@@ -199,6 +230,8 @@ public class ColumnController {
             	}
         		newColumn.setBelongsTo(this.table);
         		
+        		newColumn.setColumnType(this.columnTypeIndex);
+        		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
         		newColumn.setTemporalFormat(this.tempFormat.getText());
         		newColumn.setTemporalGranularity(this.tempGranularity.getText());
         		this.table.removeColumn(this.column);
@@ -215,6 +248,8 @@ public class ColumnController {
             	if(semanticRelationIndex>=0){
             		this.column.modifiedSemanticRelations(semanticRelationIndex+1);
             	}
+            	
+            	this.column.setColumnType(this.columnTypeIndex);
         	}
         }
     }

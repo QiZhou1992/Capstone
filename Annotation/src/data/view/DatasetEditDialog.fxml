@@ -15,9 +15,8 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
-<children><Label text="Title" /><TextField fx:id="title" GridPane.columnIndex="1" /><Label text="Description" GridPane.rowIndex="1" /><Label text="Created" GridPane.rowIndex="2" /><Label text="Keyword" GridPane.rowIndex="3" /><Label text="Landing Page" GridPane.rowIndex="4" /><TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" /><TextField fx:id="created" GridPane.columnIndex="1" GridPane.rowIndex="2" /><TextField fx:id="keyword" GridPane.columnIndex="1" GridPane.rowIndex="3" /><TextField fx:id="landingPage" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+<children><Label text="Title" /><TextField fx:id="title" GridPane.columnIndex="1" /><Label text="Description" GridPane.rowIndex="1" /><Label text="Created" GridPane.rowIndex="2" /><Label text="Landing Page" GridPane.rowIndex="3" /><TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" /><TextField fx:id="created" GridPane.columnIndex="1" GridPane.rowIndex="2" /><TextField fx:id="landingPage" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 </children>
 </GridPane>
 <HBox layoutX="197.1875" layoutY="241.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">

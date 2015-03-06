@@ -176,6 +176,7 @@ public class DataSet implements MyData{
 		for(Map.Entry<Long, Table> element:this.tables.entrySet()){
 			element.getValue().output(output);
 		}
+		output.close();
 	}
 	
 	

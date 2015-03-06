@@ -22,7 +22,7 @@ public class WelcomeController {
 	@FXML
 	private void handleNewDataset() {
 	    DataSet tempPerson = new DataSet("tmp title","mm/dd/yyyy");
-	    boolean okClicked = this.mainApp.showPersonEditDialog(tempPerson);
+	    boolean okClicked = this.mainApp.showDatasetEditDialog(tempPerson);
 	    if (okClicked) {
 	        this.treeViewController.addNewDataset(tempPerson);
 	    	this.mainApp.getDataSetList().add(tempPerson);

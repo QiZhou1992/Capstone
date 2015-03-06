@@ -13,6 +13,7 @@ import data.model.DataListWrapper;
 import data.model.DataSet;
 import data.model.Table;
 import data.view.DatasetEditDialogController;
+import data.view.NewTableDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
 import javafx.application.Application;
@@ -145,7 +146,7 @@ public class MainApp extends Application {
      * Called when the user clicks on the add button.
      * Add table to this data set.
      */
-    public boolean showPersonEditDialog(DataSet dataset) {
+    public boolean showDatasetEditDialog(DataSet dataset) {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -164,6 +165,40 @@ public class MainApp extends Application {
             DatasetEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setPerson(dataset);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Called when the user clicks on the add button.
+     * Add table to this data set.
+     */
+    public boolean showNewTableDialog(Table table) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/NewTableDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add Table");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            NewTableDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setTable(table);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

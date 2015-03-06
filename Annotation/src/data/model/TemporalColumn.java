@@ -19,13 +19,20 @@ public class TemporalColumn extends ClassColumn{
 	public int TemporalType(){
 		return this.temporalType;
 	}
+	public String getTemporalType(){
+		if(this.temporalType==1){
+			return "Interval";
+		}else{
+			return "TimeStamp";
+		}
+	}
 	public void setTemporalFormat(String temporalFormat){
 		this.temporalFormat=temporalFormat;
 	}
 	public String TemporalFormat(){
 		return this.temporalFormat;
 	}
-	public void setTemporalGranularity(String temproalGranularity){
+	public void setTemporalGranularity(String temporalGranularity){
 		this.temporalGranularity=temporalGranularity;
 	}
 	public String TemporalGranularity(){

@@ -1,15 +1,15 @@
 package data.view;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map;
 
 import data.MainApp;
 import data.model.Column;
 import data.model.DataSet;
-import data.model.InputFile;
 import data.model.MyData;
 import data.model.Table;
 import javafx.fxml.FXML;
@@ -90,11 +90,26 @@ public class DatasetController {
     /**
      * Called when the user clicks on the add button.
      * Add table to this data set.
+     * @throws IOException 
      */
     @FXML
-    private void handleAdd() {
+    private void handleAdd() throws IOException {
     	// TODO add action handler here
-    	
+	    Table tempTable = new Table("tmp title",this.dataset);
+	    boolean okClicked = this.mainApp.showNewTableDialog(tempTable);
+	    if (okClicked) {
+	        this.dataset.addTable(tempTable);
+	        //add table node to tree view
+	        TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
+			Map<Long,Column> columns = tempTable.AllColumn();
+			Iterator<Map.Entry<Long, Column>> columnEntries = columns.entrySet().iterator();
+			while(columnEntries.hasNext()){
+				Map.Entry<Long, Column> columnEntry = columnEntries.next();
+				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+				newTableNode.getChildren().add(columnNode);
+			}
+	        this.parentNode.getChildren().add(newTableNode);
+	    }
     }
     
     /**
@@ -148,46 +163,15 @@ public class DatasetController {
     }
     
     @FXML
-    private void UploadAs() throws IOException {
+    private void handleOutput() throws FileNotFoundException{
         FileChooser fileChooser = new FileChooser();
-
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "csv files (*.csv)", "*.csv");
-        fileChooser.getExtensionFilters().add(extFilter);
    
-        fileChooser.setTitle("Open Resource File");
-        File file =fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-        InputFile content=new InputFile();
-        ArrayList<String> column = new ArrayList<String>();
-        column=content.read(file);
-        
-        //handle the input title
-        String title="title";
-        Table upload=input(title,column);
-        dataset.addTable(upload);
-        //add table node to tree view
-        TreeItem<MyData> newTableNode = new TreeItem<MyData>(upload);
-		Map<Long,Column> columns = upload.AllColumn();
-		Iterator<Map.Entry<Long, Column>> columnEntries = columns.entrySet().iterator();
-		while(columnEntries.hasNext()){
-			Map.Entry<Long, Column> columnEntry = columnEntries.next();
-			TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
-			newTableNode.getChildren().add(columnNode);
-		}
-        this.parentNode.getChildren().add(newTableNode);
-    }
-    
-    private Table input(String title,ArrayList<String> column ) throws IOException{
-    	
-    	Table input = new Table(title, dataset);
-    	int length = column.size();
-    	for(int i=0;i<length;i++){
-    		Column temp=new Column(column.get(i));
-    		input.addColumn(temp);
-    	}
-    	
-    	return input;
+        fileChooser.setTitle("Out Put Dataset");
+        File file =fileChooser.showSaveDialog(this.mainApp.getPrimaryStage());
+        if(file!=null){
+        	PrintWriter pw = new PrintWriter(file.getPath());
+    		this.dataset.output(pw);
+        }
     }
 	
 }
