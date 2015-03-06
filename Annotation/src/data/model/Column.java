@@ -2,6 +2,7 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -12,8 +13,9 @@ public class Column implements MyData{
 	private String description;
 	private semanticRelations theSemanticRelation;
 	private int ColumnType;
-	public Column(String name) throws IOException{
+	public Column(String name) throws IOException, InterruptedException{
 		this.identifier=System.currentTimeMillis();
+		TimeUnit.MILLISECONDS.sleep(10);
 		this.title=name;
 		this.description="";
 		this.theSemanticRelation=semanticRelations.oneRepresent(0);

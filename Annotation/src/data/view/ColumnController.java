@@ -175,9 +175,10 @@ public class ColumnController {
      * Called when the user clicks on the delete button.
      * Apply any changes to selected column.
      * @throws IOException 
+     * @throws InterruptedException 
      */
     @FXML
-    private void handleApply() throws IOException {
+    private void handleApply() throws IOException, InterruptedException {
     	// TODO add action handler here
         System.out.println("click apply...");
         if(this.validation()){

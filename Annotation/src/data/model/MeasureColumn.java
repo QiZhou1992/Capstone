@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 public class MeasureColumn extends ClassColumn{
 	private units theUnit;
 	private dimensions theDimension;
-	public MeasureColumn(String name) throws IOException{
+	public MeasureColumn(String name) throws IOException, InterruptedException{
 		super(name);
 		this.setColumnType(2);
 		this.theUnit=units.oneRepresent(0);

@@ -108,7 +108,7 @@ public class NewTableDialogController {
     }
     
     @FXML
-    private void UploadAs() throws IOException {
+    private void UploadAs() throws IOException, InterruptedException {
         FileChooser fileChooser = new FileChooser();
 
         // Set extension filter

@@ -33,13 +33,13 @@ public class MainApp extends Application {
 	
 	private static ObservableList<DataSet> datasets = FXCollections.observableArrayList();
 	
-	public MainApp() throws IOException{
+	public MainApp() throws IOException, InterruptedException{
 		CreateDatasets(datasets);
 		
 	}
 	
 	//for test
-	public static void CreateDatasets(ObservableList<DataSet> datasets2) throws IOException{
+	public static void CreateDatasets(ObservableList<DataSet> datasets2) throws IOException, InterruptedException{
 		DataSet d1 = new DataSet("dataset 1","mm/dd/yyyy");
 		Table t1 = new Table("table 1",d1);
 		t1.addColumn(new Column("column 1"));

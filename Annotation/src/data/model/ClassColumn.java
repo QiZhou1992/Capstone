@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 public class ClassColumn extends Column {
 	private represents theRepresent;
-	public ClassColumn(String name) throws IOException{
+	public ClassColumn(String name) throws IOException, InterruptedException{
 		super(name);
 		this.setColumnType(1);
 		

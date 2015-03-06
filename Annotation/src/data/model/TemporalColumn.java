@@ -8,7 +8,7 @@ public class TemporalColumn extends ClassColumn{
 	private int temporalType;
 	private String temporalFormat;
 	private String temporalGranularity;
-	public TemporalColumn(String name) throws IOException{
+	public TemporalColumn(String name) throws IOException, InterruptedException{
 		super(name);
 		this.setColumnType(3);
 		this.temporalType=1;
