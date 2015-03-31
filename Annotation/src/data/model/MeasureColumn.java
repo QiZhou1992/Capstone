@@ -37,5 +37,18 @@ public class MeasureColumn extends ClassColumn{
 		output.println(this.getIdentifier()+" dfo:unit "+this.theUnit.getString());
 		output.println(this.getIdentifier()+" dfo:dimension "+this.theDimension.getString());
 	}
+	@Override
+	public Validation check(){
+		Validation result=super.check();
+		if(this.theDimension.getValue()==0){
+			result.setFalse();
+			result.addField("dimension");
+		}
+		if(this.theUnit.getValue()==0){
+			result.setFalse();
+			result.addField("unit");
+		}
+		return result;
+	}
 }
 

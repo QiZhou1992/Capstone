@@ -32,6 +32,8 @@ public class DataSet implements MyData{
 	 */
 	private KeywordWrapper KW;
 	private TableWrapper TW;
+	
+	
 	public DataSet(String name, String DateFormatString){
 		this.title=name;
 		this.Identifier=System.currentTimeMillis();
@@ -178,6 +180,25 @@ public class DataSet implements MyData{
 		}
 		output.close();
 	}
-	
+	public Validation check(){
+		Validation result=new Validation();
+		if(this.title.equals("")){
+			result.setFalse();
+			result.addField("title");
+		}
+		if(this.description.equals("")){
+			result.setFalse();
+			result.addField("description");
+		}
+		if(this.keywords.isEmpty()){
+			result.setFalse();
+			result.addField("keywords");
+		}
+		if(this.landingPage.equals("")){
+			result.setFalse();
+			result.addField("landingPage");
+		}
+		return result;
+	}
 	
 }

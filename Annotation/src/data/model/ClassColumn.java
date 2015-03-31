@@ -26,6 +26,15 @@ public class ClassColumn extends Column {
 		output.println(this.getIdentifier()+" dct:title "+"\""+this.getTitle()+"\"");
 		output.println(this.getIdentifier()+" dct:description "+"\""+this.getDescription()+"\"");
 		output.println(this.getIdentifier()+" dfo:represents "+this.theRepresent.getString());
+	}	
+		@Override
+	public Validation check(){
+		Validation result=super.check();
+		if(this.theRepresent.getValue()==0){
+			result.setFalse();
+			result.addField("represent");
+		}
+		return result;
 	}
 }
 

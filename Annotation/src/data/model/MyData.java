@@ -16,6 +16,7 @@ public interface MyData {
 	
 	public void output(PrintWriter output);
 	
+	public Validation check();
 	/*
 	 * return the type of this 
 	 * 0 for dataset

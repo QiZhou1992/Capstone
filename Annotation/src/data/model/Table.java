@@ -23,6 +23,7 @@ public class Table implements MyData{
 		columns=new HashMap<Long,Column>();
 		theRepresent=represents.oneRepresent(0);
 	}
+	
 	public void setRepresents(int value) throws IOException{
 		this.theRepresent.setValue(value);
 	}
@@ -106,5 +107,21 @@ public class Table implements MyData{
 		for(Map.Entry<Long, Column> element: this.columns.entrySet()){
 			element.getValue().output(output);
 		}
+	}
+	public Validation check(){
+		Validation result=new Validation();
+		if(this.title.equals("")){
+			result.setFalse();
+			result.addField("title");
+		}
+		if(this.description.equals("")){
+			result.setFalse();
+			result.addField("description");
+		}
+		if(this.theRepresent.getValue()==0){
+			result.setFalse();
+			result.addField("theRepresent");
+		}
+		return result;
 	}
 }

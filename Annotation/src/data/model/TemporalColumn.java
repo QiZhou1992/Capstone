@@ -56,5 +56,18 @@ public class TemporalColumn extends ClassColumn{
 		output.println(this.getIdentifier()+" dfo:temporalFormat"+"\""+this.temporalFormat+"\"");
 		output.println(this.getIdentifier()+" dfo:temporalGranularity"+"\""+this.temporalGranularity+"\"");		
 	}
+	@Override
+	public Validation check(){
+		Validation result=super.check();
+		if(this.temporalFormat.equals("")){
+			result.setFalse();
+			result.addField("temporalFormat");
+		}
+		if(this.temporalGranularity.equals("")){
+			result.setFalse();
+			result.addField("temporalGranularity");
+		}
+		return result;
+	}
 }
 

@@ -21,6 +21,22 @@ public class Column implements MyData{
 		this.theSemanticRelation=semanticRelations.oneRepresent(0);
 		this.ColumnType=0;
 	}
+	public Validation check(){
+		Validation result=new Validation();
+		if(this.title.equals("")){
+			result.setFalse();
+			result.addField("title");
+		}
+		if(this.description.equals("")){
+			result.setFalse();
+			result.addField("description");
+		}
+		if(this.theSemanticRelation.getValue()==0){
+			result.setFalse();
+			result.addField("semanticRelation");
+		}
+		return result;
+	}
 	public int ColumnType(){
 		return this.ColumnType;
 	}
