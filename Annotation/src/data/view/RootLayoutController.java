@@ -1,31 +1,23 @@
 package data.view;
 
-import java.io.File;
-import java.io.IOException;
-
 import javafx.fxml.FXML;
-import javafx.stage.FileChooser;
 import data.MainApp;
-import data.model.InputFile;
 
 public class RootLayoutController {
 	
-    // Reference to the main application
-    private MainApp mainApp;
-
     /**
      * Is called by the main application to give a reference back to itself.
      * 
      * @param mainApp
      */
     public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
     }
     
     /**
      * Saves the file to the person file that is currently open. If there is no
      * open file, the "save as" dialog is shown.
      */
+    /*
     @FXML
     private void handleSave() {
     	
@@ -38,10 +30,12 @@ public class RootLayoutController {
         }
         
     }
+    */
     
     /**
      * Opens a FileChooser to let the user select a file to save to.
      */
+    /*
     @FXML
     private void handleSaveAs() {
         FileChooser fileChooser = new FileChooser();
@@ -62,7 +56,8 @@ public class RootLayoutController {
             mainApp.saveDataToFile(file);
         }
     }
-    
+    */
+    /*
     @FXML
     private void UploadAs() throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -79,6 +74,7 @@ public class RootLayoutController {
         input.read(file);
 
     }
+    */
     
     /**
      * Closes the application.

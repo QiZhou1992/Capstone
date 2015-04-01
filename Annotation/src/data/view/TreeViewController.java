@@ -9,7 +9,6 @@ import data.model.Column;
 import data.model.DataSet;
 import data.model.MyData;
 import data.model.Table;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeCell;
@@ -23,7 +22,6 @@ public class TreeViewController {
 	@FXML
 	private TreeView<MyData> dataTree;
 
-	
 	private MainApp mainApp;
 	
 	public TreeViewController() {
@@ -41,43 +39,51 @@ public class TreeViewController {
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
-    	
     	this.dataTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showDataDetails(newValue));
     }
-    
+    /**
+     * Switch between data set view, table view, and column view accordingly.
+     * 
+     * @param myData
+     */
     private void showDataDetails(TreeItem<MyData> myData){    	
         try {
         	if(myData==null||myData.getValue()==null){
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/Welcome.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
-        		this.mainApp.getRootLayout().setCenter(personOverview);
+        		this.mainApp.replaceDataDetail(personOverview);
         		
         		WelcomeController controller = loader.getController();
         		controller.setWelcome(this,this.mainApp);
         	}else if(myData.getValue().dataType()==0){
+        		//need to show data set view
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/DatasetDetail.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
-        		this.mainApp.getRootLayout().setCenter(personOverview);
+                this.mainApp.replaceDataDetail(personOverview);
         		
         		//set the data set controller. doing cast here.
         		DatasetController controller = loader.getController();
         		controller.setDataset((DataSet)(myData.getValue()),this.mainApp, myData);
         	}else if(myData.getValue().dataType()==1){
+        		//need to show table view
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/TableDetail.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
-        		this.mainApp.getRootLayout().setCenter(personOverview);
+                this.mainApp.replaceDataDetail(personOverview);
         		
+        		//set table controller
         		TableController controller = loader.getController();
         		controller.setTable((Table)(myData.getValue()));
         	}else if(myData.getValue().dataType()==2){
+        		//need to show column view
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/ColumnDetail.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
-        		this.mainApp.getRootLayout().setCenter(personOverview);
+                this.mainApp.replaceDataDetail(personOverview);
         		
+        		//set column controller
         		ColumnController controller = loader.getController();
         		controller.setColumn((Column)myData.getValue(),((Column)myData.getValue()).parentTable(),myData.getParent(),myData);
         	}else{
@@ -89,14 +95,26 @@ public class TreeViewController {
         }
     }
     
-	public void setMainApp(MainApp mainApp) {
+    /**
+     * set mainApp
+     * @param mainApp
+     */
+    public void setMainApp(MainApp mainApp){
     	this.mainApp = mainApp;
+    }
+    
+    /**
+     * set show the tree view of all data sets
+     */
+	public void setMyData() {
+		if(this.mainApp==null){
+			return;
+		}
         // Add observable list data to the tree
     	TreeItem<MyData> rootItem = new TreeItem<MyData>();
     	rootItem.setExpanded(true);
-    	ObservableList<DataSet> datasets = mainApp.getDataSetList();
-    	for(int i=0;i<datasets.size();i++){
-    		DataSet dataset = datasets.get(i);
+    	for(int i=0;i<this.mainApp.size();i++){
+    		DataSet dataset = this.mainApp.get(i);
     		TreeItem<MyData> dataNode = new TreeItem<MyData>(dataset);
     		rootItem.getChildren().add(dataNode);
     		
@@ -133,7 +151,7 @@ public class TreeViewController {
 			            } else if(paramT!=null){
 							setText(paramT.getTitle());
 						}else{
-							//System.out.println("test"+rootItem.getChildren().size());
+							System.err.println("test"+rootItem.getChildren().size());
 						}
 					}
 				};

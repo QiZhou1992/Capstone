@@ -25,7 +25,7 @@ public class WelcomeController {
 	    boolean okClicked = this.mainApp.showDatasetEditDialog(tempPerson);
 	    if (okClicked) {
 	        this.treeViewController.addNewDataset(tempPerson);
-	    	this.mainApp.getDataSetList().add(tempPerson);
+	    	this.mainApp.addDataset(tempPerson);
 	    }
 	}
 

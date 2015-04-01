@@ -11,8 +11,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#UploadAs" text="Upload File" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save Workspace" />
+                  <MenuItem mnemonicParsing="false" text="Upload File" />
+                  <MenuItem mnemonicParsing="false" text="Save Workspace" />
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Close" />
             </items>
           </Menu>

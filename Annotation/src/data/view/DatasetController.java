@@ -47,7 +47,7 @@ public class DatasetController {
 	
 	private MainApp mainApp;
 	
-	private TreeItem<MyData> parentNode;
+	TreeItem<MyData> currentNode;
 	
 	public DatasetController() {
     }
@@ -60,11 +60,20 @@ public class DatasetController {
     private void initialize() {
     	
     }
-    
+    /**
+     * initialize this data set controller
+     * 
+     * @param dataset
+     * current data set object
+     * @param mainApp
+     * main app object
+     * @param myData
+     * current tree node
+     */
     public void setDataset(DataSet dataset, MainApp mainApp, TreeItem<MyData> myData){
-    	this.parentNode = myData;
-    	this.mainApp=mainApp;
     	this.dataset=dataset;
+    	this.mainApp=mainApp;
+    	this.currentNode = myData;
     	this.title.setText(dataset.getTitle());
     	this.description.setText(dataset.getDescription());
     	this.created.setText(dataset.getCreated());
@@ -108,7 +117,7 @@ public class DatasetController {
 				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
 				newTableNode.getChildren().add(columnNode);
 			}
-	        this.parentNode.getChildren().add(newTableNode);
+	        this.currentNode.getChildren().add(newTableNode);
 	    }
     }
     
@@ -172,6 +181,12 @@ public class DatasetController {
         	PrintWriter pw = new PrintWriter(file.getPath());
     		this.dataset.output(pw);
         }
+    }
+    
+    @FXML
+    private void handleDelete(){
+    	this.mainApp.delete(this.dataset);
+    	this.currentNode.getParent().getChildren().remove(this.currentNode);
     }
 	
 }

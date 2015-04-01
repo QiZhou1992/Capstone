@@ -40,11 +40,11 @@ public class DatasetEditDialogController {
     }
     
     /**
-     * Sets the person to be edited in the dialog.
+     * Sets the data set to be edited in the dialog.
      * 
      * @param person
      */
-    public void setPerson(DataSet dataset) {
+    public void setDataset(DataSet dataset) {
         this.dataset = dataset;
     }
     
@@ -94,12 +94,10 @@ public class DatasetEditDialogController {
     private boolean isInputValid() {
     	// TODO complete form validation
     	if(this.title.getText()==null){
-    		System.out.println("title...");
     		return false;
     	}
     	String createdString = this.created.getText();
     	if(!timeValidation(createdString)){
-    		System.out.println("time...");
     		return false;
     	}
     	

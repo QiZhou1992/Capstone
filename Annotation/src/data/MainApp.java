@@ -1,15 +1,7 @@
 package data;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.prefs.Preferences;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
 import data.model.Column;
-import data.model.DataListWrapper;
 import data.model.DataSet;
 import data.model.Table;
 import data.view.DatasetEditDialogController;
@@ -27,14 +19,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
-	
+	//primary stage
 	private Stage primaryStage;
+	//root layout
 	private BorderPane rootLayout;
-	
-	private static ObservableList<DataSet> datasets = FXCollections.observableArrayList();
+	//All datasets
+	private ObservableList<DataSet> datasets;
 	
 	public MainApp() throws IOException, InterruptedException{
-		CreateDatasets(datasets);
+		this.datasets = FXCollections.observableArrayList();
+		//CreateDatasets(datasets);
 		
 	}
 	
@@ -48,25 +42,14 @@ public class MainApp extends Application {
 		d1.addKeyword("keyword 2");
 		DataSet d2 = new DataSet("dataset 2","mm/dd/yyyy");
 		Table t2 = new Table("table 2",d2);
+		t2.addColumn(new Column("column 2"));
 		d2.addTable(t2);
 		DataSet d3 = new DataSet("dataset 3","mm/dd/yyyy");
 		Table t3 = new Table("table 3",d3);
+		t3.addColumn(new Column("column 3"));
 		d3.addTable(t3);
-		DataSet d4 = new DataSet("dataset 4","mm/dd/yyyy");
-		Table t4 = new Table("table 4",d4);
-		d4.addTable(t4);
-		DataSet d5 = new DataSet("dataset 5","mm/dd/yyyy");
-		Table t5 = new Table("table 5",d5);
-		d5.addTable(t5);
-		DataSet d6 = new DataSet("dataset 6","mm/dd/yyyy");
-		Table t6 = new Table("table 6",d6);
-		d6.addTable(t6);
-		datasets2.addAll(d1,d2,d3,d4,d5,d6);
+		datasets2.addAll(d1,d2,d3);
 	}
-    
-    public ObservableList<DataSet> getDataSetList(){
-    	return datasets;
-    }
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -80,7 +63,9 @@ public class MainApp extends Application {
 		showDataDetail();
 		
 	}
-	
+	/**
+	 * initialize root layout
+	 */
 	public void initRootLayout(){
 		try{
 			//load root layout from fxml file	
@@ -109,7 +94,9 @@ public class MainApp extends Application {
 	    }
 	    */
 	}
-	
+	/**
+	 * show all data sets, and set the controller
+	 */
 	public void showDataOverview(){
         try {
             // Load person overview.
@@ -123,11 +110,15 @@ public class MainApp extends Application {
          // Give the controller access to the main app.
             TreeViewController controller = loader.getController();
          	controller.setMainApp(this);
+         	controller.setMyData();
         } catch (IOException e) {
             e.printStackTrace();
         }
 	}
 	
+	/**
+	 * show data detail and set the controller
+	 */
 	public void showDataDetail(){
         try {
             // Load person overview.
@@ -135,7 +126,7 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/DatasetDetail.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
 
-            // Set person overview into the center of root layout.
+            // Set data overview into the center of root layout.
             rootLayout.setCenter(personOverview);
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,7 +155,7 @@ public class MainApp extends Application {
             // Set the person into the controller.
             DatasetEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.setPerson(dataset);
+            controller.setDataset(dataset);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -210,12 +201,53 @@ public class MainApp extends Application {
         }
     }
 	
+    /**
+     * get the primary stage
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
     
-    public BorderPane getRootLayout(){
-    	return rootLayout;
+    /**
+     * replace current data scene with a new scene
+     * 
+     * @param newScene
+     */
+    public void replaceDataDetail(AnchorPane newScene){
+    	this.rootLayout.setCenter(newScene);
+    }
+    
+    /**
+     * add new Data set to the data set list
+     * @param newDataset
+     */
+    public void addDataset(DataSet newDataset){
+    	this.datasets.add(newDataset);
+    }
+    
+    /**
+     * return the number of data sets
+     * @return
+     */
+    public int size(){
+    	return this.datasets.size();
+    }
+    
+    /**
+     * get ith data set
+     * @param i
+     * @return
+     */
+    public DataSet get(int i){
+    	if(i<this.datasets.size()){
+    	 	return this.datasets.get(i);
+    	}else{
+    		return null;
+    	}
+    }
+    
+    public void delete(DataSet dataset){
+    	this.datasets.remove(dataset);
     }
     
 
@@ -226,6 +258,7 @@ public class MainApp extends Application {
      * 
      * @return
      */
+    /*
     public File getDatasetFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
         String filePath = prefs.get("filePath", null);
@@ -235,13 +268,14 @@ public class MainApp extends Application {
             return null;
         }
     }
-    
+    */
     /**
      * Sets the file path of the currently loaded file. The path is persisted in
      * the OS specific registry.
      * 
      * @param file the file or null to remove the path
      */
+    /*
     public void setDataFilePath(File file) {
         Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
         if (file != null) {
@@ -252,6 +286,7 @@ public class MainApp extends Application {
 
         }
     }
+    */
     
     /**
      * Loads data sets data from the specified file. The current data sets data will
@@ -259,6 +294,7 @@ public class MainApp extends Application {
      * 
      * @param file
      */
+    /*
     public void loadDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
@@ -275,20 +311,16 @@ public class MainApp extends Application {
             setDataFilePath(file);
 
         } catch (Exception e) { // catches ANY exception
-        	/*
-            Dialogs.create()
-                    .title("Error")
-                    .masthead("Could not load data from file:\n" + file.getPath())
-                    .showException(e);
-                    */
         }
     }
+    */
     
     /**
      * Saves the current data sets data to the specified file.
      * 
      * @param file
      */
+    /*
     public void saveDataToFile(File file) {
     	// TODO this function does not work correctly
         try {
@@ -314,13 +346,9 @@ public class MainApp extends Application {
            
         } catch (Exception e) { // catches ANY exception
         	System.out.println("error in saving workspace...");
-        	/*
-            Dialogs.create().title("Error")
-                    .masthead("Could not save data to file:\n" + file.getPath())
-                    .showException(e);
-                    */
         }
     }
+    */
     
 	public static void main(String[] args) {
 		launch(args);

@@ -24,7 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
+/*
+ * controller of column
+ */
 public class ColumnController {
 	
 	@FXML
@@ -33,7 +35,6 @@ public class ColumnController {
 	private TextField description;
 	@FXML
 	private ComboBox<String> semanticRelation;
-	//test variable
 	@FXML
 	private ComboBox<String> columnType;
 	@FXML
@@ -56,17 +57,18 @@ public class ColumnController {
 	private TextField tempFormat;
 	@FXML
 	private TextField tempGranularity;
+	//type of this column
 	private int columnTypeIndex;
 	
 	@FXML
 	private Button apply;
 	
 	private Column column;
-	
+	//parent
 	private Table table;
-	
+	//parent tree node
 	private TreeItem<MyData> myData;
-	
+	//current tree node
 	private TreeItem<MyData> columnNode;
 	
 	public ColumnController(){	
@@ -81,6 +83,19 @@ public class ColumnController {
     	
     }
     
+    /**
+     * initialize this column controller
+     * 
+     * @param column2 
+     * current column
+     * @param table
+     * parent table
+     * @param myData
+     * parent tree node
+     * @param columnNode
+     * current tree node
+     * @throws IOException
+     */
     public void setColumn(Column column2, Table table, TreeItem<MyData> myData,TreeItem<MyData> columnNode) throws IOException{
     	this.column=column2;
     	this.table=table;
@@ -90,7 +105,7 @@ public class ColumnController {
     	this.description.setText(column2.getDescription());
     	ObservableList<String> semanticRelationList = FXCollections.observableArrayList();
     	Map<Integer,String> semanticRelationOptions = semanticRelations.allOptions();
-    	//remantic relation id start from 1
+    	//semantic relation id start from 1
     	for(int i=1;i<semanticRelationOptions.size();i++){
     		semanticRelationList.add(semanticRelationOptions.get(i));
     	}
@@ -98,8 +113,9 @@ public class ColumnController {
     	if(this.column.thisSemanticRelation().getValue()!=0){
     		this.semanticRelation.setValue(this.column.thisSemanticRelation().getString());
     	}
-    	//test code below
+
     	this.columnTypeIndex = this.column.ColumnType();
+    	
     	this.vbox.getChildren().clear();
     	this.columnType.getItems().addAll("Class","Measure","Temporal","Property");
     	ObservableList<String> unitList = FXCollections.observableArrayList();
@@ -109,6 +125,7 @@ public class ColumnController {
     		unitList.add(unitOptions.get(i));
     	}
     	this.unit.getItems().addAll(unitList);
+    	
     	ObservableList<String> dimensionList = FXCollections.observableArrayList();
     	Map<Integer, String> dimensionOptions = dimensions.allOptions();
     	//dimension id start from 1
@@ -116,6 +133,7 @@ public class ColumnController {
     		dimensionList.add(dimensionOptions.get(i));
     	}
     	this.dimension.getItems().addAll(dimensionList);
+    	
     	ObservableList<String> representList = FXCollections.observableArrayList();
     	Map<Integer,String> representOptions = represents.allOptions();
     	//represent id start from 1
@@ -123,8 +141,10 @@ public class ColumnController {
     		representList.add(representOptions.get(i));
     	}
     	this.represent.getItems().addAll(representList);
+    	
     	this.tempType.getItems().addAll("Interval","Time Stamp");
     	
+    	//show different form items according to the type of this column
     	if(this.column.ColumnType()==1){
     		//class property
     		this.columnType.setValue("Class");
@@ -151,6 +171,7 @@ public class ColumnController {
     		//property column
     	}
 
+    	//add action handler to the column type combo box
         this.columnType.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -172,17 +193,16 @@ public class ColumnController {
     }
     
     /**
-     * Called when the user clicks on the delete button.
-     * Apply any changes to selected column.
+     * Called when the user clicks on the apply button.
+     * Save any changes to selected column.
      * @throws IOException 
      * @throws InterruptedException 
      */
     @FXML
     private void handleApply() throws IOException, InterruptedException {
-    	// TODO add action handler here
-        System.out.println("click apply...");
         if(this.validation()){
         	if(this.columnTypeIndex == 1){
+        		//this is a class column
         		ClassColumn newColumn = new ClassColumn(this.title.getText());
         		if(this.description.getText()!=null){
         			newColumn.setDesription(this.description.getText());
@@ -201,6 +221,7 @@ public class ColumnController {
         		this.myData.getChildren().remove(this.columnNode);
         		this.myData.getChildren().add(newTreeNode);
         	}else if(this.columnTypeIndex == 2){
+        		//this is a measure column
         		MeasureColumn newColumn = new MeasureColumn(this.title.getText());
         		if(this.description.getText()!=null){
         			newColumn.setDesription(this.description.getText());
@@ -221,6 +242,7 @@ public class ColumnController {
         		this.myData.getChildren().remove(this.columnNode);
         		this.myData.getChildren().add(newTreeItem);
         	}else if(this.columnTypeIndex == 3){
+        		//this is a temporal column
         		TemporalColumn newColumn = new TemporalColumn(this.title.getText());
         		if(this.description.getText()!=null){
         			newColumn.setDesription(this.description.getText());
@@ -241,6 +263,7 @@ public class ColumnController {
         		this.myData.getChildren().remove(this.columnNode);
         		this.myData.getChildren().add(newTreeItem);
         	}else{
+        		//this is a property column, or the default column
         		this.column.setTitle(this.title.getText());
         		if(this.description.getText()!=null){
         			this.column.setDesription(this.description.getText());
@@ -257,7 +280,6 @@ public class ColumnController {
     
     /**
      * check form validation
-     * @return
      */
     private boolean validation(){
     	// TODO complete form validation

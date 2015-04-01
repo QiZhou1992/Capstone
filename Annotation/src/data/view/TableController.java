@@ -35,7 +35,13 @@ public class TableController {
     private void initialize() {
     	
     }
-    
+    /**
+     * Initialize the table controller
+     * 
+     * @param table
+     * current table
+     * @throws IOException
+     */
 	public void setTable(Table table) throws IOException{
     	this.table=table;
     	this.title.setText(table.getTitle());
@@ -54,13 +60,12 @@ public class TableController {
     }
     
     /**
-     * Called when the user clicks on the delete button.
+     * Called when the user clicks on the apply button.
      * Apply any changes to selected table.
      * @throws IOException 
      */
     @FXML
     private void handleApply() throws IOException {
-    	// TODO add action handler here
         System.out.println("click apply...");
         if(this.validation()){
         	this.table.setTitle(this.title.getText());

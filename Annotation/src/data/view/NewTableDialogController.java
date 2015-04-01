@@ -3,18 +3,11 @@ package data.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-
 import data.model.Column;
-import data.model.DataSet;
 import data.model.InputFile;
-import data.model.MyData;
 import data.model.Table;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -26,7 +19,9 @@ public class NewTableDialogController {
 	private TextField description;
 	
 	private Stage dialogStage;
+	
 	private Table table;
+
 	private boolean okClicked = false;
 	
     /**
@@ -47,7 +42,7 @@ public class NewTableDialogController {
     }
     
     /**
-     * Sets the person to be edited in the dialog.
+     * Sets the table to be edited in the dialog.
      * 
      * @param person
      */
@@ -98,7 +93,6 @@ public class NewTableDialogController {
     private boolean isInputValid() {
     	// TODO complete form validation
     	if(this.title.getText()==null||this.title.getText().trim().equals("")){
-    		System.out.println("title...");
     		return false;
     	}
     	if(this.table.AllColumn().size()==0){
@@ -106,7 +100,12 @@ public class NewTableDialogController {
     	}
 		return true;
     }
-    
+    /**
+     * Called when user clicks open button. Upload a table from csv file.
+     * 
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @FXML
     private void UploadAs() throws IOException, InterruptedException {
         FileChooser fileChooser = new FileChooser();
@@ -118,14 +117,16 @@ public class NewTableDialogController {
    
         fileChooser.setTitle("Open Resource File");
         File file =fileChooser.showOpenDialog(this.dialogStage);
-        InputFile content=new InputFile();
-        ArrayList<String> column = new ArrayList<String>();
-        column=content.read(file);
-        
-        //handle the input title
-    	for(int i=0;i<column.size();i++){
-    		Column temp=new Column(column.get(i));
-    		this.table.addColumn(temp);
-    	}
+        if(file!=null){
+	        InputFile content=new InputFile();
+	        ArrayList<String> column = new ArrayList<String>();
+	        column=content.read(file);
+	        
+	        //handle the input title
+	    	for(int i=0;i<column.size();i++){
+	    		Column temp=new Column(column.get(i));
+	    		this.table.addColumn(temp);
+	    	}
+        }
     }
 }
