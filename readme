@@ -12,3 +12,7 @@ Open eclipse - Window - Preferences - JavaFX - enter you Scene Builder exe file 
 
 3.JavaFX with Scene Builder tutorial:
 http://code.makery.ch/java/javafx-8-tutorial-part1/
+
+4/4/2015 update
+In order to use JavaFX dialogs, update JDK to JDK 8u40.
+link: http://www.oracle.com/technetwork/java/javase/downloads/index.html
