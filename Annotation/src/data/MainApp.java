@@ -1,6 +1,7 @@
 package data;
 
 import java.io.IOException;
+
 import data.model.Column;
 import data.model.DataSet;
 import data.model.Table;
@@ -8,6 +9,7 @@ import data.view.DatasetEditDialogController;
 import data.view.NewTableDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
+import data.view.WelcomeController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,8 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	//All datasets
 	private ObservableList<DataSet> datasets;
+	
+	private TreeViewController treeViewController;
 	
 	public MainApp() throws IOException, InterruptedException{
 		this.datasets = FXCollections.observableArrayList();
@@ -108,9 +112,9 @@ public class MainApp extends Application {
             rootLayout.setLeft(personOverview);
             
          // Give the controller access to the main app.
-            TreeViewController controller = loader.getController();
-         	controller.setMainApp(this);
-         	controller.setMyData();
+            this.treeViewController = loader.getController();
+         	this.treeViewController.setMainApp(this);
+         	this.treeViewController.setMyData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,8 +127,11 @@ public class MainApp extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/DatasetDetail.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/Welcome.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
+            
+            WelcomeController controller = loader.getController();
+    		controller.setWelcome(this.treeViewController,this);
 
             // Set data overview into the center of root layout.
             rootLayout.setCenter(personOverview);

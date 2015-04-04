@@ -93,27 +93,11 @@ public class DatasetEditDialogController {
      */
     private boolean isInputValid() {
     	// TODO complete form validation
+    	//keywords problem
     	if(this.title.getText()==null){
-    		return false;
-    	}
-    	String createdString = this.created.getText();
-    	if(!timeValidation(createdString)){
     		return false;
     	}
     	
 		return true;
     }
-    
-    
-    /**
-     * check time format
-     * @param t
-     * @return
-     */
-    public static boolean timeValidation(String t){
-    	// TODO need time check function
-    	
-    	return true;
-    }
-
 }

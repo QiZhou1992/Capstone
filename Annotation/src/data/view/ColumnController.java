@@ -2,6 +2,7 @@ package data.view;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import data.model.ClassColumn;
 import data.model.Column;
@@ -9,6 +10,7 @@ import data.model.MeasureColumn;
 import data.model.MyData;
 import data.model.Table;
 import data.model.TemporalColumn;
+import data.model.Validation;
 import data.model.dimensions;
 import data.model.represents;
 import data.model.semanticRelations;
@@ -18,10 +20,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 /*
@@ -70,6 +74,8 @@ public class ColumnController {
 	private TreeItem<MyData> myData;
 	//current tree node
 	private TreeItem<MyData> columnNode;
+	
+	private Validation valid;
 	
 	public ColumnController(){	
 	}
@@ -168,6 +174,7 @@ public class ColumnController {
     		this.tempFormat.setText(((TemporalColumn)this.column).TemporalFormat());
     		this.tempGranularity.setText(((TemporalColumn)this.column).TemporalGranularity());
     	}else{
+    		this.columnType.setValue("property & other");
     		//property column
     	}
 
@@ -275,18 +282,72 @@ public class ColumnController {
             	
             	this.column.setColumnType(this.columnTypeIndex);
         	}
+        }else{
+        	Set<String> errors = this.valid.ErrorField();
+        	Alert alert = new Alert(AlertType.ERROR);
+        	
+        	alert.setTitle("Error Dialog");
+        	alert.setHeaderText("Error in the dataset");
+        	String message ="";
+        	for(String s: errors){
+        		message+=s+" ";
+        	}
+        	alert.setContentText("Missing input: "+message);
+
+        	alert.showAndWait();
         }
     }
     
     /**
      * check form validation
+     * @throws InterruptedException 
+     * @throws IOException 
      */
-    private boolean validation(){
+    private boolean validation() throws IOException, InterruptedException{
     	// TODO complete form validation
-    	if(this.title.getText()==null){
+    	if(this.columnTypeIndex == 1){
+    		//this is a class column
+    		ClassColumn tmpColumn = new ClassColumn(this.title.getText());
+    		tmpColumn.setDesription(this.description.getText());
+    		
+        	tmpColumn.modifiedSemanticRelations(this.semanticRelation.getSelectionModel().getSelectedIndex()+1);
+
+    		tmpColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
+    		valid = tmpColumn.check();
+    	}else if(this.columnTypeIndex == 2){
+    		//this is a measure column
+    		MeasureColumn tmpColumn = new MeasureColumn(this.title.getText());
+    		tmpColumn.setDesription(this.description.getText());
+    		
+        	tmpColumn.modifiedSemanticRelations(this.semanticRelation.getSelectionModel().getSelectedIndex()+1);
+    		
+    		tmpColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
+    		tmpColumn.setUnit(this.unit.getSelectionModel().getSelectedIndex()+1);
+    		tmpColumn.setDimension(this.dimension.getSelectionModel().getSelectedIndex()+1);
+    		valid = tmpColumn.check();
+    	}else if(this.columnTypeIndex == 3){
+    		//this is a temporal column
+    		TemporalColumn tmpColumn = new TemporalColumn(this.title.getText());
+    		tmpColumn.setDesription(this.description.getText());
+    		
+        	tmpColumn.modifiedSemanticRelations(this.semanticRelation.getSelectionModel().getSelectedIndex()+1);
+        	
+    		tmpColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
+    		tmpColumn.setTemporalFormat(this.tempFormat.getText());
+    		tmpColumn.setTemporalGranularity(this.tempGranularity.getText());
+    		valid = tmpColumn.check();
+    	}else{
+    		//this is a property column, or the default column
+    		Column tmpColumn = new Column(this.title.getText());
+    		tmpColumn.setDesription(this.description.getText());
+    		tmpColumn.modifiedSemanticRelations(this.semanticRelation.getSelectionModel().getSelectedIndex()+1);
+    		valid = tmpColumn.check();
+    	}
+    	if(valid.result()){
+    		return true;
+    	}else{
     		return false;
     	}
-		return true;
     }
 
 }

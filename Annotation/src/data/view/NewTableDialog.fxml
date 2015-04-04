@@ -22,6 +22,8 @@
             <TextField fx:id="title" GridPane.columnIndex="1" />
             <Label text="Description" GridPane.rowIndex="1" />
             <TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="represent" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Represent" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Button layoutX="201.0" layoutY="229.0" mnemonicParsing="false" onAction="#UploadAs" text="Open" />

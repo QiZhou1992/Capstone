@@ -6,13 +6,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import data.MainApp;
 import data.model.Column;
 import data.model.DataSet;
 import data.model.MyData;
 import data.model.Table;
+import data.model.Validation;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -47,7 +51,9 @@ public class DatasetController {
 	
 	private MainApp mainApp;
 	
-	TreeItem<MyData> currentNode;
+	private TreeItem<MyData> currentNode;
+	
+	private Validation valid;
 	
 	public DatasetController() {
     }
@@ -139,6 +145,19 @@ public class DatasetController {
         	}
         	this.dataset.KeyWords().clear();
         	this.dataset.KeyWords().addAll(this.keywordList.getItems());
+        }else{
+        	Set<String> errors = this.valid.ErrorField();
+        	Alert alert = new Alert(AlertType.ERROR);
+        	
+        	alert.setTitle("Error Dialog");
+        	alert.setHeaderText("Error in the dataset");
+        	String message ="";
+        	for(String s: errors){
+        		message+=s+" ";
+        	}
+        	alert.setContentText("Missing input: "+message);
+
+        	alert.showAndWait();
         }
     }
     /**
@@ -147,28 +166,16 @@ public class DatasetController {
      */
     private boolean validation(){
     	// TODO complete form validation
-    	if(this.title.getText()==null){
-    		System.out.println("title...");
-    		return false;
+		DataSet tmpDataset = new DataSet(this.title.getText(),"mm/dd/yyyy");
+		tmpDataset.setDesription(this.description.getText());
+		tmpDataset.KeyWords().addAll(this.keywordList.getItems());
+		tmpDataset.setLandingPage(this.landingPage.getText());
+		valid = tmpDataset.check();
+		if(valid.result()){
+			return true;
+		}else{
+			return false;
     	}
-    	String createdString = this.created.getText();
-    	if(!timeValidation(createdString)){
-    		System.out.println("time...");
-    		return false;
-    	}
-    	
-		return true;
-    }
-    
-    /**
-     * check time format
-     * @param t
-     * @return
-     */
-    public static boolean timeValidation(String t){
-    	// TODO need time check function
-    	
-    	return true;
     }
     
     @FXML

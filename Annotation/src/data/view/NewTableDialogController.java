@@ -3,11 +3,21 @@ package data.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
+
 import data.model.Column;
 import data.model.InputFile;
 import data.model.Table;
+import data.model.Validation;
+import data.model.represents;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -17,6 +27,8 @@ public class NewTableDialogController {
 	private TextField title;
 	@FXML
 	private TextField description;
+	@FXML
+	private ComboBox<String> represent;
 	
 	private Stage dialogStage;
 	
@@ -24,12 +36,22 @@ public class NewTableDialogController {
 
 	private boolean okClicked = false;
 	
+	private Validation valid;
+	
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
+     * @throws IOException 
      */
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
+    	ObservableList<String> representList = FXCollections.observableArrayList();
+		Map<Integer,String> representOptions = represents.allOptions();
+		//represent id start from 1
+    	for(int i=1;i<=representOptions.size();i++){
+    		representList.add(representOptions.get(i));
+    	}
+    	this.represent.getItems().addAll(representList);
     }
     
     /**
@@ -61,17 +83,38 @@ public class NewTableDialogController {
     
     /**
      * Called when the user clicks ok.
+     * @throws IOException 
      */
     @FXML
-    private void handleOk() {
+    private void handleOk() throws IOException {
     	
         if (isInputValid()) {
         	this.table.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
         		this.table.setDesription(this.description.getText());
         	}
+        	int representIndex = this.represent.getSelectionModel().getSelectedIndex();
+        	if(representIndex>=0){
+        		this.table.setRepresents(representIndex+1);
+        	}
             okClicked = true;
             dialogStage.close();
+        }else{
+        	Set<String> errors = this.valid.ErrorField();
+        	Alert alert = new Alert(AlertType.ERROR);
+        	
+        	alert.setTitle("Error Dialog");
+        	alert.setHeaderText("Error in the dataset");
+        	String message ="";
+        	for(String s: errors){
+        		message+=s+" ";
+        	}
+        	if(this.table.AllColumn().size()==0){
+        		message+="content";
+        	}
+        	alert.setContentText("Missing input: "+message);
+
+        	alert.showAndWait();
         }
         
     }
@@ -89,16 +132,22 @@ public class NewTableDialogController {
      * Validates the user input in the text fields.
      * 
      * @return true if the input is valid
+     * @throws IOException 
      */
-    private boolean isInputValid() {
+    private boolean isInputValid() throws IOException {
     	// TODO complete form validation
-    	if(this.title.getText()==null||this.title.getText().trim().equals("")){
-    		return false;
-    	}
+    	this.table.setTitle(this.title.getText());
+    	this.table.setDesription(this.description.getText());
+    	this.table.setRepresents(this.represent.getSelectionModel().getSelectedIndex()+1);
+    	valid = this.table.check();
     	if(this.table.AllColumn().size()==0){
     		return false;
     	}
-		return true;
+    	if(valid.result()){
+    		return true;
+    	}else{
+    		return false;
+    	}
     }
     /**
      * Called when user clicks open button. Upload a table from csv file.

@@ -2,14 +2,19 @@ package data.view;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
+
 import data.model.Table;
+import data.model.Validation;
 import data.model.represents;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 public class TableController {
 	
@@ -23,6 +28,8 @@ public class TableController {
 	private Button apply;
 	
 	private Table table;
+	
+	private Validation valid;
 	
 	public TableController(){	
 	}
@@ -77,20 +84,37 @@ public class TableController {
         		this.table.setRepresents(representIndex+1);
         	}
         }else{
+        	Set<String> errors = this.valid.ErrorField();
+        	Alert alert = new Alert(AlertType.ERROR);
         	
+        	alert.setTitle("Error Dialog");
+        	alert.setHeaderText("Error in the dataset");
+        	String message ="";
+        	for(String s: errors){
+        		message+=s+" ";
+        	}
+        	alert.setContentText("Missing input: "+message);
+
+        	alert.showAndWait();
         }
     }
     
     /**
      * check form validation
      * @return
+     * @throws IOException 
      */
-    private boolean validation(){
+    private boolean validation() throws IOException{
     	// TODO complete form validation
-    	if(this.title.getText()==null){
+    	Table tmpTable = new Table(this.title.getText(),this.table.parentDataSet());
+    	tmpTable.setDesription(this.description.getText());
+    	tmpTable.setRepresents(this.represent.getSelectionModel().getSelectedIndex()+1);
+    	valid = tmpTable.check();
+    	if(valid.result()){
+    		return true;
+    	}else{
     		return false;
     	}
-		return true;
     }
 
 }

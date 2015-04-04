@@ -27,9 +27,10 @@ public class TreeViewController {
 	public TreeViewController() {
     }
 	
-	public void addNewDataset(DataSet dataset){
-		TreeItem<MyData> dataNode = new TreeItem<MyData>(dataset);
-		this.dataTree.getRoot().getChildren().add(dataNode);
+	public TreeItem<MyData> addNewDataset(DataSet dataset){
+		TreeItem<MyData> treeNode = new TreeItem<MyData>(dataset);
+		this.dataTree.getRoot().getChildren().add(treeNode);
+		return treeNode;
 	}
 	
     /**
@@ -46,9 +47,9 @@ public class TreeViewController {
      * 
      * @param myData
      */
-    private void showDataDetails(TreeItem<MyData> myData){    	
+    private void showDataDetails(TreeItem<MyData> treeNode){    	
         try {
-        	if(myData==null||myData.getValue()==null){
+        	if(treeNode==null||treeNode.getValue()==null){
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/Welcome.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
@@ -56,7 +57,7 @@ public class TreeViewController {
         		
         		WelcomeController controller = loader.getController();
         		controller.setWelcome(this,this.mainApp);
-        	}else if(myData.getValue().dataType()==0){
+        	}else if(treeNode.getValue().dataType()==0){
         		//need to show data set view
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/DatasetDetail.fxml"));
@@ -65,8 +66,8 @@ public class TreeViewController {
         		
         		//set the data set controller. doing cast here.
         		DatasetController controller = loader.getController();
-        		controller.setDataset((DataSet)(myData.getValue()),this.mainApp, myData);
-        	}else if(myData.getValue().dataType()==1){
+        		controller.setDataset((DataSet)(treeNode.getValue()),this.mainApp, treeNode);
+        	}else if(treeNode.getValue().dataType()==1){
         		//need to show table view
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/TableDetail.fxml"));
@@ -75,8 +76,8 @@ public class TreeViewController {
         		
         		//set table controller
         		TableController controller = loader.getController();
-        		controller.setTable((Table)(myData.getValue()));
-        	}else if(myData.getValue().dataType()==2){
+        		controller.setTable((Table)(treeNode.getValue()));
+        	}else if(treeNode.getValue().dataType()==2){
         		//need to show column view
         		FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource("view/ColumnDetail.fxml"));
@@ -85,9 +86,9 @@ public class TreeViewController {
         		
         		//set column controller
         		ColumnController controller = loader.getController();
-        		controller.setColumn((Column)myData.getValue(),((Column)myData.getValue()).parentTable(),myData.getParent(),myData);
+        		controller.setColumn((Column)treeNode.getValue(),((Column)treeNode.getValue()).parentTable(),treeNode.getParent(),treeNode);
         	}else{
-        		System.err.println("DatasetController: invalid type"+myData.getValue().dataType());
+        		System.err.println("DatasetController: invalid type"+treeNode.getValue().dataType());
         	}
         	
         } catch (IOException e) {
