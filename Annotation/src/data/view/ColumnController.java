@@ -287,7 +287,7 @@ public class ColumnController {
         	Alert alert = new Alert(AlertType.ERROR);
         	
         	alert.setTitle("Error Dialog");
-        	alert.setHeaderText("Error in the dataset");
+        	alert.setHeaderText("Error in the column");
         	String message ="";
         	for(String s: errors){
         		message+=s+" ";

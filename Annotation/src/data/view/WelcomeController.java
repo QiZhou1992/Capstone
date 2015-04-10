@@ -28,7 +28,7 @@ public class WelcomeController {
 	 */
 	@FXML
 	private void handleNewDataset() throws IOException {
-	    DataSet tempPerson = new DataSet("tmp title","mm/dd/yyyy");
+	    DataSet tempPerson = new DataSet("Enter dataset title here...","mm/dd/yyyy");
 	    boolean okClicked = this.mainApp.showDatasetEditDialog(tempPerson);
 	    if (okClicked) {
 	        TreeItem<MyData> treeNode = this.treeViewController.addNewDataset(tempPerson);
@@ -39,7 +39,7 @@ public class WelcomeController {
             AnchorPane personOverview = (AnchorPane) loader.load();
             this.mainApp.replaceDataDetail(personOverview);
     		//set the data set controller. doing cast here.
-    		DatasetController controller = loader.getController();
+    		DatasetDetailController controller = loader.getController();
     		controller.setDataset((DataSet)(treeNode.getValue()),this.mainApp, treeNode);
 	    }
 	}

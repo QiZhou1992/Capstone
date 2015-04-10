@@ -73,7 +73,6 @@ public class TableController {
      */
     @FXML
     private void handleApply() throws IOException {
-        System.out.println("click apply...");
         if(this.validation()){
         	this.table.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
@@ -88,7 +87,7 @@ public class TableController {
         	Alert alert = new Alert(AlertType.ERROR);
         	
         	alert.setTitle("Error Dialog");
-        	alert.setHeaderText("Error in the dataset");
+        	alert.setHeaderText("Error in the table");
         	String message ="";
         	for(String s: errors){
         		message+=s+" ";

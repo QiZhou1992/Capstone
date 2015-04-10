@@ -39,7 +39,6 @@ public class TreeViewController {
      */
     @FXML
     private void initialize() {
-        // Initialize the person table with the two columns.
     	this.dataTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showDataDetails(newValue));
     }
     /**
@@ -65,7 +64,7 @@ public class TreeViewController {
                 this.mainApp.replaceDataDetail(personOverview);
         		
         		//set the data set controller. doing cast here.
-        		DatasetController controller = loader.getController();
+        		DatasetDetailController controller = loader.getController();
         		controller.setDataset((DataSet)(treeNode.getValue()),this.mainApp, treeNode);
         	}else if(treeNode.getValue().dataType()==1){
         		//need to show table view
@@ -152,7 +151,7 @@ public class TreeViewController {
 			            } else if(paramT!=null){
 							setText(paramT.getTitle());
 						}else{
-							System.err.println("test"+rootItem.getChildren().size());
+							System.err.println("test something"+rootItem.getChildren().size());
 						}
 					}
 				};
