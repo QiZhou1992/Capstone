@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import data.MainApp;
+import data.model.MyData;
 import data.model.Table;
 import data.model.Validation;
 import data.model.represents;
@@ -15,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TreeItem;
 
 public class TableController {
 	
@@ -28,6 +31,8 @@ public class TableController {
 	private Button apply;
 	
 	private Table table;
+	
+	private TreeItem<MyData> treeNode;
 	
 	private Validation valid;
 	
@@ -49,7 +54,8 @@ public class TableController {
      * current table
      * @throws IOException
      */
-	public void setTable(Table table) throws IOException{
+	public void setTable(Table table,MainApp mainApp,TreeItem<MyData> treeNode) throws IOException{
+		this.treeNode = treeNode;
     	this.table=table;
     	this.title.setText(table.getTitle());
     	this.description.setText(table.getDescription());
@@ -114,6 +120,13 @@ public class TableController {
     	}else{
     		return false;
     	}
+    }
+    
+    @FXML
+    private void handleDelete(){
+    	this.table.parentDataSet().RemoveTable(this.table);
+    	this.table.removeBelongsTo();
+    	this.treeNode.getParent().getChildren().remove(this.treeNode);
     }
 
 }

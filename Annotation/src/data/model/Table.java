@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlElement;
-
 
 public class Table implements MyData{
 	private long identifier;
@@ -70,7 +68,6 @@ public class Table implements MyData{
 		// TODO Auto-generated method stub
 		return 1;
 	}
-	@XmlElement(name = "title")
 	@Override
 	public String getTitle(){
 		// TODO Auto-generated method stub
@@ -81,7 +78,6 @@ public class Table implements MyData{
 		// TODO Auto-generated method stub
 		this.title = name;
 	}
-	@XmlElement(name = "description")
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
@@ -92,7 +88,6 @@ public class Table implements MyData{
 		// TODO Auto-generated method stub
 		this.description = description;
 	}
-	@XmlElement(name = "identifier")
 	@Override
 	public long getIdentifier() {
 		// TODO Auto-generated method stub

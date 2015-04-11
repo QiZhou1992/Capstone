@@ -75,7 +75,7 @@ public class TreeViewController {
         		
         		//set table controller
         		TableController controller = loader.getController();
-        		controller.setTable((Table)(treeNode.getValue()));
+        		controller.setTable((Table)(treeNode.getValue()),this.mainApp,treeNode);
         	}else if(treeNode.getValue().dataType()==2){
         		//need to show column view
         		FXMLLoader loader = new FXMLLoader();

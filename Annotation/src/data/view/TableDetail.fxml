@@ -27,6 +27,11 @@
             <ComboBox fx:id="represent" prefHeight="29.0" prefWidth="179.0" promptText="select represent" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="apply" layoutX="463.0" layoutY="516.0" mnemonicParsing="false" onAction="#handleApply" text="Apply" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <HBox layoutX="342.0" layoutY="518.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <Button fx:id="apply" layoutX="342.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleApply" text="Apply" AnchorPane.bottomAnchor="49.0" AnchorPane.rightAnchor="172.0" />
+            <Button layoutX="428.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
