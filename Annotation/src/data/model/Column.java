@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class Column implements MyData{
 	private long identifier;
 	private Table parentTable;
@@ -67,6 +69,7 @@ public class Column implements MyData{
 	public Table parentTable(){
 		return this.parentTable;
 	}
+	@XmlElement(name = "title")
 	@Override
 	public String getTitle() {
 		// TODO Auto-generated method stub
@@ -82,6 +85,7 @@ public class Column implements MyData{
 		// TODO Auto-generated method stub
 		this.title = name;
 	}
+	@XmlElement(name = "description")
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
@@ -92,6 +96,7 @@ public class Column implements MyData{
 		// TODO Auto-generated method stub
 		this.description = description;
 	}
+	@XmlElement(name = "identifier")
 	@Override
 	public long getIdentifier() {
 		// TODO Auto-generated method stub

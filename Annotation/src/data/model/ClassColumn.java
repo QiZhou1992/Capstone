@@ -9,7 +9,6 @@ public class ClassColumn extends Column {
 	public ClassColumn(String name) throws IOException, InterruptedException{
 		super(name);
 		this.setColumnType(1);
-		
 	}
 	public void setRepresent(int value) throws IOException{
 		this.theRepresent=represents.oneRepresent(value);
