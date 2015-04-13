@@ -33,10 +33,11 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <ListView fx:id="keywordList" prefHeight="239.0" prefWidth="250.0" />
+                  <TextField fx:id="keyword" prefHeight="37.0" prefWidth="174.0" promptText="add keyword..." />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="keyword" prefHeight="37.0" prefWidth="174.0" promptText="add keyword..." />
-                        <Button fx:id="enterKeyword" mnemonicParsing="false" onAction="#handleEnter" text="Enter" />
+                        <Button fx:id="enterKeyword" mnemonicParsing="false" onAction="#handleEnter" text="Enter Keyword" />
+                        <Button mnemonicParsing="false" onAction="#handleDelete" text="Delete Keyword" />
                      </children>
                   </HBox>
                </children>

@@ -6,8 +6,10 @@ import java.util.Set;
 
 import data.model.ClassColumn;
 import data.model.Column;
+import data.model.JoinTable;
 import data.model.MeasureColumn;
 import data.model.MyData;
+import data.model.NormalTable;
 import data.model.Table;
 import data.model.TemporalColumn;
 import data.model.Validation;
@@ -222,8 +224,18 @@ public class ColumnController {
         		
         		newColumn.setColumnType(this.columnTypeIndex);
         		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
-        		this.table.removeColumn(this.column);
-        		this.table.addColumn(newColumn);
+        		
+        		//need casting here
+        		if(this.table.getTableType()==0){
+        			((NormalTable)(this.table)).removeColumn(this.column);
+        			((NormalTable)(this.table)).addColumn(newColumn);
+        		}else if(this.table.getTableType()==1){
+        			((JoinTable)(this.table)).removeColumn((ClassColumn)(this.column));
+        			((JoinTable)(this.table)).addColumn(newColumn);        			
+        		}else{
+        			System.out.println("unknow table type");
+        		}
+
         		TreeItem<MyData> newTreeNode = new TreeItem<MyData>(newColumn);
         		this.myData.getChildren().remove(this.columnNode);
         		this.myData.getChildren().add(newTreeNode);
@@ -243,8 +255,18 @@ public class ColumnController {
         		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
         		newColumn.setUnit(this.unit.getSelectionModel().getSelectedIndex()+1);
         		newColumn.setDimension(this.dimension.getSelectionModel().getSelectedIndex()+1);
-        		this.table.removeColumn(this.column);
-        		this.table.addColumn(newColumn);
+        		
+        		//need casting here
+        		if(this.table.getTableType()==0){
+        			((NormalTable)(this.table)).removeColumn(this.column);
+        			((NormalTable)(this.table)).addColumn(newColumn);
+        		}else if(this.table.getTableType()==1){
+        			((JoinTable)(this.table)).removeColumn((ClassColumn)(this.column));
+        			((JoinTable)(this.table)).addColumn(newColumn);        			
+        		}else{
+        			System.out.println("unknow table type");
+        		}
+        		
         		TreeItem<MyData> newTreeItem = new TreeItem<MyData>(newColumn);
         		this.myData.getChildren().remove(this.columnNode);
         		this.myData.getChildren().add(newTreeItem);
@@ -264,8 +286,18 @@ public class ColumnController {
         		newColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
         		newColumn.setTemporalFormat(this.tempFormat.getText());
         		newColumn.setTemporalGranularity(this.tempGranularity.getText());
-        		this.table.removeColumn(this.column);
-        		this.table.addColumn(newColumn);
+        		
+        		//need casting here
+        		if(this.table.getTableType()==0){
+        			((NormalTable)(this.table)).removeColumn(this.column);
+        			((NormalTable)(this.table)).addColumn(newColumn);
+        		}else if(this.table.getTableType()==1){
+        			((JoinTable)(this.table)).removeColumn((ClassColumn)(this.column));
+        			((JoinTable)(this.table)).addColumn(newColumn);        			
+        		}else{
+        			System.out.println("unknow table type");
+        		}
+        		
         		TreeItem<MyData> newTreeItem = new TreeItem<MyData>(newColumn);
         		this.myData.getChildren().remove(this.columnNode);
         		this.myData.getChildren().add(newTreeItem);

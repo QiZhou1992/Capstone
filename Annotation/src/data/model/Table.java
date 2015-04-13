@@ -2,9 +2,6 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -13,11 +10,21 @@ public class Table implements MyData{
 	private String title;
 	private String description;
 	private DataSet parentDataSet;
+	//table type: normal(0), joint table(1)
+	private int tableType;
+	public void setTableType(int t){
+		this.tableType = t;
+	}
+	public int getTableType(){
+		return this.tableType;
+	}
+	
 	public Table(String name,DataSet D1) throws IOException{
 		this.identifier=System.currentTimeMillis();
 		this.parentDataSet=D1;
 		this.title=name;
 		this.description="";
+		this.tableType=-1;
 	}
 	public boolean hasBelongsTo(){
 		if(this.parentDataSet==null){

@@ -11,7 +11,7 @@ import data.MainApp;
 import data.model.Column;
 import data.model.DataSet;
 import data.model.MyData;
-import data.model.Table;
+import data.model.NormalTable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -86,11 +86,14 @@ public class DatasetDetailController {
     		this.dataset.output(pw);
     	}
     }
-    
+    /**
+     * Add new table(normal) to the data set.
+     * @throws IOException
+     */
     @FXML
-    private void handleAdd() throws IOException{
-    	Table tempTable = new Table("tmp title",this.dataset);
-    	boolean okClicked = this.mainApp.showNewTableDialog(tempTable);
+    private void handleAddNormal() throws IOException{
+    	NormalTable tempTable = new NormalTable("tmp title",this.dataset);
+    	boolean okClicked = this.mainApp.showNewNormalTableDialog(tempTable);
     	if(okClicked){
     		this.dataset.addTable(tempTable);
     		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);

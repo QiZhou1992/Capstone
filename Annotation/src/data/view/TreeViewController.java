@@ -5,9 +5,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import data.MainApp;
+import data.model.ClassColumn;
 import data.model.Column;
 import data.model.DataSet;
+import data.model.JoinTable;
 import data.model.MyData;
+import data.model.NormalTable;
 import data.model.Table;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,13 +72,13 @@ public class TreeViewController {
         	}else if(treeNode.getValue().dataType()==1){
         		//need to show table view
         		FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/TableDetail.fxml"));
+                loader.setLocation(MainApp.class.getResource("view/NormalTableDetail.fxml"));
                 AnchorPane personOverview = (AnchorPane) loader.load();
                 this.mainApp.replaceDataDetail(personOverview);
         		
         		//set table controller
-        		TableController controller = loader.getController();
-        		controller.setTable((Table)(treeNode.getValue()),this.mainApp,treeNode);
+        		NormalTableController controller = loader.getController();
+        		controller.setTable((NormalTable)(treeNode.getValue()),this.mainApp,treeNode);
         	}else if(treeNode.getValue().dataType()==2){
         		//need to show column view
         		FXMLLoader loader = new FXMLLoader();
@@ -126,16 +129,30 @@ public class TreeViewController {
     			TreeItem<MyData> tableNode = new TreeItem<MyData>(tableEntry.getValue());
     			dataNode.getChildren().add(tableNode);
     			
-    			Map<Long,Column> columns = tableEntry.getValue().AllColumn();
-    			Iterator<Map.Entry<Long, Column>> columnEntries = columns.entrySet().iterator();
-    			while(columnEntries.hasNext()){
-    				Map.Entry<Long, Column> columnEntry = columnEntries.next();
-    				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
-    				tableNode.getChildren().add(columnNode);
+    			//Map<Long,Column> columns = tableEntry.getValue().AllColumn();
+    			//need casting, first check table type
+    			if(tableEntry.getValue().getTableType() == 0 ){
+    				Map<Long,Column> columns = ((NormalTable)(tableEntry.getValue())).AllColumn();
+    				
+        			Iterator<Map.Entry<Long, Column>> columnEntries = columns.entrySet().iterator();
+        			while(columnEntries.hasNext()){
+        				Map.Entry<Long, Column> columnEntry = columnEntries.next();
+        				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+        				tableNode.getChildren().add(columnNode);
+        			}
+    			}else if(tableEntry.getValue().getTableType() == 1 ){
+    				Map<Long, ClassColumn> columns = ((JoinTable)(tableEntry.getValue())).AllColumn();
+        			Iterator<Map.Entry<Long, ClassColumn>> columnEntries = columns.entrySet().iterator();
+        			while(columnEntries.hasNext()){
+        				Map.Entry<Long, ClassColumn> columnEntry = columnEntries.next();
+        				TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+        				tableNode.getChildren().add(columnNode);
+        			}
+    			}else{
+    				System.out.println("unknow table type: " + tableEntry.getValue().getTableType());
     			}
     		}
     	}
-    	
     	this.dataTree.setRoot(rootItem);
     	
     	dataTree.setCellFactory(new Callback<TreeView<MyData>, TreeCell<MyData>>() {
@@ -151,7 +168,7 @@ public class TreeViewController {
 			            } else if(paramT!=null){
 							setText(paramT.getTitle());
 						}else{
-							System.err.println("test something"+rootItem.getChildren().size());
+							setText("Click To Add New Data Set Here...");
 						}
 					}
 				};

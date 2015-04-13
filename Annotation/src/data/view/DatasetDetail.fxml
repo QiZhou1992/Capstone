@@ -40,7 +40,7 @@
       <HBox layoutX="315.0" layoutY="527.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
             <Button layoutX="324.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleExport" text="Export" />
-            <Button layoutX="363.0" layoutY="521.0" mnemonicParsing="false" onAction="#handleAdd" text="Add..." AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="160.0" />
+            <Button layoutX="363.0" layoutY="521.0" mnemonicParsing="false" onAction="#handleAddNormal" text="Add..." AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="160.0" />
             <Button layoutX="382.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleEdit" text="Edit" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="100.0" />
             <Button mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
          </children>

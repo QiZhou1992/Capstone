@@ -10,6 +10,7 @@ public class NormalTable extends Table{
 	private represents theRepresent;
 	public NormalTable(String name, DataSet D1) throws IOException {
 		super(name, D1);
+		super.setTableType(0);//normal table = 0
 		columns=new HashMap<Long,Column>();
 		theRepresent=represents.oneRepresent(0);
 	}

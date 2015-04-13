@@ -3,9 +3,9 @@ package data;
 import java.io.IOException;
 
 import data.model.DataSet;
-import data.model.Table;
+import data.model.NormalTable;
 import data.view.DatasetEditController;
-import data.view.NewTableDialogController;
+import data.view.NewNormalTableDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
 import data.view.WelcomeController;
@@ -148,11 +148,11 @@ public class MainApp extends Application {
      * Called when the user clicks on the add button.
      * Add table to this data set.
      */
-    public boolean showNewTableDialog(Table table) {
+    public boolean showNewNormalTableDialog(NormalTable table) {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/TableCreateDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/NewNormalTableDialog.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
@@ -164,7 +164,7 @@ public class MainApp extends Application {
             dialogStage.setScene(scene);
 
             // Set the person into the controller.
-            NewTableDialogController controller = loader.getController();
+            NewNormalTableDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setTable(table);
 

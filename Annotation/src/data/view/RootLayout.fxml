@@ -29,4 +29,7 @@
         </menus>
       </MenuBar>
    </top>
+   <left>
+      <ScrollPane BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>

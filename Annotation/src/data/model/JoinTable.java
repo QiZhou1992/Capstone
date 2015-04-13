@@ -13,6 +13,7 @@ public class JoinTable extends Table {
     private int numberOfRealtion;
 	public JoinTable(String name, DataSet D1) throws IOException {
 		super(name, D1);
+		super.setTableType(1);//joint table = 1
 		this.relations=new HashMap<Integer,JoinRelation>();
 		this.columns=new HashMap<Long,ClassColumn>();
 		this.numberOfRealtion=0;

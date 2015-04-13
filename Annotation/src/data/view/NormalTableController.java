@@ -6,7 +6,7 @@ import java.util.Set;
 
 import data.MainApp;
 import data.model.MyData;
-import data.model.Table;
+import data.model.NormalTable;
 import data.model.Validation;
 import data.model.represents;
 import javafx.collections.FXCollections;
@@ -19,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TreeItem;
 
-public class TableController {
+public class NormalTableController {
 	
 	@FXML
 	private TextField title;
@@ -30,13 +30,13 @@ public class TableController {
 	@FXML
 	private Button apply;
 	
-	private Table table;
+	private NormalTable table;
 	
 	private TreeItem<MyData> treeNode;
 	
 	private Validation valid;
 	
-	public TableController(){	
+	public NormalTableController(){	
 	}
 	
     /**
@@ -54,7 +54,7 @@ public class TableController {
      * current table
      * @throws IOException
      */
-	public void setTable(Table table,MainApp mainApp,TreeItem<MyData> treeNode) throws IOException{
+	public void setTable(NormalTable table,MainApp mainApp,TreeItem<MyData> treeNode) throws IOException{
 		this.treeNode = treeNode;
     	this.table=table;
     	this.title.setText(table.getTitle());
@@ -111,7 +111,7 @@ public class TableController {
      */
     private boolean validation() throws IOException{
     	// TODO complete form validation
-    	Table tmpTable = new Table(this.title.getText(),this.table.parentDataSet());
+    	NormalTable tmpTable = new NormalTable(this.title.getText(),this.table.parentDataSet());
     	tmpTable.setDesription(this.description.getText());
     	tmpTable.setRepresents(this.represent.getSelectionModel().getSelectedIndex()+1);
     	valid = tmpTable.check();

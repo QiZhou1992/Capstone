@@ -102,6 +102,20 @@ public class DatasetEditController {
     }
     
     /**
+     * Called when user clicks on the delete button.
+     * Delete selected item in keywords list.
+     */
+    @FXML
+    private void handleDelete(){
+    	int selectedIdx = this.keywordList.getSelectionModel().getSelectedIndex();
+    	if(selectedIdx!=-1){
+    		int newSelectedIdx = (selectedIdx == this.keywordList.getItems().size()-1)?selectedIdx-1:selectedIdx;
+    		this.keywordList.getItems().remove(selectedIdx);
+    		this.keywordList.getSelectionModel().select(newSelectedIdx);
+    	}
+    }
+    
+    /**
      * Called when the user clicks on the apply button.
      * Apply any changes to selected data set.
      */

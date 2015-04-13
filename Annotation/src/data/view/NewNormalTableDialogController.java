@@ -8,7 +8,7 @@ import java.util.Set;
 
 import data.model.Column;
 import data.model.InputFile;
-import data.model.Table;
+import data.model.NormalTable;
 import data.model.Validation;
 import data.model.represents;
 import javafx.collections.FXCollections;
@@ -21,7 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class NewTableDialogController {
+public class NewNormalTableDialogController {
 	
 	@FXML
 	private TextField title;
@@ -32,7 +32,7 @@ public class NewTableDialogController {
 	
 	private Stage dialogStage;
 	
-	private Table table;
+	private NormalTable table;
 
 	private boolean okClicked = false;
 	
@@ -68,7 +68,7 @@ public class NewTableDialogController {
      * 
      * @param person
      */
-    public void setTable(Table table) {
+    public void setTable(NormalTable table) {
         this.table = table;
     }
     

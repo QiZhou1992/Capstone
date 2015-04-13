@@ -4,15 +4,11 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.bind.annotation.XmlElement;
 
 
 public class DataSet implements MyData{
@@ -27,11 +23,6 @@ public class DataSet implements MyData{
 	private Map<Long,Table> tables;
 	private Set<String> keywords;
 	private String landingPage;
-	/*
-	 * test jaxb list
-	 */
-	private KeywordWrapper KW;
-	private TableWrapper TW;
 	
 	
 	public DataSet(String name, String DateFormatString){
@@ -47,20 +38,6 @@ public class DataSet implements MyData{
 		this.modified.setTime(System.currentTimeMillis());
 		this.df=new SimpleDateFormat(DateFormatString);
 		this.landingPage="";
-		
-		KW = new KeywordWrapper();
-		TW = new TableWrapper();
-	}
-	
-	@XmlElement(name = "keywords")
-	public KeywordWrapper getKeywords(){
-		this.KW.setKeywords(new ArrayList<String>(this.keywords));
-		return this.KW;
-	}
-	@XmlElement(name = "tables")
-	public TableWrapper getTables(){
-		this.TW.setTables((HashMap<Long,Table>)(HashMap<?,?>)this.tables);
-		return this.TW;
 	}
 	
 	public void ChangeModified(){
@@ -89,7 +66,6 @@ public class DataSet implements MyData{
 	public Set<String> KeyWords(){
 		return this.keywords;
 	}
-	@XmlElement(name = "landingPage")
 	public String getLandingPage(){
 		return this.landingPage;
 	}
@@ -112,25 +88,19 @@ public class DataSet implements MyData{
 	public void modifiedDescription(String description){
 		this.description=description;
 	}
-	@XmlElement(name = "created")
 	public String getCreated(){
 		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.created);
 		return DateString;
 		
 	}
-	@XmlElement(name = "issued")
 	public String getIssued(){
 		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.issued);
 		return DateString;
 	}
-
-	@XmlElement(name = "modified")
 	public String getModified(){
 		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.modified);
 		return DateString;
 	}
-	
-	@XmlElement(name = "title")
 	@Override
 	public String getTitle() {
 		// TODO Auto-generated method stub
@@ -146,8 +116,6 @@ public class DataSet implements MyData{
 		// TODO Auto-generated method stub
 		this.title = name;
 	}
-	
-	@XmlElement(name = "description")
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
@@ -158,7 +126,6 @@ public class DataSet implements MyData{
 		// TODO Auto-generated method stub
 		this.description = description;
 	}
-	@XmlElement(name = "identifier")
 	@Override
 	public long getIdentifier() {
 		// TODO Auto-generated method stub
