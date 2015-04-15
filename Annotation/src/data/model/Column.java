@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Column implements MyData{
 	private long identifier;
 	private Table parentTable;
 	private String title;
+	private StringProperty titleProperty;
 	private String description;
 	private semanticRelations theSemanticRelation;
 	private int ColumnType;
@@ -15,6 +19,7 @@ public class Column implements MyData{
 		this.identifier=System.currentTimeMillis();
 		TimeUnit.MILLISECONDS.sleep(10);
 		this.title=name;
+		this.titleProperty = new SimpleStringProperty(name);
 		this.description="";
 		this.theSemanticRelation=semanticRelations.oneRepresent(0);
 		this.ColumnType=0;
@@ -67,6 +72,9 @@ public class Column implements MyData{
 	public Table parentTable(){
 		return this.parentTable;
 	}
+	public StringProperty getTitleProperty(){
+		return this.titleProperty;
+	}
 	@Override
 	public String getTitle() {
 		// TODO Auto-generated method stub
@@ -81,6 +89,7 @@ public class Column implements MyData{
 	public void setTitle(String name) {
 		// TODO Auto-generated method stub
 		this.title = name;
+		this.titleProperty.set(name);
 	}
 	@Override
 	public String getDescription() {

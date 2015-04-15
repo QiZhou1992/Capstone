@@ -22,6 +22,9 @@ public class JoinTable extends Table {
 		this.numberOfRealtion++;
 		this.relations.put(this.numberOfRealtion, NewRelation);
 	}
+	public void clearRelation(){
+		this.relations.clear();
+	}
 	public void removeRelation(int key){
 		this.relations.remove(key);
 	}

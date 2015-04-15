@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class semanticRelations {
 	static private Map<Integer,String> options;
 	private int value;
@@ -80,6 +83,15 @@ public class semanticRelations {
 		}
 		else{
 			return "";
+		}
+	}
+	
+	public StringProperty getStringProperty(){
+		if(options.containsKey(this.value)){
+			return new SimpleStringProperty(options.get(this.value));
+		}
+		else{
+			return new SimpleStringProperty("");
 		}
 	}
 	/*public static int findValue(String name) throws IOException{

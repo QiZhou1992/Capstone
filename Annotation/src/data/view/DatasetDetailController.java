@@ -8,8 +8,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import data.MainApp;
+import data.model.ClassColumn;
 import data.model.Column;
 import data.model.DataSet;
+import data.model.JoinTable;
 import data.model.MyData;
 import data.model.NormalTable;
 import javafx.fxml.FXML;
@@ -108,6 +110,28 @@ public class DatasetDetailController {
     	}
     }
     
+    /**
+     * Add new table(join) to the data set.
+     * @throws IOException 
+     */
+    @FXML
+    private void handleAddJoin() throws IOException{
+    	JoinTable tempTable = new JoinTable("tmp title",this.dataset);
+    	boolean okClicked = this.mainApp.showNewJoinTableDialog(tempTable);
+    	if(okClicked){
+    		this.dataset.addTable(tempTable);
+    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
+    		Map<Long,ClassColumn> columns = tempTable.AllColumn();
+    		Iterator<Map.Entry<Long,ClassColumn>> columnEntries = columns.entrySet().iterator();
+    		while(columnEntries.hasNext()){
+    			Map.Entry<Long,ClassColumn> columnEntry = columnEntries.next();
+    			TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+    			newTableNode.getChildren().add(columnNode);
+    		}
+    		this.treeNode.getChildren().add(newTableNode);
+    	}
+    }
+    
     @FXML
     private void handleEdit(){
     	 boolean okClicked = this.mainApp.showDatasetEditDialog(this.dataset);
@@ -120,5 +144,6 @@ public class DatasetDetailController {
     private void handleDelete(){
     	this.mainApp.delete(this.dataset);
     	this.treeNode.getParent().getChildren().remove(this.treeNode);
+    	this.mainApp.showDataDetail();
     }
 }

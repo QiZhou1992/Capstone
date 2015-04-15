@@ -157,6 +157,7 @@ public class ColumnController {
     		//class property
     		this.columnType.setValue("Class");
     		this.vbox.getChildren().add(this.classPane);
+    		// TODO create controller for class column
     		this.represent.setValue(((ClassColumn)this.column).Represent().getString());
     	}else if(this.column.ColumnType()==2){
     		//measure column

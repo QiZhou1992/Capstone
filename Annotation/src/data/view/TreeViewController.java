@@ -71,24 +71,49 @@ public class TreeViewController {
         		controller.setDataset((DataSet)(treeNode.getValue()),this.mainApp, treeNode);
         	}else if(treeNode.getValue().dataType()==1){
         		//need to show table view
-        		FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/NormalTableDetail.fxml"));
-                AnchorPane personOverview = (AnchorPane) loader.load();
-                this.mainApp.replaceDataDetail(personOverview);
-        		
-        		//set table controller
-        		NormalTableController controller = loader.getController();
-        		controller.setTable((NormalTable)(treeNode.getValue()),this.mainApp,treeNode);
+        		if(((Table)(treeNode.getValue())).getTableType()==1){
+        			//handle join table
+	        		FXMLLoader loader = new FXMLLoader();
+	                loader.setLocation(MainApp.class.getResource("view/JoinTableDetail.fxml"));
+	                AnchorPane personOverview = (AnchorPane) loader.load();
+	                this.mainApp.replaceDataDetail(personOverview);
+	        		
+	        		//set table controller
+	        		JoinTableController controller = loader.getController();
+	        		controller.setTable((JoinTable)(treeNode.getValue()),this.mainApp,treeNode);        			
+        		}else if(((Table)(treeNode.getValue())).getTableType()==0){
+        			//handle normal table
+	        		FXMLLoader loader = new FXMLLoader();
+	                loader.setLocation(MainApp.class.getResource("view/NormalTableDetail.fxml"));
+	                AnchorPane personOverview = (AnchorPane) loader.load();
+	                this.mainApp.replaceDataDetail(personOverview);
+	        		
+	        		//set table controller
+	        		NormalTableController controller = loader.getController();
+	        		controller.setTable((NormalTable)(treeNode.getValue()),this.mainApp,treeNode);
+        		}
         	}else if(treeNode.getValue().dataType()==2){
         		//need to show column view
-        		FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/ColumnDetail.fxml"));
-                AnchorPane personOverview = (AnchorPane) loader.load();
-                this.mainApp.replaceDataDetail(personOverview);
-        		
-        		//set column controller
-        		ColumnController controller = loader.getController();
-        		controller.setColumn((Column)treeNode.getValue(),((Column)treeNode.getValue()).parentTable(),treeNode.getParent(),treeNode);
+        		// TODO add function handle class column
+        		if(((Table)(treeNode.getParent().getValue())).getTableType()==0){
+	        		FXMLLoader loader = new FXMLLoader();
+	                loader.setLocation(MainApp.class.getResource("view/ColumnDetail.fxml"));
+	                AnchorPane personOverview = (AnchorPane) loader.load();
+	                this.mainApp.replaceDataDetail(personOverview);
+	        		
+	        		//set column controller
+	        		ColumnController controller = loader.getController();
+	        		controller.setColumn((Column)treeNode.getValue(),((Column)treeNode.getValue()).parentTable(),treeNode.getParent(),treeNode);
+        		}else if(((Table)(treeNode.getParent().getValue())).getTableType()==1){
+	        		FXMLLoader loader = new FXMLLoader();
+	                loader.setLocation(MainApp.class.getResource("view/ClassColumnDetail.fxml"));
+	                AnchorPane personOverview = (AnchorPane) loader.load();
+	                this.mainApp.replaceDataDetail(personOverview);
+	        		
+	        		//set column controller
+	        		ClassColumnController controller = loader.getController();
+	        		controller.setColumn((ClassColumn)treeNode.getValue(),(JoinTable)((ClassColumn)treeNode.getValue()).parentTable());
+        		}
         	}else{
         		System.err.println("DatasetController: invalid type"+treeNode.getValue().dataType());
         	}

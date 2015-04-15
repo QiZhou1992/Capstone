@@ -3,8 +3,10 @@ package data;
 import java.io.IOException;
 
 import data.model.DataSet;
+import data.model.JoinTable;
 import data.model.NormalTable;
 import data.view.DatasetEditController;
+import data.view.NewJoinTableDialogController;
 import data.view.NewNormalTableDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
@@ -157,7 +159,7 @@ public class MainApp extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Table");
+            dialogStage.setTitle("Add Normal Table");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -177,7 +179,42 @@ public class MainApp extends Application {
             return false;
         }
     }
-	
+
+    /**
+     * Called when the user clicks on the add button.
+     * Add table to this data set.
+     */
+    public boolean showNewJoinTableDialog(JoinTable table) {
+        try {
+            // TODO complete function
+        	
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/NewJoinTableDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add Join Table");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            NewJoinTableDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setTable(table);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     /**
      * get the primary stage
      */
