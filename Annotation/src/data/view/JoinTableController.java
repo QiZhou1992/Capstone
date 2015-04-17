@@ -59,6 +59,7 @@ public class JoinTableController {
     	this.mainApp = mainApp;
     	this.title.setText(table.getTitle());
     	this.description.setText(table.getDescription());
+    	this.relationTable.getItems().clear();
     	this.relationTable.getItems().addAll(this.table.allRelations().values());
     }
 	

@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import data.MainApp;
@@ -14,6 +16,7 @@ import data.model.DataSet;
 import data.model.JoinTable;
 import data.model.MyData;
 import data.model.NormalTable;
+import data.model.Table;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -129,6 +132,54 @@ public class DatasetDetailController {
     			newTableNode.getChildren().add(columnNode);
     		}
     		this.treeNode.getChildren().add(newTableNode);
+    	}
+    }
+    
+    /**
+     * Add multiple tables to the data set.
+     * @throws IOException 
+     */
+    @FXML
+    private void handleMultipleTable() throws IOException{
+    	List<Table> tmpTables = new ArrayList<Table>();
+    	boolean okClicked = this.mainApp.showUploadMultipleTablesDialog(tmpTables);
+    	if(okClicked){
+    		// TODO add table to this data set
+    		for(int i=0;i<tmpTables.size();i++){
+    			Table nextTable = tmpTables.get(i);
+    			nextTable.addBelongsTo(this.dataset);
+    			
+    			//add to the tree
+    			if(nextTable.getTableType()==0){
+    				//normal
+    				NormalTable tempTable = (NormalTable)nextTable;
+    	    		this.dataset.addTable(tempTable);
+    	    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
+    	    		Map<Long,Column> columns = tempTable.AllColumn();
+    	    		Iterator<Map.Entry<Long,Column>> columnEntries = columns.entrySet().iterator();
+    	    		while(columnEntries.hasNext()){
+    	    			Map.Entry<Long,Column> columnEntry = columnEntries.next();
+    	    			TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+    	    			newTableNode.getChildren().add(columnNode);
+    	    		}
+    	    		this.treeNode.getChildren().add(newTableNode);
+    			}else if(nextTable.getTableType()==1){
+    				//join
+    				JoinTable tempTable = (JoinTable)nextTable;
+    	    		this.dataset.addTable(tempTable);
+    	    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
+    	    		Map<Long,ClassColumn> columns = tempTable.AllColumn();
+    	    		Iterator<Map.Entry<Long,ClassColumn>> columnEntries = columns.entrySet().iterator();
+    	    		while(columnEntries.hasNext()){
+    	    			Map.Entry<Long,ClassColumn> columnEntry = columnEntries.next();
+    	    			TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
+    	    			newTableNode.getChildren().add(columnNode);
+    	    		}
+    	    		this.treeNode.getChildren().add(newTableNode);
+    			}else{
+    				System.out.println("Error in DatasetDetailController: handleMultipleTable");
+    			}
+    		}
     	}
     }
     

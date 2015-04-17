@@ -40,7 +40,8 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleAddNormal" text="Normal Table" />
-                  <Button mnemonicParsing="false" onAction="#handleAddJoin" text="Join Table" />
+                  <Button mnemonicParsing="false" onAction="#handleAddJoin" prefHeight="33.0" prefWidth="114.0" text="Join Table" />
+                  <Button mnemonicParsing="false" onAction="#handleMultipleTable" text="Multiple Table" />
                </children>
             </HBox>
          </children>

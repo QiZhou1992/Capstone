@@ -1,15 +1,18 @@
 package data;
 
 import java.io.IOException;
+import java.util.List;
 
 import data.model.DataSet;
 import data.model.JoinTable;
 import data.model.NormalTable;
+import data.model.Table;
 import data.view.DatasetEditController;
 import data.view.NewJoinTableDialogController;
 import data.view.NewNormalTableDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
+import data.view.UploadMultipleTablesDialogController;
 import data.view.WelcomeController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -204,6 +207,41 @@ public class MainApp extends Application {
             NewJoinTableDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setTable(table);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Called when the user clicks on the Multiple Tables.
+     * Add tables to this data set.
+     */    
+    public boolean showUploadMultipleTablesDialog(List<Table> tables){
+        try {
+            // TODO complete function
+        	
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/UploadMultipleTablesDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Upload Tables");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            UploadMultipleTablesDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setTableList(tables);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
