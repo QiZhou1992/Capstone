@@ -31,8 +31,9 @@ public class ClassColumnController {
 	private ComboBox<String> represent;
 	
 	private ClassColumn column;
-	//parent
+	//parent table
 	private JoinTable table;
+	// check validation
 	private Validation valid;
 	
 	public ClassColumnController(){	
@@ -132,8 +133,7 @@ public class ClassColumnController {
      * @throws IOException 
      */
     private boolean validation() throws IOException, InterruptedException{
-    	// TODO complete form validation
-    		//this is a class column
+    	//this is a class column
     	ClassColumn tmpColumn = new ClassColumn(this.title.getText());
     	tmpColumn.setDesription(this.description.getText());
     		

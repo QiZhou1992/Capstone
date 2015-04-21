@@ -5,11 +5,9 @@ import java.util.List;
 
 import data.model.DataSet;
 import data.model.JoinTable;
-import data.model.NormalTable;
 import data.model.Table;
 import data.view.DatasetEditController;
-import data.view.NewJoinTableDialogController;
-import data.view.NewNormalTableDialogController;
+import data.view.EditJoinTableDialogController;
 import data.view.RootLayoutController;
 import data.view.TreeViewController;
 import data.view.UploadMultipleTablesDialogController;
@@ -86,7 +84,7 @@ public class MainApp extends Application {
             // Set person overview into the center of root layout.
             rootLayout.setLeft(personOverview);
             
-         // Give the controller access to the main app.
+            // Give the controller access to the main app.
             this.treeViewController = loader.getController();
          	this.treeViewController.setMainApp(this);
          	this.treeViewController.setMyData();
@@ -134,7 +132,7 @@ public class MainApp extends Application {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Set the person into the controller.
+            // Set the data set into the controller.
             DatasetEditController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setDataset(dataset);
@@ -148,51 +146,15 @@ public class MainApp extends Application {
             return false;
         }
     }
-    
-    /**
-     * Called when the user clicks on the add button.
-     * Add table to this data set.
-     */
-    public boolean showNewNormalTableDialog(NormalTable table) {
-        try {
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/NewNormalTableDialog.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Normal Table");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the person into the controller.
-            NewNormalTableDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setTable(table);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     /**
      * Called when the user clicks on the add button.
      * Add table to this data set.
      */
-    public boolean showNewJoinTableDialog(JoinTable table) {
-        try {
-            // TODO complete function
-        	
+    public boolean showEditJoinTableDialog(JoinTable table) {
+        try {   	
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/NewJoinTableDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/EditJoinTableDialog.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
@@ -204,7 +166,7 @@ public class MainApp extends Application {
             dialogStage.setScene(scene);
 
             // Set the person into the controller.
-            NewJoinTableDialogController controller = loader.getController();
+            EditJoinTableDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setTable(table);
 

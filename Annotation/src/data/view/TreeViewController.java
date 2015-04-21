@@ -94,8 +94,8 @@ public class TreeViewController {
         		}
         	}else if(treeNode.getValue().dataType()==2){
         		//need to show column view
-        		// TODO add function handle class column
         		if(((Table)(treeNode.getParent().getValue())).getTableType()==0){
+        			//this is a column with any kind
 	        		FXMLLoader loader = new FXMLLoader();
 	                loader.setLocation(MainApp.class.getResource("view/ColumnDetail.fxml"));
 	                AnchorPane personOverview = (AnchorPane) loader.load();
@@ -105,6 +105,7 @@ public class TreeViewController {
 	        		ColumnController controller = loader.getController();
 	        		controller.setColumn((Column)treeNode.getValue(),((Column)treeNode.getValue()).parentTable(),treeNode.getParent(),treeNode);
         		}else if(((Table)(treeNode.getParent().getValue())).getTableType()==1){
+        			//this must be a class column
 	        		FXMLLoader loader = new FXMLLoader();
 	                loader.setLocation(MainApp.class.getResource("view/ClassColumnDetail.fxml"));
 	                AnchorPane personOverview = (AnchorPane) loader.load();
@@ -154,7 +155,6 @@ public class TreeViewController {
     			TreeItem<MyData> tableNode = new TreeItem<MyData>(tableEntry.getValue());
     			dataNode.getChildren().add(tableNode);
     			
-    			//Map<Long,Column> columns = tableEntry.getValue().AllColumn();
     			//need casting, first check table type
     			if(tableEntry.getValue().getTableType() == 0 ){
     				Map<Long,Column> columns = ((NormalTable)(tableEntry.getValue())).AllColumn();
@@ -179,7 +179,7 @@ public class TreeViewController {
     		}
     	}
     	this.dataTree.setRoot(rootItem);
-    	
+    	//change text if the title of this node changes.
     	dataTree.setCellFactory(new Callback<TreeView<MyData>, TreeCell<MyData>>() {
 			@Override
 			public TreeCell<MyData> call(TreeView<MyData> paramP) {

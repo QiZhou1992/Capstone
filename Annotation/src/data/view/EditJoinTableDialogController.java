@@ -1,13 +1,10 @@
 package data.view;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
 import data.model.ClassColumn;
-import data.model.InputFile;
 import data.model.JoinRelation;
 import data.model.JoinTable;
 import data.model.Validation;
@@ -16,18 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-public class NewJoinTableDialogController {
+public class EditJoinTableDialogController {
 	
 	@FXML
 	private TextField title;
@@ -49,8 +44,6 @@ public class NewJoinTableDialogController {
 	private ComboBox<ClassColumn> destination;
 	@FXML
 	private ComboBox<String> relation;
-	@FXML
-	private Button open;
 	
 	private Stage dialogStage;
 	
@@ -121,7 +114,6 @@ public class NewJoinTableDialogController {
     public void setTable(JoinTable table) throws IOException {
         this.table = table;
         if(table.AllColumn().size()>0){
-        	this.open.setVisible(false);
             this.hbox.setVisible(true);
             this.setRelationCombo();
             this.relationTable.getItems().addAll(this.table.allRelations().values());
@@ -140,14 +132,13 @@ public class NewJoinTableDialogController {
     }
     
     /**
-     * Called when the user clicks ok.
+     * Called when the user clicks OK.
      * @throws IOException 
      */
     @FXML
     private void handleOk() throws IOException {
     	
         if (isInputValid()) {
-        	// TODO add relation to this table
         	this.table.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
         		this.table.setDesription(this.description.getText());
@@ -213,37 +204,6 @@ public class NewJoinTableDialogController {
     		return false;
     	}
     }
-    /**
-     * Called when user clicks open button. Upload a table from csv file.
-     * 
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    @FXML
-    private void UploadAs() throws IOException, InterruptedException {
-        FileChooser fileChooser = new FileChooser();
-
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "csv files (*.csv)", "*.csv");
-        fileChooser.getExtensionFilters().add(extFilter);
-   
-        fileChooser.setTitle("Open Resource File");
-        File file =fileChooser.showOpenDialog(this.dialogStage);
-        if(file!=null){
-	        InputFile content=new InputFile();
-	        ArrayList<String> column = new ArrayList<String>();
-	        column=content.read(file);
-	        //handle the input title
-	    	for(int i=0;i<column.size();i++){
-	    		ClassColumn temp=new ClassColumn(column.get(i));
-	    		this.table.addColumn(temp);
-	    	}
-        }
-        this.hbox.setVisible(true);
-        this.setRelationCombo();
-    }
-    
     /**
      * initialize source, destination, and relation combo box
      * @throws IOException 

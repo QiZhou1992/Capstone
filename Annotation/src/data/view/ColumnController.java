@@ -31,7 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 /*
- * controller of column
+ * controller of column detail
  */
 public class ColumnController {
 	
@@ -63,20 +63,19 @@ public class ColumnController {
 	private TextField tempFormat;
 	@FXML
 	private TextField tempGranularity;
+	@FXML
+	private Button apply;
 	//type of this column
 	private int columnTypeIndex;
 	
-	@FXML
-	private Button apply;
-	
 	private Column column;
-	//parent
+	//parent table
 	private Table table;
 	//parent tree node
 	private TreeItem<MyData> myData;
 	//current tree node
 	private TreeItem<MyData> columnNode;
-	
+	//check validation
 	private Validation valid;
 	
 	public ColumnController(){	
@@ -111,6 +110,7 @@ public class ColumnController {
     	this.columnNode=columnNode;
     	this.title.setText(column2.getTitle());
     	this.description.setText(column2.getDescription());
+    	//initialize semantic relation combo box
     	ObservableList<String> semanticRelationList = FXCollections.observableArrayList();
     	Map<Integer,String> semanticRelationOptions = semanticRelations.allOptions();
     	//semantic relation id start from 1
@@ -121,19 +121,22 @@ public class ColumnController {
     	if(this.column.thisSemanticRelation().getValue()!=0){
     		this.semanticRelation.setValue(this.column.thisSemanticRelation().getString());
     	}
-
+    	// set the type of this column
     	this.columnTypeIndex = this.column.ColumnType();
     	
     	this.vbox.getChildren().clear();
+    	//initialize column type selection
     	this.columnType.getItems().addAll("Class","Measure","Temporal","Property");
     	ObservableList<String> unitList = FXCollections.observableArrayList();
     	Map<Integer, String> unitOptions = units.allOptions();
-    	//unit id start from 1
+    	
+    	//initialize unit combo box. unit id start from 1
     	for(int i=1;i<=unitOptions.size();i++){
     		unitList.add(unitOptions.get(i));
     	}
     	this.unit.getItems().addAll(unitList);
     	
+    	//initialize dimension combo box
     	ObservableList<String> dimensionList = FXCollections.observableArrayList();
     	Map<Integer, String> dimensionOptions = dimensions.allOptions();
     	//dimension id start from 1
@@ -142,6 +145,7 @@ public class ColumnController {
     	}
     	this.dimension.getItems().addAll(dimensionList);
     	
+    	//initialize represent combo box
     	ObservableList<String> representList = FXCollections.observableArrayList();
     	Map<Integer,String> representOptions = represents.allOptions();
     	//represent id start from 1
@@ -150,17 +154,18 @@ public class ColumnController {
     	}
     	this.represent.getItems().addAll(representList);
     	
+    	//initialize temporal type combo box
     	this.tempType.getItems().addAll("Interval","Time Stamp");
     	
     	//show different form items according to the type of this column
     	if(this.column.ColumnType()==1){
-    		//class property
+    		//this is a class column.
     		this.columnType.setValue("Class");
     		this.vbox.getChildren().add(this.classPane);
     		// TODO create controller for class column
     		this.represent.setValue(((ClassColumn)this.column).Represent().getString());
     	}else if(this.column.ColumnType()==2){
-    		//measure column
+    		//this is a measure column
     		this.represent.setValue(((MeasureColumn)this.column).Represent().getString());
     		this.vbox.getChildren().add(this.classPane);
     		this.columnType.setValue("Measure");
@@ -168,7 +173,7 @@ public class ColumnController {
     		this.unit.setValue(((MeasureColumn)this.column).Unit().getString());
     		this.dimension.setValue(((MeasureColumn)this.column).dimension().getString());
     	}else if(this.column.ColumnType()==3){
-    		//temporal column
+    		//this is a temporal column
     		this.represent.setValue(((TemporalColumn)this.column).Represent().getString());
     		this.vbox.getChildren().add(this.classPane);
     		this.columnType.setValue("Temporal");
@@ -337,7 +342,6 @@ public class ColumnController {
      * @throws IOException 
      */
     private boolean validation() throws IOException, InterruptedException{
-    	// TODO complete form validation
     	if(this.columnTypeIndex == 1){
     		//this is a class column
     		ClassColumn tmpColumn = new ClassColumn(this.title.getText());

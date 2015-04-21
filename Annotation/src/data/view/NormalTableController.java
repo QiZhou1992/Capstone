@@ -110,7 +110,6 @@ public class NormalTableController {
      * @throws IOException 
      */
     private boolean validation() throws IOException{
-    	// TODO complete form validation
     	NormalTable tmpTable = new NormalTable(this.title.getText(),this.table.parentDataSet());
     	tmpTable.setDesription(this.description.getText());
     	tmpTable.setRepresents(this.represent.getSelectionModel().getSelectedIndex()+1);

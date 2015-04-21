@@ -22,6 +22,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/*
+ * controller of adding multiple tables
+ */
 public class UploadMultipleTablesDialogController {
 
 	@FXML
@@ -108,6 +111,7 @@ public class UploadMultipleTablesDialogController {
     @FXML
     private void handleUpLoadFile() {
     	// TODO upload file and initialize the type table
+    	//create temporary map, need code from yucheng
     	Map<String,List<String>> manualMap = new HashMap<String,List<String>>();
     	String title1 = "title1";
     	List<String> table1Column = new ArrayList<String>();
@@ -121,6 +125,7 @@ public class UploadMultipleTablesDialogController {
     	table2Column.add("column2title");
     	manualMap.put(title2, table2Column);
     	
+    	//initialize table view
     	Iterator<Map.Entry<String, List<String>>> Entries = manualMap.entrySet().iterator();
     	while(Entries.hasNext()){
     		Map.Entry<String, List<String>> entry = Entries.next();
@@ -135,7 +140,6 @@ public class UploadMultipleTablesDialogController {
      */
     @FXML
     private void handleChange() {
-    	// TODO
     	String title = this.title.getText();
     	int type = this.tableType.getSelectionModel().getSelectedIndex();
     	this.selectedTable.setTitle(title);
@@ -149,11 +153,12 @@ public class UploadMultipleTablesDialogController {
      */
     @FXML
     private void handleOK() throws IOException, InterruptedException {
-    	// TODO
+    	//need first create a temporary data set as parent data set of newly created tables.
     	DataSet tmpDataset = new DataSet("parent","2015.04.17");
     	for(int i=0;i<this.tables.getItems().size();i++){
     		TableType tmpType = this.tables.getItems().get(i);
     		if(tmpType.getType().getValue().equals("normal")){
+    			//this is a normal table
     			NormalTable normal = new NormalTable(tmpType.getTitle().getValue(),tmpDataset);
     			List<String> columnsTitle = this.tableMap.get(tmpType);
     			for(int j=0;j<columnsTitle.size();j++){
@@ -162,6 +167,7 @@ public class UploadMultipleTablesDialogController {
     			}
     			this.tableList.add(normal);
     		}else{
+    			//this is a join table
     			JoinTable join = new JoinTable(tmpType.getTitle().getValue(),tmpDataset);
     			List<String> classColumnsTitle = this.tableMap.get(tmpType);
     			for(int j=0;j<classColumnsTitle.size();j++){

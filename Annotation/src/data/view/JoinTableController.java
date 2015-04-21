@@ -65,8 +65,7 @@ public class JoinTableController {
 	
 	@FXML
 	private void handleEdit() throws IOException{
-		// TODO 
-   	 	boolean okClicked = this.mainApp.showNewJoinTableDialog(this.table);
+   	 	boolean okClicked = this.mainApp.showEditJoinTableDialog(this.table);
    	 	if(okClicked){
    	 		this.setTable(this.table, this.mainApp, this.treeNode);
    	 	}

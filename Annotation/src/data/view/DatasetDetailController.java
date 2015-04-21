@@ -83,55 +83,13 @@ public class DatasetDetailController {
     
     @FXML
     private void handleExport() throws FileNotFoundException{
+    	// TODO check validation of the whole data set (its table, columns)
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Export Dataset");
     	File file = fileChooser.showSaveDialog(this.mainApp.getPrimaryStage());
     	if(file!=null){
     		PrintWriter pw = new PrintWriter(file.getPath());
     		this.dataset.output(pw);
-    	}
-    }
-    /**
-     * Add new table(normal) to the data set.
-     * @throws IOException
-     */
-    @FXML
-    private void handleAddNormal() throws IOException{
-    	NormalTable tempTable = new NormalTable("tmp title",this.dataset);
-    	boolean okClicked = this.mainApp.showNewNormalTableDialog(tempTable);
-    	if(okClicked){
-    		this.dataset.addTable(tempTable);
-    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
-    		Map<Long,Column> columns = tempTable.AllColumn();
-    		Iterator<Map.Entry<Long,Column>> columnEntries = columns.entrySet().iterator();
-    		while(columnEntries.hasNext()){
-    			Map.Entry<Long,Column> columnEntry = columnEntries.next();
-    			TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
-    			newTableNode.getChildren().add(columnNode);
-    		}
-    		this.treeNode.getChildren().add(newTableNode);
-    	}
-    }
-    
-    /**
-     * Add new table(join) to the data set.
-     * @throws IOException 
-     */
-    @FXML
-    private void handleAddJoin() throws IOException{
-    	JoinTable tempTable = new JoinTable("tmp title",this.dataset);
-    	boolean okClicked = this.mainApp.showNewJoinTableDialog(tempTable);
-    	if(okClicked){
-    		this.dataset.addTable(tempTable);
-    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
-    		Map<Long,ClassColumn> columns = tempTable.AllColumn();
-    		Iterator<Map.Entry<Long,ClassColumn>> columnEntries = columns.entrySet().iterator();
-    		while(columnEntries.hasNext()){
-    			Map.Entry<Long,ClassColumn> columnEntry = columnEntries.next();
-    			TreeItem<MyData> columnNode = new TreeItem<MyData>(columnEntry.getValue());
-    			newTableNode.getChildren().add(columnNode);
-    		}
-    		this.treeNode.getChildren().add(newTableNode);
     	}
     }
     
@@ -144,14 +102,13 @@ public class DatasetDetailController {
     	List<Table> tmpTables = new ArrayList<Table>();
     	boolean okClicked = this.mainApp.showUploadMultipleTablesDialog(tmpTables);
     	if(okClicked){
-    		// TODO add table to this data set
     		for(int i=0;i<tmpTables.size();i++){
     			Table nextTable = tmpTables.get(i);
     			nextTable.addBelongsTo(this.dataset);
     			
     			//add to the tree
     			if(nextTable.getTableType()==0){
-    				//normal
+    				//add normal table
     				NormalTable tempTable = (NormalTable)nextTable;
     	    		this.dataset.addTable(tempTable);
     	    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);
@@ -164,7 +121,7 @@ public class DatasetDetailController {
     	    		}
     	    		this.treeNode.getChildren().add(newTableNode);
     			}else if(nextTable.getTableType()==1){
-    				//join
+    				//add join table
     				JoinTable tempTable = (JoinTable)nextTable;
     	    		this.dataset.addTable(tempTable);
     	    		TreeItem<MyData> newTableNode = new TreeItem<MyData>(tempTable);

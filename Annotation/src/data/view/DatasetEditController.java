@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /*
- * controller of data set
+ * controller of data set edit dialog
  */
 public class DatasetEditController {
 
@@ -121,7 +121,6 @@ public class DatasetEditController {
      */
     @FXML
     private void handleOK() {
-    	// TODO add action handler here
         if(this.validation()){
         	this.dataset.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
@@ -165,7 +164,6 @@ public class DatasetEditController {
      * @return
      */
     private boolean validation(){
-    	// TODO complete form validation
 		DataSet tmpDataset = new DataSet(this.title.getText(),"mm/dd/yyyy");
 		tmpDataset.setDesription(this.description.getText());
 		tmpDataset.KeyWords().addAll(this.keywordList.getItems());
