@@ -1,5 +1,6 @@
 package data.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import data.model.ClassColumn;
 import data.model.Column;
 import data.model.DataSet;
+import data.model.InputFile;
 import data.model.JoinTable;
 import data.model.NormalTable;
 import data.model.Table;
@@ -20,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /*
@@ -107,32 +110,45 @@ public class UploadMultipleTablesDialogController {
     
     /**
      * Called when the user clicks change.
+     * @throws IOException 
      */
     @FXML
-    private void handleUpLoadFile() {
+    private void handleUpLoadFile() throws IOException {
     	// TODO upload file and initialize the type table
-    	//create temporary map, need code from yucheng
-    	Map<String,List<String>> manualMap = new HashMap<String,List<String>>();
-    	String title1 = "title1";
-    	List<String> table1Column = new ArrayList<String>();
-    	table1Column.add("column1Table");
-    	table1Column.add("column2Table");
-    	manualMap.put(title1, table1Column);
-    	
-    	String title2 = "title2";
-    	List<String> table2Column = new ArrayList<String>();
-    	table2Column.add("column1title");
-    	table2Column.add("column2title");
-    	manualMap.put(title2, table2Column);
-    	
-    	//initialize table view
-    	Iterator<Map.Entry<String, List<String>>> Entries = manualMap.entrySet().iterator();
-    	while(Entries.hasNext()){
-    		Map.Entry<String, List<String>> entry = Entries.next();
-    		TableType nextType = new TableType(entry.getKey(),0);
-    		this.tableMap.put(nextType, entry.getValue());
-    		this.tables.getItems().add(nextType);
-    	}
+        FileChooser fileChooser = new FileChooser();
+
+        // Set extension filter
+        List<String> legalExt = new ArrayList<String>();
+        legalExt.add("*.csv");
+        legalExt.add("*.xls");
+        legalExt.add("*.xlsx");
+        FileChooser.ExtensionFilter extFilterXLS = new FileChooser.ExtensionFilter("all files (*.csv) (*.xls) (*.xlsx)", legalExt);
+        fileChooser.getExtensionFilters().add(extFilterXLS);
+   
+        fileChooser.setTitle("Open Resource File");
+        File file =fileChooser.showOpenDialog(this.dialogStage);
+        if(file!=null){
+        	String path = file.getPath();
+        	InputFile inputFile = new InputFile();
+        	inputFile.setInputFile(path);
+        	Map<String,List<String>> manualMap;
+        	if(inputFile.getFileExtension(path).equals(".csv")){
+        		manualMap = inputFile.readCsv();
+        	}else{
+        		manualMap = inputFile.readExcel();
+        	}
+        	Iterator<Map.Entry<String, List<String>>> Entries = manualMap.entrySet().iterator();
+        	this.tableMap.clear();
+        	this.tables.getItems().clear();
+        	while(Entries.hasNext()){
+        		Map.Entry<String, List<String>> entry = Entries.next();
+        		TableType nextType = new TableType(entry.getKey(),0);
+        		this.tableMap.put(nextType, entry.getValue());
+        		this.tables.getItems().add(nextType);
+        	}
+        }else{
+        	System.out.println("file is null");
+        }
     } 
     
     /**

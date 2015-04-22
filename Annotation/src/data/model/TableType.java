@@ -54,7 +54,7 @@ public class TableType {
 		if(int2type==null){
 			int2type = new HashMap<Integer,String>();
 			int2type.put(0,"normal");
-			int2type.put(1,"joint");
+			int2type.put(1,"join");
 		}
 	}
 }
