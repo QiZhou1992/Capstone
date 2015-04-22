@@ -39,7 +39,7 @@
             <Label text="Add New Table" GridPane.rowIndex="5" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleMultipleTable" text="Multiple Table" />
+                  <Button mnemonicParsing="false" onAction="#handleMultipleTable" text="Import Tables" />
                </children>
             </HBox>
          </children>

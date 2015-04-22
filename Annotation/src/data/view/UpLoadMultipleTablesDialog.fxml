@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="400.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="data.view.UploadMultipleTablesDialogController">
    <children>
-      <Button fx:id="upLoadFile" layoutX="53.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleUpLoadFile" text="up load file" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0" />
+      <Button fx:id="upLoadFile" layoutX="53.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleUpLoadFile" text="Upload File" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0" />
       <TableView fx:id="tables" layoutX="53.0" layoutY="93.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="90.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Table Title" />
