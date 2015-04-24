@@ -2,6 +2,8 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -86,5 +88,12 @@ public class Table implements MyData{
 			result.addField("description");
 		}
 		return result;
+	}
+	public void outputcheck(OutputCheck result){
+		Validation v1=this.check();
+		if(!v1.result()){
+			result.setFalse();
+			result.addTableError(this, v1);
+		}
 	}
 }
