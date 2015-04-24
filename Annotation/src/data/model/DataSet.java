@@ -167,12 +167,5 @@ public class DataSet implements MyData{
 		}
 		return result;
 	}
-	public OutputCheck outputCkeck(){
-		OutputCheck result=new OutputCheck();
-		for(Map.Entry<Long, Table> element:this.tables.entrySet()){
-			element.getValue().outputcheck(result);;
-		}
-		return result;
-	}
 	
 }

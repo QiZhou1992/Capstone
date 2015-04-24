@@ -2,7 +2,6 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -114,12 +113,5 @@ public class Column implements MyData{
 		output.println(this.identifier+" dfo:semanticRelation "+this.theSemanticRelation.getString());
 		output.println(this.identifier+" dct:title "+"\""+this.title+"\"");
 		output.println(this.identifier+" dct:description "+"\""+this.description+"\"");
-	}
-	public void outputcheck(OutputCheck result){
-		Validation v1=this.check();
-		if(!v1.result()){
-			result.setFalse();
-			result.addColumnError(this, v1);
-		}
 	}
 }

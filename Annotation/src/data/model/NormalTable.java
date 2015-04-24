@@ -56,16 +56,5 @@ public class NormalTable extends Table{
 		}
 		return result;
 	}
-	@Override
-	public void outputcheck(OutputCheck result){
-		Validation v1=this.check();
-		if(!v1.result()){
-			result.setFalse();
-			result.addTableError(this, v1);
-		}
-		for(Map.Entry<Long, Column> element: this.columns.entrySet()){
-			element.getValue().outputcheck(result);
-		}
-	}
 
 }
