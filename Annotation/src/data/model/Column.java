@@ -2,7 +2,6 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -35,9 +34,11 @@ public class Column implements MyData{
 			result.setFalse();
 			result.addField("description");
 		}
-		if(this.theSemanticRelation.getValue()==0){
-			result.setFalse();
-			result.addField("semanticRelation");
+		if(this.parentTable.getTableType()==0){
+			if(this.theSemanticRelation.getValue()==0){
+				result.setFalse();
+				result.addField("semanticRelation");
+			}
 		}
 		return result;
 	}

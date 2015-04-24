@@ -8,7 +8,6 @@ import data.model.ClassColumn;
 import data.model.JoinTable;
 import data.model.Validation;
 import data.model.represents;
-import data.model.semanticRelations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,8 +24,6 @@ public class ClassColumnController {
 	private TextField title;
 	@FXML
 	private TextField description;
-	@FXML
-	private ComboBox<String> semanticRelation;
 	@FXML
 	private ComboBox<String> represent;
 	
@@ -66,16 +63,6 @@ public class ClassColumnController {
     	this.table=table;
     	this.title.setText(column2.getTitle());
     	this.description.setText(column2.getDescription());
-    	ObservableList<String> semanticRelationList = FXCollections.observableArrayList();
-    	Map<Integer,String> semanticRelationOptions = semanticRelations.allOptions();
-    	//semantic relation id start from 1
-    	for(int i=1;i<semanticRelationOptions.size();i++){
-    		semanticRelationList.add(semanticRelationOptions.get(i));
-    	}
-    	this.semanticRelation.getItems().addAll(semanticRelationList);
-    	if(this.column.thisSemanticRelation().getValue()!=0){
-    		this.semanticRelation.setValue(this.column.thisSemanticRelation().getString());
-    	}
     	
     	ObservableList<String> representList = FXCollections.observableArrayList();
     	Map<Integer,String> representOptions = represents.allOptions();
@@ -105,10 +92,6 @@ public class ClassColumnController {
         	if(this.description.getText()!=null){
         		this.column.setDesription(this.description.getText());
        		}
-           	int semanticRelationIndex = this.semanticRelation.getSelectionModel().getSelectedIndex();
-           	if(semanticRelationIndex>=0){
-           		this.column.modifiedSemanticRelations(semanticRelationIndex+1);
-           	}
        		this.column.setBelongsTo(this.table);
        		this.column.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);       			
         }else{
@@ -136,10 +119,9 @@ public class ClassColumnController {
     	//this is a class column
     	ClassColumn tmpColumn = new ClassColumn(this.title.getText());
     	tmpColumn.setDesription(this.description.getText());
-    		
-       	tmpColumn.modifiedSemanticRelations(this.semanticRelation.getSelectionModel().getSelectedIndex()+1);
 
    		tmpColumn.setRepresent(this.represent.getSelectionModel().getSelectedIndex()+1);
+   		tmpColumn.setBelongsTo(this.table);
    		valid = tmpColumn.check();
     	if(valid.result()){
     		return true;

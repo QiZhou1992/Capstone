@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import data.MainApp;
 import data.model.ClassColumn;
@@ -81,7 +83,7 @@ public class DatasetDetailController {
     	this.dataset=dataset;
     	this.title.setText(dataset.getTitle());
     	this.description.setText(dataset.getDescription());
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	this.created.setText(df.format(dataset.getCreated()));
     	this.keywordList.getItems().clear();
     	for(String nextKeyword: this.dataset.KeyWords()){
@@ -111,18 +113,28 @@ public class DatasetDetailController {
     		
     		StringBuffer messages = new StringBuffer();
     		// need to add error message to messages
-    		for(Map.Entry<Table, Validation> entry: check.TableError().entrySet()){
+    		Set<Table> allErrorTables = new HashSet<Table>();
+    		allErrorTables.addAll(check.TableError().keySet());
+    		for(Map.Entry<Column, Validation> columnEntry:check.ColumnError().entrySet()){
+    			allErrorTables.add(columnEntry.getKey().parentTable());
+    		}
+    		
+    		for(Table tableEntry: allErrorTables){
     			StringBuffer nextTable = new StringBuffer();
-    			nextTable.append("Missing items in "+entry.getKey().getTitle()+" table: \n");
-    			for(String s:entry.getValue().ErrorField()){
-    				nextTable.append(s+", ");
+    			if(check.TableError().containsKey(tableEntry)){
+	    			nextTable.append("Missing items in table: \""+tableEntry.getTitle()+"\" \n");
+	    			for(String s:check.TableError().get(tableEntry).ErrorField()){
+	    				nextTable.append(s+", ");
+	    			}
+	    			nextTable.setLength(nextTable.length()-2);
+	    			nextTable.append("\n");
+    			}else{
+    				nextTable.append("Missing Items in table: \""+tableEntry.getTitle()+"\" \n");
     			}
-    			nextTable.setLength(nextTable.length()-2);
-    			nextTable.append("\n");
     			for(Map.Entry<Column, Validation> columnEntry: check.ColumnError().entrySet()){
-    				if(columnEntry.getKey().parentTable().getIdentifier()==entry.getKey().getIdentifier()){
+    				if(columnEntry.getKey().parentTable().getIdentifier()==tableEntry.getIdentifier()){
     					StringBuffer nextColumn = new StringBuffer();
-    					nextColumn.append("\tMission items in "+columnEntry.getKey().getTitle()+" column: ");
+    					nextColumn.append("\tMissing items in column: \""+columnEntry.getKey().getTitle()+"\" \n\t\t ");
     					for(String s: columnEntry.getValue().ErrorField()){
     						nextColumn.append(s+", ");
     					}

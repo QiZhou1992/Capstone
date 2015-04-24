@@ -2,8 +2,6 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
-
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -12,7 +10,7 @@ public class Table implements MyData{
 	private String title;
 	private String description;
 	private DataSet parentDataSet;
-	//table type: normal(0), joint table(1)
+	//table type: entity(0), joint table(1)
 	private int tableType;
 	public void setTableType(int t){
 		this.tableType = t;

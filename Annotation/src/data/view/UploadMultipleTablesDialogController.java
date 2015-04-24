@@ -173,7 +173,7 @@ public class UploadMultipleTablesDialogController {
     	DataSet tmpDataset = new DataSet("parent","2015.04.17");
     	for(int i=0;i<this.tables.getItems().size();i++){
     		TableType tmpType = this.tables.getItems().get(i);
-    		if(tmpType.getType().getValue().equals("normal")){
+    		if(tmpType.getType().getValue().equals("Entity")){
     			//this is a normal table
     			NormalTable normal = new NormalTable(tmpType.getTitle().getValue(),tmpDataset);
     			List<String> columnsTitle = this.tableMap.get(tmpType);

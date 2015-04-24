@@ -53,8 +53,8 @@ public class TableType {
 	private static void setAllTypes(){
 		if(int2type==null){
 			int2type = new HashMap<Integer,String>();
-			int2type.put(0,"normal");
-			int2type.put(1,"join");
+			int2type.put(0,"Entity");
+			int2type.put(1,"Join");
 		}
 	}
 }
