@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,8 +46,8 @@ public class DataSet implements MyData{
 		this.modified.setTime(System.currentTimeMillis());
 	}
 	/* I'm not sure this function works here. If there is a bug, we will come back later*/
-	public void inputCreated(String date) throws ParseException{
-		this.created=df.parse(date);
+	public void inputCreated(LocalDate created) throws ParseException{
+		this.created = Date.from(created.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
 	}
 	public boolean checkIfhasTable(Table t1){
@@ -88,9 +90,8 @@ public class DataSet implements MyData{
 	public void modifiedDescription(String description){
 		this.description=description;
 	}
-	public String getCreated(){
-		String DateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.created);
-		return DateString;
+	public Date getCreated(){
+		return this.created;
 		
 	}
 	public String getIssued(){

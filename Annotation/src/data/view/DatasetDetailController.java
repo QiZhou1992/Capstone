@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,11 +17,18 @@ import data.model.DataSet;
 import data.model.JoinTable;
 import data.model.MyData;
 import data.model.NormalTable;
+import data.model.OutputCheck;
 import data.model.Table;
+import data.model.Validation;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 
 /*
@@ -73,7 +81,8 @@ public class DatasetDetailController {
     	this.dataset=dataset;
     	this.title.setText(dataset.getTitle());
     	this.description.setText(dataset.getDescription());
-    	this.created.setText(dataset.getCreated());
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    	this.created.setText(df.format(dataset.getCreated()));
     	this.keywordList.getItems().clear();
     	for(String nextKeyword: this.dataset.KeyWords()){
     		this.keywordList.getItems().add(nextKeyword);
@@ -84,12 +93,68 @@ public class DatasetDetailController {
     @FXML
     private void handleExport() throws FileNotFoundException{
     	// TODO check validation of the whole data set (its table, columns)
-    	FileChooser fileChooser = new FileChooser();
-    	fileChooser.setTitle("Export Dataset");
-    	File file = fileChooser.showSaveDialog(this.mainApp.getPrimaryStage());
-    	if(file!=null){
-    		PrintWriter pw = new PrintWriter(file.getPath());
-    		this.dataset.output(pw);
+    	// need to check validation here. create check object and check.
+    	OutputCheck check = this.dataset.outputCkeck();
+	    if(check.result()){
+	    	FileChooser fileChooser = new FileChooser();
+	    	fileChooser.setTitle("Export Dataset");
+	    	File file = fileChooser.showSaveDialog(this.mainApp.getPrimaryStage());
+	    	if(file!=null){
+	    		PrintWriter pw = new PrintWriter(file.getPath());
+	    		this.dataset.output(pw);
+	    	}
+    	}else{
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error Dialog");
+    		alert.setHeaderText("Error occured when export this dataset");
+    		alert.setContentText("Current dataset is not complete! Check the message below for more detail.");
+    		
+    		StringBuffer messages = new StringBuffer();
+    		// need to add error message to messages
+    		for(Map.Entry<Table, Validation> entry: check.TableError().entrySet()){
+    			StringBuffer nextTable = new StringBuffer();
+    			nextTable.append("Missing items in "+entry.getKey().getTitle()+" table: \n");
+    			for(String s:entry.getValue().ErrorField()){
+    				nextTable.append(s+", ");
+    			}
+    			nextTable.setLength(nextTable.length()-2);
+    			nextTable.append("\n");
+    			for(Map.Entry<Column, Validation> columnEntry: check.ColumnError().entrySet()){
+    				if(columnEntry.getKey().parentTable().getIdentifier()==entry.getKey().getIdentifier()){
+    					StringBuffer nextColumn = new StringBuffer();
+    					nextColumn.append("\tMission items in "+columnEntry.getKey().getTitle()+" column: ");
+    					for(String s: columnEntry.getValue().ErrorField()){
+    						nextColumn.append(s+", ");
+    					}
+    					nextColumn.setLength(nextColumn.length()-2);
+    					nextColumn.append("\n");
+    					nextTable.append(nextColumn);
+    				}
+    			}
+    			messages.append(nextTable);
+    		}
+    		
+    		// end of messages
+    		
+    		Label label = new Label("The missing items were:");
+    		TextArea textArea = new TextArea(messages.toString());
+    		textArea.setEditable(false);
+    		textArea.setWrapText(true);
+
+    		textArea.setMaxWidth(Double.MAX_VALUE);
+    		textArea.setMaxHeight(Double.MAX_VALUE);
+    		GridPane.setVgrow(textArea, Priority.ALWAYS);
+    		GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+    		GridPane expContent = new GridPane();
+    		expContent.setMaxWidth(Double.MAX_VALUE);
+    		expContent.add(label, 0, 0);
+    		expContent.add(textArea, 0, 1);
+
+    		// Set expandable Exception into the dialog pane.
+    		alert.getDialogPane().setExpandableContent(expContent);
+    		
+    		alert.showAndWait();
     	}
     }
     

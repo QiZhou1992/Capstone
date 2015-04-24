@@ -1,5 +1,7 @@
 package data.view;
 
+import java.text.ParseException;
+import java.time.ZoneId;
 import java.util.Set;
 
 import data.model.DataSet;
@@ -7,6 +9,7 @@ import data.model.Validation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,7 +24,7 @@ public class DatasetEditController {
 	@FXML
 	private TextField description;
 	@FXML
-	private TextField created;
+	private DatePicker created;
 	@FXML
 	private ListView<String> keywordList;
 	@FXML
@@ -81,7 +84,7 @@ public class DatasetEditController {
     	this.dataset=dataset;
     	this.title.setText(dataset.getTitle());
     	this.description.setText(dataset.getDescription());
-    	this.created.setText(dataset.getCreated());
+    	this.created.setValue(dataset.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     	this.keywordList.getItems().clear();
     	for(String nextKeyword: this.dataset.KeyWords()){
     		this.keywordList.getItems().add(nextKeyword);
@@ -118,9 +121,10 @@ public class DatasetEditController {
     /**
      * Called when the user clicks on the apply button.
      * Apply any changes to selected data set.
+     * @throws ParseException 
      */
     @FXML
-    private void handleOK() {
+    private void handleOK() throws ParseException {
         if(this.validation()){
         	this.dataset.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
@@ -131,6 +135,7 @@ public class DatasetEditController {
         	}
         	this.dataset.KeyWords().clear();
         	this.dataset.KeyWords().addAll(this.keywordList.getItems());
+        	this.dataset.inputCreated(this.created.getValue());
         	
 
             okClicked = true;

@@ -29,7 +29,7 @@ public class ClassColumn extends Column {
 		@Override
 	public Validation check(){
 		Validation result=super.check();
-		if(this.theRepresent.getValue()==0){
+		if(this.theRepresent==null||this.theRepresent.getValue()==0){
 			result.setFalse();
 			result.addField("represent");
 		}
