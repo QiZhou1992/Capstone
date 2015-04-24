@@ -69,5 +69,13 @@ public class TemporalColumn extends ClassColumn{
 		}
 		return result;
 	}
+	@Override
+	public void outputcheck(OutputCheck result){
+		Validation v1=this.check();
+		if(!v1.result()){
+			result.setFalse();
+			result.addColumnError(this, v1);
+		}
+	}
 }
 
