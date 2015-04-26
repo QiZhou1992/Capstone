@@ -8,7 +8,7 @@ import java.util.Map;
 public class NormalTable extends Table{
 	private Map<Long,Column> columns;
 	private represents theRepresent;
-	public NormalTable(String name, DataSet D1) throws IOException {
+	public NormalTable(String name, DataSet D1) throws IOException, InterruptedException {
 		super(name, D1);
 		super.setTableType(0);//normal table = 0
 		columns=new HashMap<Long,Column>();

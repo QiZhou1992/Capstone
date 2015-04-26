@@ -2,6 +2,8 @@ package data.model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.TimeUnit;
+
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -19,11 +21,12 @@ public class Table implements MyData{
 		return this.tableType;
 	}
 	
-	public Table(String name,DataSet D1) throws IOException{
+	public Table(String name,DataSet D1) throws IOException, InterruptedException{
 		this.identifier=System.currentTimeMillis();
 		this.parentDataSet=D1;
 		this.title=name;
 		this.description="";
+		TimeUnit.MILLISECONDS.sleep(10);
 		this.tableType=-1;
 	}
 	public boolean hasBelongsTo(){

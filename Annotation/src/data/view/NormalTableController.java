@@ -76,9 +76,10 @@ public class NormalTableController {
      * Called when the user clicks on the apply button.
      * Apply any changes to selected table.
      * @throws IOException 
+     * @throws InterruptedException 
      */
     @FXML
-    private void handleApply() throws IOException {
+    private void handleApply() throws IOException, InterruptedException {
         if(this.validation()){
         	this.table.setTitle(this.title.getText());
         	if(this.description.getText()!=null){
@@ -108,8 +109,9 @@ public class NormalTableController {
      * check form validation
      * @return
      * @throws IOException 
+     * @throws InterruptedException 
      */
-    private boolean validation() throws IOException{
+    private boolean validation() throws IOException, InterruptedException{
     	NormalTable tmpTable = new NormalTable(this.title.getText(),this.table.parentDataSet());
     	tmpTable.setDesription(this.description.getText());
     	tmpTable.setRepresents(this.represent.getSelectionModel().getSelectedIndex()+1);

@@ -24,9 +24,7 @@
 }
 
 .table-view {
-    -fx-base: #0066FF;
-    -fx-control-inner-background:#1d1d1d;
-    -fx-background-color: #1d1d1d;
+
     -fx-padding: 5;
 }
 

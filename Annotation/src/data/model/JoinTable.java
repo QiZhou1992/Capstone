@@ -11,7 +11,7 @@ public class JoinTable extends Table {
 	private Map<Long,ClassColumn> columns;
 	private Map<Integer,JoinRelation> relations;
     private int numberOfRealtion;
-	public JoinTable(String name, DataSet D1) throws IOException {
+	public JoinTable(String name, DataSet D1) throws IOException, InterruptedException {
 		super(name, D1);
 		super.setTableType(1);//joint table = 1
 		this.relations=new HashMap<Integer,JoinRelation>();

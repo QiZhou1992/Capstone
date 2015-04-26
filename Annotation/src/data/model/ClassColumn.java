@@ -21,7 +21,9 @@ public class ClassColumn extends Column {
 		output.println(this.getIdentifier()+" rdf:Type "+"dfo:Column");
 		output.println(this.getIdentifier()+" dfo:belongsTo "+this.parentTable().getIdentifier());
 		output.println(this.getIdentifier()+" dfo:isColumnType "+"dfo:ClassType");
+		if(this.parentTable().getTableType()==0){
 		output.println(this.getIdentifier()+" dfo:semanticRelation "+this.thisSemanticRelation().getString());
+		}
 		output.println(this.getIdentifier()+" dct:title "+"\""+this.getTitle()+"\"");
 		output.println(this.getIdentifier()+" dct:description "+"\""+this.getDescription()+"\"");
 		output.println(this.getIdentifier()+" dfo:represents "+this.theRepresent.getString());

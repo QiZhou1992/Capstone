@@ -134,9 +134,10 @@ public class EditJoinTableDialogController {
     /**
      * Called when the user clicks OK.
      * @throws IOException 
+     * @throws InterruptedException 
      */
     @FXML
-    private void handleOk() throws IOException {
+    private void handleOk() throws IOException, InterruptedException {
     	
         if (isInputValid()) {
         	this.table.setTitle(this.title.getText());
@@ -183,8 +184,9 @@ public class EditJoinTableDialogController {
      * 
      * @return true if the input is valid
      * @throws IOException 
+     * @throws InterruptedException 
      */
-    private boolean isInputValid() throws IOException {
+    private boolean isInputValid() throws IOException, InterruptedException {
     	// TODO complete form validation
     	JoinTable tmpTable = new JoinTable(this.title.getText(),this.table.parentDataSet());
     	tmpTable.setDesription(this.description.getText());
@@ -224,9 +226,10 @@ public class EditJoinTableDialogController {
     /**
      * add new relation tuple to relation table
      * @throws IOException 
+     * @throws InterruptedException 
      */
     @FXML
-    private void handleAddRelation() throws IOException{
+    private void handleAddRelation() throws IOException, InterruptedException{
     	ClassColumn s = this.source.getValue();
     	ClassColumn d = this.destination.getValue();
     	int semanticRelationIndex = this.relation.getSelectionModel().getSelectedIndex();
